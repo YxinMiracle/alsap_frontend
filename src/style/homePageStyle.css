@@ -1,0 +1,10 @@
+:where(.css-dev-only-do-not-override-nwdjko).ant-menu-light.ant-menu-horizontal > .ant-menu-item-selected, :where(.css-dev-only-do-not-override-nwdjko).ant-menu-light > .ant-menu.ant-menu-horizontal > .ant-menu-item-selected, :where(.css-dev-only-do-not-override-nwdjko).ant-menu-light.ant-menu-horizontal > .ant-menu-submenu-selected, :where(.css-dev-only-do-not-override-nwdjko).ant-menu-light > .ant-menu.ant-menu-horizontal > .ant-menu-submenu-selected {
+  border-bottom: 3px solid #005aff
+}
+
+/* 确保布局在500px以下保持不变 */
+@media (max-width: 500px) {
+  #root {
+    width: 500px; /* 即使在小屏幕上，布局也保持不变 */
+  }
+}

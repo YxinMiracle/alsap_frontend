@@ -1,7 +1,9 @@
 import EntityItemBox from '@/components/AnnotationComponent/EntityItemBox';
 import { PageContainer } from '@ant-design/pro-components';
 import '@umijs/max';
-import React, { useState } from 'react';
+import { Card, Col, FloatButton, Row } from 'antd';
+import ReactECharts, { EChartsOption } from 'echarts-for-react';
+import React, { useEffect, useState } from 'react';
 
 /**
  * 用户管理页面
@@ -2411,6 +2413,7 @@ const UserAdminPage: React.FC = () => {
 
   // @ts-ignore
   const [ctiChunkList, setCtiChunkList] = useState<API.CtiChunk[]>(testData['data'].ctiChunkList); // 假设 initialTestData 是你的初始数据
+  const [chartOption, setChartOption] = useState<EChartsOption>({});
 
   // 子组件会传过来一个需要删除的chunkId
   const removeEntity = (annotationId: number) => {
@@ -2420,6 +2423,61 @@ const UserAdminPage: React.FC = () => {
         (item) => item.id !== annotationId,
       ),
     );
+  };
+
+  const getLabelDict = () => {
+    const obj = new Map<string, string>();
+    for (const label of itemData) {
+      obj.set(label.id, label.itemName);
+    }
+    return obj;
+  };
+
+  const updateEchartData = () => {
+    const echartData = [];
+    const labelObject = getLabelDict();
+    const charNumMap = new Map<string, number>(); // 键类型为 string，值类型为 any
+    for (let i = 0; i < ctiChunkList.length; i++) {
+      const itemId = String(ctiChunkList[i]?.itemId);
+      if (itemId === '' || itemId === undefined || itemId === null) {
+        continue;
+      } else {
+        const itemTypeName = labelObject.get(itemId);
+        if (charNumMap.has(itemTypeName)) {
+          charNumMap.set(itemTypeName, charNumMap.get(itemTypeName) + 1);
+        } else {
+          charNumMap.set(itemTypeName, 1);
+        }
+      }
+    }
+    charNumMap.forEach((value, key) => {
+      echartData.push({ value: value, name: key });
+    });
+    const option: EChartsOption = {
+      tooltip: {
+        trigger: 'item',
+      },
+      legend: {
+        orient: 'horizontal',
+        bottom: 'bottom',
+      },
+      series: [
+        {
+          name: '实体信息',
+          type: 'pie',
+          radius: '50%',
+          data: echartData,
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)',
+            },
+          },
+        },
+      ],
+    };
+    setChartOption(option);
   };
 
   /**
@@ -2435,23 +2493,52 @@ const UserAdminPage: React.FC = () => {
       endOffset: end,
       itemId: entityTypeId,
     };
-    console.log(payload)
+    console.log(payload);
     ctiChunkList.push(payload);
+    updateEchartData();
     setCtiChunkList(ctiChunkList);
   };
 
+  useEffect(() => {
+    updateEchartData();
+  }, [ctiChunkList]);
+
   return (
-    <PageContainer>
-      <div>
-        <EntityItemBox
-          itemList={itemData}
-          currentCtiText={testData['data'].content}
-          currentEntityList={ctiChunkList}
-          removeEntity={removeEntity}
-          addEntity={addEntity}
-        />
-      </div>
-    </PageContainer>
+    <Row>
+      <Col xs={24} sm={24} lg={{ span: 20, offset: 2 }}>
+        <PageContainer title={false}>
+          <Row gutter={16}>
+            <Col sm={{ span: 24 }} lg={{ span: 12 }}>
+              <div style={{ marginBottom: 16 }}>
+                <Card title="智能情报标注区域" bordered={false} hoverable>
+                  <EntityItemBox
+                    itemList={itemData}
+                    currentCtiText={testData['data'].content}
+                    currentEntityList={ctiChunkList}
+                    removeEntity={removeEntity}
+                    addEntity={addEntity}
+                  />
+                </Card>
+              </div>
+            </Col>
+            <Col sm={{ span: 24 }} lg={{ span: 12 }}>
+              {/*<Col span={12}>*/}
+              <div style={{ position: 'sticky', top: 56 }}>
+                <Card
+                  title="威胁情报信息展示区域"
+                  bordered={false}
+                  hoverable
+                  style={{ minHeight: 200 }}
+                >
+                  <ReactECharts option={chartOption} />
+                </Card>
+              </div>
+            </Col>
+          </Row>
+          <FloatButton.BackTop />
+        </PageContainer>
+      </Col>
+    </Row>
   );
 };
 export default UserAdminPage;
