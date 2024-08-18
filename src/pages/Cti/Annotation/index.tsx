@@ -1,7 +1,9 @@
 import EntityItemBox from '@/components/AnnotationComponent/EntityItemBox';
 import { PageContainer } from '@ant-design/pro-components';
 import '@umijs/max';
-import React from 'react';
+import { Card, Col, FloatButton, Row } from 'antd';
+import ReactECharts, { EChartsOption } from 'echarts-for-react';
+import React, { useEffect, useState } from 'react';
 
 /**
  * 用户管理页面
@@ -1892,533 +1894,651 @@ const UserAdminPage: React.FC = () => {
 
   const itemData = [
     {
-      "id": "1",
-      "itemName": "domain-name",
-      "itemContent": "domain-name",
-      "backgroundColor": "#B5FFEE",
-      "textColor": "#000000",
-      "itemType": 2,
-      "itemTypeContent": "STIX Cyber-observable Object",
-      "createTime": "2024-05-11T03:38:10.000+00:00",
-      "updateTime": "2024-05-15T12:31:52.000+00:00",
-      "isDelete": 0
+      id: '1',
+      itemName: 'domain-name',
+      itemContent: 'domain-name',
+      backgroundColor: '#B5FFEE',
+      textColor: '#000000',
+      itemType: 2,
+      itemTypeContent: 'STIX Cyber-observable Object',
+      createTime: '2024-05-11T03:38:10.000+00:00',
+      updateTime: '2024-05-15T12:31:52.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "2",
-      "itemName": "process",
-      "itemContent": "process",
-      "backgroundColor": "#F4A460",
-      "textColor": "#000000",
-      "itemType": 2,
-      "itemTypeContent": "STIX Cyber-observable Object",
-      "createTime": "2024-05-11T03:38:10.000+00:00",
-      "updateTime": "2024-05-11T09:16:07.000+00:00",
-      "isDelete": 0
+      id: '2',
+      itemName: 'process',
+      itemContent: 'process',
+      backgroundColor: '#F4A460',
+      textColor: '#000000',
+      itemType: 2,
+      itemTypeContent: 'STIX Cyber-observable Object',
+      createTime: '2024-05-11T03:38:10.000+00:00',
+      updateTime: '2024-05-11T09:16:07.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "3",
-      "itemName": "url",
-      "itemContent": "url",
-      "backgroundColor": "#C71585",
-      "textColor": "#ffffff",
-      "itemType": 2,
-      "itemTypeContent": "STIX Cyber-observable Object",
-      "createTime": "2024-05-11T03:38:10.000+00:00",
-      "updateTime": "2024-05-11T09:16:07.000+00:00",
-      "isDelete": 0
+      id: '3',
+      itemName: 'url',
+      itemContent: 'url',
+      backgroundColor: '#C71585',
+      textColor: '#ffffff',
+      itemType: 2,
+      itemTypeContent: 'STIX Cyber-observable Object',
+      createTime: '2024-05-11T03:38:10.000+00:00',
+      updateTime: '2024-05-11T09:16:07.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "4",
-      "itemName": "infrastructure_botnet",
-      "itemContent": "infrastructure",
-      "backgroundColor": "#B7816B",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:10.000+00:00",
-      "updateTime": "2024-05-15T12:29:47.000+00:00",
-      "isDelete": 0
+      id: '4',
+      itemName: 'infrastructure_botnet',
+      itemContent: 'infrastructure',
+      backgroundColor: '#B7816B',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:10.000+00:00',
+      updateTime: '2024-05-15T12:29:47.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "5",
-      "itemName": "identity_victim",
-      "itemContent": "identity",
-      "backgroundColor": "#ABF09E",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:11.000+00:00",
-      "updateTime": "2024-05-15T12:29:47.000+00:00",
-      "isDelete": 0
+      id: '5',
+      itemName: 'identity_victim',
+      itemContent: 'identity',
+      backgroundColor: '#ABF09E',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:11.000+00:00',
+      updateTime: '2024-05-15T12:29:47.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "6",
-      "itemName": "vulnerability",
-      "itemContent": "vulnerability",
-      "backgroundColor": "#E9967A",
-      "textColor": "#000000",
-      "itemType": 2,
-      "itemTypeContent": "STIX Cyber-observable Object",
-      "createTime": "2024-05-11T03:38:11.000+00:00",
-      "updateTime": "2024-05-11T09:16:10.000+00:00",
-      "isDelete": 0
+      id: '6',
+      itemName: 'vulnerability',
+      itemContent: 'vulnerability',
+      backgroundColor: '#E9967A',
+      textColor: '#000000',
+      itemType: 2,
+      itemTypeContent: 'STIX Cyber-observable Object',
+      createTime: '2024-05-11T03:38:11.000+00:00',
+      updateTime: '2024-05-11T09:16:10.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "7",
-      "itemName": "infrastructure_reconnaissance",
-      "itemContent": "infrastructure",
-      "backgroundColor": "#FFEFD5",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:11.000+00:00",
-      "updateTime": "2024-05-11T03:39:05.000+00:00",
-      "isDelete": 0
+      id: '7',
+      itemName: 'infrastructure_reconnaissance',
+      itemContent: 'infrastructure',
+      backgroundColor: '#FFEFD5',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:11.000+00:00',
+      updateTime: '2024-05-11T03:39:05.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "8",
-      "itemName": "location",
-      "itemContent": "location",
-      "backgroundColor": "#FFEBCD",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:11.000+00:00",
-      "updateTime": "2024-05-11T09:16:14.000+00:00",
-      "isDelete": 0
+      id: '8',
+      itemName: 'location',
+      itemContent: 'location',
+      backgroundColor: '#FFEBCD',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:11.000+00:00',
+      updateTime: '2024-05-11T09:16:14.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "9",
-      "itemName": "infrastructure_exfiltration",
-      "itemContent": "infrastructure",
-      "backgroundColor": "#DEB669",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:11.000+00:00",
-      "updateTime": "2024-07-02T02:03:22.000+00:00",
-      "isDelete": 0
+      id: '9',
+      itemName: 'infrastructure_exfiltration',
+      itemContent: 'infrastructure',
+      backgroundColor: '#DEB669',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:11.000+00:00',
+      updateTime: '2024-07-02T02:03:22.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "10",
-      "itemName": "mutex",
-      "itemContent": "mutex",
-      "backgroundColor": "#D2B48C",
-      "textColor": "#000000",
-      "itemType": 2,
-      "itemTypeContent": "STIX Cyber-observable Object",
-      "createTime": "2024-05-11T03:38:11.000+00:00",
-      "updateTime": "2024-05-11T09:16:21.000+00:00",
-      "isDelete": 0
+      id: '10',
+      itemName: 'mutex',
+      itemContent: 'mutex',
+      backgroundColor: '#D2B48C',
+      textColor: '#000000',
+      itemType: 2,
+      itemTypeContent: 'STIX Cyber-observable Object',
+      createTime: '2024-05-11T03:38:11.000+00:00',
+      updateTime: '2024-05-11T09:16:21.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "11",
-      "itemName": "file-hash",
-      "itemContent": "file-hash",
-      "backgroundColor": "#FFB6C1",
-      "textColor": "#000000",
-      "itemType": 2,
-      "itemTypeContent": "STIX Cyber-observable Object",
-      "createTime": "2024-05-11T03:38:11.000+00:00",
-      "updateTime": "2024-05-11T09:16:21.000+00:00",
-      "isDelete": 0
+      id: '11',
+      itemName: 'file-hash',
+      itemContent: 'file-hash',
+      backgroundColor: '#FFB6C1',
+      textColor: '#000000',
+      itemType: 2,
+      itemTypeContent: 'STIX Cyber-observable Object',
+      createTime: '2024-05-11T03:38:11.000+00:00',
+      updateTime: '2024-05-11T09:16:21.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "12",
-      "itemName": "directory",
-      "itemContent": "directory",
-      "backgroundColor": "#FFA500",
-      "textColor": "#000000",
-      "itemType": 2,
-      "itemTypeContent": "STIX Cyber-observable Object",
-      "createTime": "2024-05-11T03:38:11.000+00:00",
-      "updateTime": "2024-05-11T09:16:21.000+00:00",
-      "isDelete": 0
+      id: '12',
+      itemName: 'directory',
+      itemContent: 'directory',
+      backgroundColor: '#FFA500',
+      textColor: '#000000',
+      itemType: 2,
+      itemTypeContent: 'STIX Cyber-observable Object',
+      createTime: '2024-05-11T03:38:11.000+00:00',
+      updateTime: '2024-05-11T09:16:21.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "13",
-      "itemName": "malware_screen-capture",
-      "itemContent": "malware",
-      "backgroundColor": "#FFDEAD",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:11.000+00:00",
-      "updateTime": "2024-05-11T03:39:12.000+00:00",
-      "isDelete": 0
+      id: '13',
+      itemName: 'malware_screen-capture',
+      itemContent: 'malware',
+      backgroundColor: '#FFDEAD',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:11.000+00:00',
+      updateTime: '2024-05-11T03:39:12.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "14",
-      "itemName": "threat-actor",
-      "itemContent": "threat-actor",
-      "backgroundColor": "#F8BF7A",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:11.000+00:00",
-      "updateTime": "2024-05-19T04:14:11.000+00:00",
-      "isDelete": 0
+      id: '14',
+      itemName: 'threat-actor',
+      itemContent: 'threat-actor',
+      backgroundColor: '#F8BF7A',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:11.000+00:00',
+      updateTime: '2024-05-19T04:14:11.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "15",
-      "itemName": "attack-pattern",
-      "itemContent": "attack-pattern",
-      "backgroundColor": "#DB7093",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:11.000+00:00",
-      "updateTime": "2024-05-11T09:16:24.000+00:00",
-      "isDelete": 0
+      id: '15',
+      itemName: 'attack-pattern',
+      itemContent: 'attack-pattern',
+      backgroundColor: '#DB7093',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:11.000+00:00',
+      updateTime: '2024-05-11T09:16:24.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "16",
-      "itemName": "malware_remote-access-trojan",
-      "itemContent": "malware",
-      "backgroundColor": "#FF69B4",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:11.000+00:00",
-      "updateTime": "2024-05-11T03:40:52.000+00:00",
-      "isDelete": 0
+      id: '16',
+      itemName: 'malware_remote-access-trojan',
+      itemContent: 'malware',
+      backgroundColor: '#FF69B4',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:11.000+00:00',
+      updateTime: '2024-05-11T03:40:52.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "17",
-      "itemName": "infrastructure",
-      "itemContent": "infrastructure",
-      "backgroundColor": "#FF6347",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:11.000+00:00",
-      "updateTime": "2024-05-11T09:16:26.000+00:00",
-      "isDelete": 0
+      id: '17',
+      itemName: 'infrastructure',
+      itemContent: 'infrastructure',
+      backgroundColor: '#FF6347',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:11.000+00:00',
+      updateTime: '2024-05-11T09:16:26.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "18",
-      "itemName": "malware_ransomware",
-      "itemContent": "malware",
-      "backgroundColor": "#FFDEAD",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:11.000+00:00",
-      "updateTime": "2024-05-11T03:40:32.000+00:00",
-      "isDelete": 0
+      id: '18',
+      itemName: 'malware_ransomware',
+      itemContent: 'malware',
+      backgroundColor: '#FFDEAD',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:11.000+00:00',
+      updateTime: '2024-05-11T03:40:32.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "19",
-      "itemName": "infrastructure_hosting-malware",
-      "itemContent": "infrastructure",
-      "backgroundColor": "#FFD700",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:12.000+00:00",
-      "updateTime": "2024-05-11T03:40:30.000+00:00",
-      "isDelete": 0
+      id: '19',
+      itemName: 'infrastructure_hosting-malware',
+      itemContent: 'infrastructure',
+      backgroundColor: '#FFD700',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:12.000+00:00',
+      updateTime: '2024-05-11T03:40:30.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "20",
-      "itemName": "malware_webshell",
-      "itemContent": "malware",
-      "backgroundColor": "#F4A460",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:12.000+00:00",
-      "updateTime": "2024-05-11T03:40:27.000+00:00",
-      "isDelete": 0
+      id: '20',
+      itemName: 'malware_webshell',
+      itemContent: 'malware',
+      backgroundColor: '#F4A460',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:12.000+00:00',
+      updateTime: '2024-05-11T03:40:27.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "21",
-      "itemName": "campaign",
-      "itemContent": "campaign",
-      "backgroundColor": "#C71585",
-      "textColor": "#ffffff",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:12.000+00:00",
-      "updateTime": "2024-05-11T09:16:29.000+00:00",
-      "isDelete": 0
+      id: '21',
+      itemName: 'campaign',
+      itemContent: 'campaign',
+      backgroundColor: '#C71585',
+      textColor: '#ffffff',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:12.000+00:00',
+      updateTime: '2024-05-11T09:16:29.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "22",
-      "itemName": "malware_resource-exploitation",
-      "itemContent": "malware",
-      "backgroundColor": "#FA8072",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:12.000+00:00",
-      "updateTime": "2024-05-11T03:40:26.000+00:00",
-      "isDelete": 0
+      id: '22',
+      itemName: 'malware_resource-exploitation',
+      itemContent: 'malware',
+      backgroundColor: '#FA8072',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:12.000+00:00',
+      updateTime: '2024-05-11T03:40:26.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "23",
-      "itemName": "infrastructure_attack",
-      "itemContent": "infrastructure",
-      "backgroundColor": "#D1F6AC",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:12.000+00:00",
-      "updateTime": "2024-05-15T12:30:29.000+00:00",
-      "isDelete": 0
+      id: '23',
+      itemName: 'infrastructure_attack',
+      itemContent: 'infrastructure',
+      backgroundColor: '#D1F6AC',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:12.000+00:00',
+      updateTime: '2024-05-15T12:30:29.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "24",
-      "itemName": "infrastructure_victim",
-      "itemContent": "infrastructure",
-      "backgroundColor": "#FF6347",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:12.000+00:00",
-      "updateTime": "2024-05-11T03:40:18.000+00:00",
-      "isDelete": 0
+      id: '24',
+      itemName: 'infrastructure_victim',
+      itemContent: 'infrastructure',
+      backgroundColor: '#FF6347',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:12.000+00:00',
+      updateTime: '2024-05-11T03:40:18.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "25",
-      "itemName": "intrusion-set",
-      "itemContent": "intrusion-set",
-      "backgroundColor": "#B94DBA",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:12.000+00:00",
-      "updateTime": "2024-07-03T04:42:30.000+00:00",
-      "isDelete": 0
+      id: '25',
+      itemName: 'intrusion-set',
+      itemContent: 'intrusion-set',
+      backgroundColor: '#B94DBA',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:12.000+00:00',
+      updateTime: '2024-07-03T04:42:30.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "26",
-      "itemName": "ipv4-addr",
-      "itemContent": "ipv4-addr",
-      "backgroundColor": "#FFEFD5",
-      "textColor": "#000000",
-      "itemType": 2,
-      "itemTypeContent": "STIX Cyber-observable Object",
-      "createTime": "2024-05-11T03:38:12.000+00:00",
-      "updateTime": "2024-05-11T09:16:33.000+00:00",
-      "isDelete": 0
+      id: '26',
+      itemName: 'ipv4-addr',
+      itemContent: 'ipv4-addr',
+      backgroundColor: '#FFEFD5',
+      textColor: '#000000',
+      itemType: 2,
+      itemTypeContent: 'STIX Cyber-observable Object',
+      createTime: '2024-05-11T03:38:12.000+00:00',
+      updateTime: '2024-05-11T09:16:33.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "27",
-      "itemName": "file-name",
-      "itemContent": "file-name",
-      "backgroundColor": "#E7B770",
-      "textColor": "#000000",
-      "itemType": 2,
-      "itemTypeContent": "STIX Cyber-observable Object",
-      "createTime": "2024-05-11T03:38:12.000+00:00",
-      "updateTime": "2024-07-03T04:41:25.000+00:00",
-      "isDelete": 0
+      id: '27',
+      itemName: 'file-name',
+      itemContent: 'file-name',
+      backgroundColor: '#E7B770',
+      textColor: '#000000',
+      itemType: 2,
+      itemTypeContent: 'STIX Cyber-observable Object',
+      createTime: '2024-05-11T03:38:12.000+00:00',
+      updateTime: '2024-07-03T04:41:25.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "28",
-      "itemName": "malware_virus",
-      "itemContent": "malware",
-      "backgroundColor": "#ABF9ED",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:12.000+00:00",
-      "updateTime": "2024-05-15T12:29:47.000+00:00",
-      "isDelete": 0
+      id: '28',
+      itemName: 'malware_virus',
+      itemContent: 'malware',
+      backgroundColor: '#ABF9ED',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:12.000+00:00',
+      updateTime: '2024-05-15T12:29:47.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "29",
-      "itemName": "user-account",
-      "itemContent": "user-account",
-      "backgroundColor": "#FFB6C1",
-      "textColor": "#000000",
-      "itemType": 2,
-      "itemTypeContent": "STIX Cyber-observable Object",
-      "createTime": "2024-05-11T03:38:12.000+00:00",
-      "updateTime": "2024-05-11T09:16:37.000+00:00",
-      "isDelete": 0
+      id: '29',
+      itemName: 'user-account',
+      itemContent: 'user-account',
+      backgroundColor: '#FFB6C1',
+      textColor: '#000000',
+      itemType: 2,
+      itemTypeContent: 'STIX Cyber-observable Object',
+      createTime: '2024-05-11T03:38:12.000+00:00',
+      updateTime: '2024-05-11T09:16:37.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "30",
-      "itemName": "malware_worm",
-      "itemContent": "malware",
-      "backgroundColor": "#DEB364",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:12.000+00:00",
-      "updateTime": "2024-07-01T12:53:37.000+00:00",
-      "isDelete": 0
+      id: '30',
+      itemName: 'malware_worm',
+      itemContent: 'malware',
+      backgroundColor: '#DEB364',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:12.000+00:00',
+      updateTime: '2024-07-01T12:53:37.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "31",
-      "itemName": "software",
-      "itemContent": "software",
-      "backgroundColor": "#FF1493",
-      "textColor": "#ffffff",
-      "itemType": 2,
-      "itemTypeContent": "STIX Cyber-observable Object",
-      "createTime": "2024-05-11T03:38:12.000+00:00",
-      "updateTime": "2024-05-11T09:16:40.000+00:00",
-      "isDelete": 0
+      id: '31',
+      itemName: 'software',
+      itemContent: 'software',
+      backgroundColor: '#FF1493',
+      textColor: '#ffffff',
+      itemType: 2,
+      itemTypeContent: 'STIX Cyber-observable Object',
+      createTime: '2024-05-11T03:38:12.000+00:00',
+      updateTime: '2024-05-11T09:16:40.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "32",
-      "itemName": "malware_ddos",
-      "itemContent": "malware",
-      "backgroundColor": "#5ECEB2",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:12.000+00:00",
-      "updateTime": "2024-05-15T12:29:47.000+00:00",
-      "isDelete": 0
+      id: '32',
+      itemName: 'malware_ddos',
+      itemContent: 'malware',
+      backgroundColor: '#5ECEB2',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:12.000+00:00',
+      updateTime: '2024-05-15T12:29:47.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "33",
-      "itemName": "malware_bot",
-      "itemContent": "malware",
-      "backgroundColor": "#F0CEDA",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:12.000+00:00",
-      "updateTime": "2024-05-15T12:30:19.000+00:00",
-      "isDelete": 0
+      id: '33',
+      itemName: 'malware_bot',
+      itemContent: 'malware',
+      backgroundColor: '#F0CEDA',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:12.000+00:00',
+      updateTime: '2024-05-15T12:30:19.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "34",
-      "itemName": "identity",
-      "itemContent": "identity",
-      "backgroundColor": "#FF69B4",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:12.000+00:00",
-      "updateTime": "2024-05-11T09:16:42.000+00:00",
-      "isDelete": 0
+      id: '34',
+      itemName: 'identity',
+      itemContent: 'identity',
+      backgroundColor: '#FF69B4',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:12.000+00:00',
+      updateTime: '2024-05-11T09:16:42.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "35",
-      "itemName": "malware_keylogger",
-      "itemContent": "malware",
-      "backgroundColor": "#FF6347",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:13.000+00:00",
-      "updateTime": "2024-05-11T03:39:56.000+00:00",
-      "isDelete": 0
+      id: '35',
+      itemName: 'malware_keylogger',
+      itemContent: 'malware',
+      backgroundColor: '#FF6347',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:13.000+00:00',
+      updateTime: '2024-05-11T03:39:56.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "36",
-      "itemName": "http-request-ext",
-      "itemContent": "http-request-ext",
-      "backgroundColor": "#83E887",
-      "textColor": "#000000",
-      "itemType": 2,
-      "itemTypeContent": "STIX Cyber-observable Object",
-      "createTime": "2024-05-11T03:38:13.000+00:00",
-      "updateTime": "2024-05-15T12:31:44.000+00:00",
-      "isDelete": 0
+      id: '36',
+      itemName: 'http-request-ext',
+      itemContent: 'http-request-ext',
+      backgroundColor: '#83E887',
+      textColor: '#000000',
+      itemType: 2,
+      itemTypeContent: 'STIX Cyber-observable Object',
+      createTime: '2024-05-11T03:38:13.000+00:00',
+      updateTime: '2024-05-15T12:31:44.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "37",
-      "itemName": "windows-registry-key",
-      "itemContent": "windows-registry-key",
-      "backgroundColor": "#ECE080",
-      "textColor": "#000000",
-      "itemType": 2,
-      "itemTypeContent": "STIX Cyber-observable Object",
-      "createTime": "2024-05-11T03:38:13.000+00:00",
-      "updateTime": "2024-05-15T12:32:13.000+00:00",
-      "isDelete": 0
+      id: '37',
+      itemName: 'windows-registry-key',
+      itemContent: 'windows-registry-key',
+      backgroundColor: '#ECE080',
+      textColor: '#000000',
+      itemType: 2,
+      itemTypeContent: 'STIX Cyber-observable Object',
+      createTime: '2024-05-11T03:38:13.000+00:00',
+      updateTime: '2024-05-15T12:32:13.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "38",
-      "itemName": "tool",
-      "itemContent": "tool",
-      "backgroundColor": "#5D76AA",
-      "textColor": "#000000",
-      "itemType": 2,
-      "itemTypeContent": "STIX Cyber-observable Object",
-      "createTime": "2024-05-11T03:38:13.000+00:00",
-      "updateTime": "2024-05-15T12:32:00.000+00:00",
-      "isDelete": 0
+      id: '38',
+      itemName: 'tool',
+      itemContent: 'tool',
+      backgroundColor: '#5D76AA',
+      textColor: '#000000',
+      itemType: 2,
+      itemTypeContent: 'STIX Cyber-observable Object',
+      createTime: '2024-05-11T03:38:13.000+00:00',
+      updateTime: '2024-05-15T12:32:00.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "39",
-      "itemName": "malware",
-      "itemContent": "malware",
-      "backgroundColor": "#95F0E1",
-      "textColor": "#ffffff",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:13.000+00:00",
-      "updateTime": "2024-05-23T12:47:10.000+00:00",
-      "isDelete": 0
+      id: '39',
+      itemName: 'malware',
+      itemContent: 'malware',
+      backgroundColor: '#95F0E1',
+      textColor: '#ffffff',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:13.000+00:00',
+      updateTime: '2024-05-23T12:47:10.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "40",
-      "itemName": "infrastructure_command-and-control",
-      "itemContent": "infrastructure",
-      "backgroundColor": "#EFB5B0",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:13.000+00:00",
-      "updateTime": "2024-05-15T12:30:33.000+00:00",
-      "isDelete": 0
+      id: '40',
+      itemName: 'infrastructure_command-and-control',
+      itemContent: 'infrastructure',
+      backgroundColor: '#EFB5B0',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:13.000+00:00',
+      updateTime: '2024-05-15T12:30:33.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "41",
-      "itemName": "email-addr",
-      "itemContent": "email-addr",
-      "backgroundColor": "#FFDAB9",
-      "textColor": "#000000",
-      "itemType": 2,
-      "itemTypeContent": "STIX Cyber-observable Object",
-      "createTime": "2024-05-11T03:38:13.000+00:00",
-      "updateTime": "2024-05-11T09:17:23.000+00:00",
-      "isDelete": 0
+      id: '41',
+      itemName: 'email-addr',
+      itemContent: 'email-addr',
+      backgroundColor: '#FFDAB9',
+      textColor: '#000000',
+      itemType: 2,
+      itemTypeContent: 'STIX Cyber-observable Object',
+      createTime: '2024-05-11T03:38:13.000+00:00',
+      updateTime: '2024-05-11T09:17:23.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "42",
-      "itemName": "malware_exploit-kit",
-      "itemContent": "malware",
-      "backgroundColor": "#E9967A",
-      "textColor": "#000000",
-      "itemType": 1,
-      "itemTypeContent": "STIX Domain Object",
-      "createTime": "2024-05-11T03:38:13.000+00:00",
-      "updateTime": "2024-05-11T03:40:16.000+00:00",
-      "isDelete": 0
+      id: '42',
+      itemName: 'malware_exploit-kit',
+      itemContent: 'malware',
+      backgroundColor: '#E9967A',
+      textColor: '#000000',
+      itemType: 1,
+      itemTypeContent: 'STIX Domain Object',
+      createTime: '2024-05-11T03:38:13.000+00:00',
+      updateTime: '2024-05-11T03:40:16.000+00:00',
+      isDelete: 0,
     },
     {
-      "id": "43",
-      "itemName": "ipv6-addr",
-      "itemContent": "ipv6-addr",
-      "backgroundColor": "#FFFF00",
-      "textColor": "#000000",
-      "itemType": 2,
-      "itemTypeContent": "STIX Cyber-observable Object",
-      "createTime": "2024-05-11T03:38:13.000+00:00",
-      "updateTime": "2024-05-11T09:17:25.000+00:00",
-      "isDelete": 0
+      id: '43',
+      itemName: 'ipv6-addr',
+      itemContent: 'ipv6-addr',
+      backgroundColor: '#FFFF00',
+      textColor: '#000000',
+      itemType: 2,
+      itemTypeContent: 'STIX Cyber-observable Object',
+      createTime: '2024-05-11T03:38:13.000+00:00',
+      updateTime: '2024-05-11T09:17:25.000+00:00',
+      isDelete: 0,
+    },
+  ];
+
+  // @ts-ignore
+  const [ctiChunkList, setCtiChunkList] = useState<API.CtiChunk[]>(testData['data'].ctiChunkList); // 假设 initialTestData 是你的初始数据
+  const [chartOption, setChartOption] = useState<EChartsOption>({});
+
+  // 子组件会传过来一个需要删除的chunkId
+  const removeEntity = (annotationId: number) => {
+    setCtiChunkList(
+      ctiChunkList.filter(
+        // @ts-ignore
+        (item) => item.id !== annotationId,
+      ),
+    );
+  };
+
+  const getLabelDict = () => {
+    const obj = new Map<string, string>();
+    for (const label of itemData) {
+      obj.set(label.id, label.itemName);
     }
-  ]
+    return obj;
+  };
+
+  const updateEchartData = () => {
+    const echartData = [];
+    const labelObject = getLabelDict();
+    const charNumMap = new Map<string, number>(); // 键类型为 string，值类型为 any
+    for (let i = 0; i < ctiChunkList.length; i++) {
+      const itemId = String(ctiChunkList[i]?.itemId);
+      if (itemId === '' || itemId === undefined || itemId === null) {
+        continue;
+      } else {
+        const itemTypeName = labelObject.get(itemId);
+        if (charNumMap.has(itemTypeName)) {
+          charNumMap.set(itemTypeName, charNumMap.get(itemTypeName) + 1);
+        } else {
+          charNumMap.set(itemTypeName, 1);
+        }
+      }
+    }
+    charNumMap.forEach((value, key) => {
+      echartData.push({ value: value, name: key });
+    });
+    const option: EChartsOption = {
+      tooltip: {
+        trigger: 'item',
+      },
+      legend: {
+        orient: 'horizontal',
+        bottom: 'bottom',
+      },
+      series: [
+        {
+          name: '实体信息',
+          type: 'pie',
+          radius: '50%',
+          data: echartData,
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)',
+            },
+          },
+        },
+      ],
+    };
+    setChartOption(option);
+  };
+
+  /**
+   * 这里处理用户添加实体逻辑
+   * @param start 该实体在整个文章中的开始位置
+   * @param end 该实体在整个文章中的结束位置
+   * @param entityTypeId 该实体类型的id（与数据库中的数据进行对应）
+   */
+  const addEntity = (start: number, end: number, entityTypeId: number) => {
+    const payload = {
+      id: Math.floor(Math.random() * Math.floor(Number.MAX_SAFE_INTEGER)),
+      startOffset: start,
+      endOffset: end,
+      itemId: entityTypeId,
+    };
+    console.log(payload);
+    ctiChunkList.push(payload);
+    updateEchartData();
+    setCtiChunkList(ctiChunkList);
+  };
+
+  useEffect(() => {
+    updateEchartData();
+  }, [ctiChunkList]);
 
   return (
-    <PageContainer>
-      <div>
-        <EntityItemBox
-          itemList={itemData}
-          currentCtiText={testData["data"].content}
-          currentEntityList={testData["data"].ctiChunkList}
-        />
-      </div>
-    </PageContainer>
+    <Row>
+      <Col xs={24} sm={24} lg={{ span: 20, offset: 2 }}>
+        <PageContainer title={false}>
+          <Row gutter={16}>
+            <Col sm={{ span: 24 }} lg={{ span: 12 }}>
+              <div style={{ marginBottom: 16 }}>
+                <Card title="智能情报标注区域" bordered={false} hoverable>
+                  <EntityItemBox
+                    itemList={itemData}
+                    currentCtiText={testData['data'].content}
+                    currentEntityList={ctiChunkList}
+                    removeEntity={removeEntity}
+                    addEntity={addEntity}
+                  />
+                </Card>
+              </div>
+            </Col>
+            <Col sm={{ span: 24 }} lg={{ span: 12 }}>
+              {/*<Col span={12}>*/}
+              <div style={{ position: 'sticky', top: 56 }}>
+                <Card
+                  title="威胁情报信息展示区域"
+                  bordered={false}
+                  hoverable
+                  style={{ minHeight: 200 }}
+                >
+                  <ReactECharts option={chartOption} />
+                </Card>
+              </div>
+            </Col>
+          </Row>
+          <FloatButton.BackTop />
+        </PageContainer>
+      </Col>
+    </Row>
   );
 };
 export default UserAdminPage;

@@ -24,7 +24,7 @@
     name: '威胁情报',
     routes: [
       { path: '/cti', redirect: '/cti/anno' },
-      { icon: 'table', path: '/cti/anno', component: './Cti/Annotation', name: '威胁情报标注' },
+      { path: '/cti/anno', component: './Cti/Annotation', name: '威胁情报标注' },
     ],
   },
   { path: '/', redirect: '/welcome' },
