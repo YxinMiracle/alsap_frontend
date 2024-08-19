@@ -1,6 +1,27 @@
-:where(.css-dev-only-do-not-override-nwdjko).ant-menu-light.ant-menu-horizontal > .ant-menu-item-selected, :where(.css-dev-only-do-not-override-nwdjko).ant-menu-light > .ant-menu.ant-menu-horizontal > .ant-menu-item-selected, :where(.css-dev-only-do-not-override-nwdjko).ant-menu-light.ant-menu-horizontal > .ant-menu-submenu-selected, :where(.css-dev-only-do-not-override-nwdjko).ant-menu-light > .ant-menu.ant-menu-horizontal > .ant-menu-submenu-selected {
+:where(.css-dev-only-do-not-override-nwdjko).ant-menu-light.ant-menu-horizontal > .ant-menu-item-selected,
+:where(.css-dev-only-do-not-override-nwdjko).ant-menu-light > .ant-menu.ant-menu-horizontal > .ant-menu-item-selected,
+:where(.css-dev-only-do-not-override-nwdjko).ant-menu-light.ant-menu-horizontal > .ant-menu-submenu-selected,
+:where(.css-dev-only-do-not-override-nwdjko).ant-menu-light > .ant-menu.ant-menu-horizontal > .ant-menu-submenu-selected {
   border-bottom: 3px solid #005aff
 }
+
+/*:where(.css-dev-only-do-not-override-nwdjko).ant-menu-light.ant-menu-horizontal > .ant-menu-item-selected, :where(.css-dev-only-do-not-override-nwdjko).ant-menu-light > .ant-menu.ant-menu-horizontal > .ant-menu-item-selected, :where(.css-dev-only-do-not-override-nwdjko).ant-menu-light.ant-menu-horizontal > .ant-menu-submenu-selected, :where(.css-dev-only-do-not-override-nwdjko).ant-menu-light > .ant-menu.ant-menu-horizontal > .ant-menu-submenu-selected::before {*/
+/*  content: "";*/
+/*  display: block;*/
+/*  position: absolute;*/
+/*  bottom: -5px;*/
+/*  left: 50%;*/
+/*  width: 0;*/
+/*  height: 3px;*/
+/*  border-radius: 3px;*/
+/*  background-color: #005aff;*/
+/*  transition: 0.3s ease;*/
+/*}*/
+
+/*:where(.css-dev-only-do-not-override-nwdjko).ant-menu-light.ant-menu-horizontal > .ant-menu-item-selected, :where(.css-dev-only-do-not-override-nwdjko).ant-menu-light > .ant-menu.ant-menu-horizontal > .ant-menu-item-selected, :where(.css-dev-only-do-not-override-nwdjko).ant-menu-light.ant-menu-horizontal > .ant-menu-submenu-selected, :where(.css-dev-only-do-not-override-nwdjko).ant-menu-light > .ant-menu.ant-menu-horizontal > .ant-menu-submenu-selected:hover::before {*/
+/*  width: 100%;*/
+/*  left: 0;*/
+/*}*/
 
 /* 确保布局在500px以下保持不变 */
 @media (max-width: 500px) {
