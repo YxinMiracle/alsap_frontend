@@ -7,7 +7,7 @@
       { path: '/user/register', component: './User/Register' },
     ],
   },
-  { path: '/welcome', icon: 'smile', component: './Welcome', name: '欢迎页' },
+  { path: '/welcome', layout: false, icon: 'smile', component: './Welcome', name: '欢迎页' },
   {
     path: '/admin',
     icon: 'crown',

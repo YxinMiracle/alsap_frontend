@@ -1,0 +1,273 @@
+
+:root {
+  /* header 高度 */
+  --header-height: 6rem;
+  /* body 高度 */
+  --content-height: calc(100vh - var(--header-height));
+  /* header 两侧 padding */
+  --header-right-left-padding: 100px;
+  /* body 左侧 padding */
+  --body-left-padding: var(--header-right-left-padding);
+  /* 文本颜色 */
+  --text-color: #fff;
+  /* 主要颜色 */
+  --primary-color: #1c073e;
+  /* 次要颜色 */
+  --second-color: yellow;
+  /* Menu 宽度 */
+  --menu-width: 300px;
+}
+
+/* 当宽度小于 1200px 时 */
+@media (max-width: 1200px) {
+
+  /* 更新 root */
+  :root {
+    /* header 两侧 padding */
+    --header-right-left-padding: 30px;
+  }
+}
+
+*,
+*::before,
+*::after {
+  /* 设定字体 */
+  font-family: 'Montserrat', sans-serif;
+  /* 设定 box-sizing 模式 */
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  /* 取消文字装饰器 */
+  text-decoration: none;
+  /* 取消list style */
+  list-style: none;
+  /* 禁止用户选择文字 */
+  user-select: none;
+  /* 禁止用户拖拽 */
+  -webkit-user-drag: none;
+}
+
+html,
+body {
+  /* 宽度全屏 */
+  width: 100vw;
+  /* 最大宽度，防止超宽屏导致的内容过度分离 */
+  max-width: 1600px;
+  /* 最小高度 */
+  min-height: 100vh;
+  /* 中央显示 */
+  margin: 0 auto;
+  /* 文本颜色 */
+  color: var(--text-color);
+  /* 背景颜色 */
+  background-color: var(--primary-color);
+}
+
+a {
+  /* link 颜色单独设置 */
+  color: var(--text-color);
+}
+
+.content {
+  border-top: none;
+}
+
+header,
+.content {
+  /* flex 布局 */
+  display: flex;
+  /* 相对位置，为绝对定位做铆钉点 */
+  position: relative;
+  /* 纵向设置为中央 */
+  align-items: center;
+  /* 过度时间 */
+  transition: 0.3s;
+}
+
+header {
+  /* 横向两侧展开 */
+  justify-content: space-between;
+  height: var(--header-height);
+  padding: 0 var(--header-right-left-padding);
+  transition: none;
+}
+
+.content {
+  /* 横向从左侧开始 */
+  justify-content: flex-start;
+  height: var(--content-height);
+  padding-left: var(--body-left-padding);
+}
+
+header a.logo {
+  font-size: 2rem;
+  /* 文字贴合 */
+  line-height: 1em;
+}
+
+header nav {
+  width: 40%;
+  min-width: 300px;
+  display: flex;
+  justify-content: space-between;
+  /* 元素区间 */
+  gap: 10%;
+  font-size: 0.9rem;
+}
+
+header nav a {
+  position: relative;
+}
+/* nav bar 文字下面加入动效 */
+header nav a::before {
+  content: "";
+  display: block;
+  position: absolute;
+  /* 底部留有空隙 */
+  bottom: -5px;
+  /* 变化点在中间 */
+  left: 50%;
+  /* 开始时没有 */
+  width: 0%;
+  height: 3px;
+  /* 圆角处理 */
+  border-radius: 3px;
+  background-color: var(--text-color);
+  /* 自然过渡 */
+  transition: 0.3s ease;
+}
+
+header nav a:hover::before {
+  width: 100%;
+  left: 0;
+}
+
+header i {
+  display: none;
+  color: var(--text-color);
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+header i:hover {
+  color: var(--second-color);
+}
+.content .info {
+  z-index: 1; /* 左侧 SVG 图片会在文字下方*/
+}
+
+.content .info h2 {
+  font-size: 3rem;
+  line-height: 1.2em; /* 加大文字间间距 */
+}
+
+.content .info h2:nth-child(3) {
+  color: var(--second-color); /* 第三行颜色和其他不同 */
+}
+
+.content .info h2:nth-child(3)::after {
+  content: ".";
+  color: var(--text-color); /* 通过伪元素形式添加不同颜色点号 */
+}
+
+.content .info h3 {
+  font-weight: 300;
+  font-size: 0.9rem;
+  margin: 2rem 0;
+}
+
+.btn-group {
+  display: flex;
+  gap: 1rem; /* 间距设定比使用 ::not(:last-child) 选择器优雅 */
+}
+
+.content .info a {
+  border: 1px solid #fff;
+  padding: 0.9rem 2rem;
+  border-radius: 3rem;
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
+
+.content .info a:first-child {
+  color: var(--primary-color);
+  background: var(--text-color);
+}
+
+.content .info a:hover {
+  color: var(--second-color);
+  background: var(--primary-color);
+  border-color: var(--second-color);
+}
+
+.background-svg {
+  /*绝对定位防止 svg走形*/
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /* 将额外部分隐藏，这样小车通过时不会超出边界形成违和感 */
+  overflow: hidden;
+}
+
+.loading {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 6rem;
+  background-color: var(--primary-color);
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(15px);
+  z-index: 998;
+
+  display: none;
+}
+
+.menu a{
+  width: var(--menu-width);
+  text-align: center;
+  border: 1px solid var(--text-color);
+  padding: 2rem;
+  margin: 1rem;
+  font-size: 2rem;
+  border-radius: 10rem;
+}
+
+.menu i{
+  font-size: 1.7rem;
+  position: fixed;
+  right: var(--header-right-left-padding);
+  top: var(--header-right-left-padding);
+  cursor: pointer;
+}
+
+.menu i:hover{
+  color: var(--second-color);
+}
+
+
+
+.menu a:hover{
+  color: var(--second-color);
+  border-color: var(--second-color);
+}
