@@ -3,14 +3,10 @@ import '@/style/welcomePageStyle.css';
 import { car as car_info } from '@/utils/data/db.json';
 import '@/utils/fonts/fonts.css';
 import { Draggable, gsap, MotionPathPlugin, ScrollTrigger } from 'gsap/all';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { history } from '@umijs/max';
 
 const Welcome: React.FC = () => {
-  const [windowSize, setWindowSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
-
   enum SizeState {
     BIG = 'BIG',
     SMALL = 'SMALL',
@@ -159,14 +155,12 @@ const Welcome: React.FC = () => {
   };
 
   useEffect(() => {
-    // 使用 window.onresize 来监听窗口大小变化
     window.onresize = handleResize;
 
-    // 清理函数，组件卸载时移除监听器
     return () => {
       window.onresize = null;
     };
-  }, []); // 空依赖数组，表示只在组件挂载和卸载时执行
+  }, []);
 
   const loadAnimation = () => {
     const tween = gsap.timeline({ delay: 0.8 }); // 创建补间动画
@@ -186,6 +180,8 @@ const Welcome: React.FC = () => {
   };
 
   useEffect(() => {
+    document.documentElement.style.backgroundColor = '#1c073e';
+    document.body.style.backgroundColor = '#1c073e';
     gsap.registerPlugin(ScrollTrigger, Draggable, MotionPathPlugin);
     loadAnimation();
   }, []);
@@ -203,6 +199,10 @@ const Welcome: React.FC = () => {
     const tween = gsap.timeline();
     tween.to('.menu', { duration: 0.3, y: 30 });
     tween.to('.menu', { duration: 1, y: -window.innerHeight, opacity: 0, display: 'none' });
+  };
+
+  const clickStart = () => {
+    history.push('/cti');
   };
 
   return (
@@ -244,12 +244,29 @@ const Welcome: React.FC = () => {
           {/*</h3>*/}
 
           <div className="btn-group">
-            <a href="/cti">
-              <span>开始使用</span>
-            </a>
-            <a href="#">
-              <span>联系作者</span>
-            </a>
+            <button type="button" className="btn" onClick={clickStart}>
+              <strong>开始使用</strong>
+              <div id="container-stars">
+                <div id="stars"></div>
+              </div>
+
+              <div id="glow">
+                <div className="circle"></div>
+                <div className="circle"></div>
+              </div>
+            </button>
+
+            <button type="button" className="btn">
+              <strong>联系作者</strong>
+              <div id="container-stars">
+                <div id="stars"></div>
+              </div>
+
+              <div id="glow">
+                <div className="circle"></div>
+                <div className="circle"></div>
+              </div>
+            </button>
           </div>
         </aside>
 
