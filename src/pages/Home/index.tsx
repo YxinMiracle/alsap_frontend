@@ -1,9 +1,26 @@
 import ImageLoader from '@/components/Image';
 import { pageStyles } from '@/pages/Home/style/homeStyle';
-import { Carousel, Col, Row, Tabs, Typography } from 'antd';
+import {
+  ArrowDownOutlined,
+  ArrowUpOutlined,
+  ContainerTwoTone,
+  SecurityScanTwoTone,
+  ToolTwoTone,
+} from '@ant-design/icons';
+import {
+  Card,
+  Carousel,
+  Col,
+  Divider,
+  Row,
+  Statistic,
+  StatisticProps,
+  Tabs,
+  Typography,
+} from 'antd';
 import Search from 'antd/es/input/Search';
 import React, { useEffect } from 'react';
-import {gsap} from "gsap/all";
+import CountUp from 'react-countup';
 
 const { Title } = Typography;
 
@@ -50,15 +67,19 @@ const Welcome: React.FC = () => {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center', // 如果你也想垂直居中可以添加这个
-    height: '225px', // 确保容器有足够的高度
-    width: '400px', // 和宽度
+    height: '100%', // 确保容器有足够的高度
+    width: '100%', // 和宽度
     margin: '0 auto',
   };
+
+  const formatter: StatisticProps['formatter'] = (value) => (
+    <CountUp end={value as number} separator="," />
+  );
 
   return (
     <div className="home-root">
       <Row>
-        <Col xs={24} sm={24} lg={{ span: 20, offset: 2 }}>
+        <Col xs={24} sm={24} lg={{ span: 18, offset: 3 }}>
           <div className="banner-container">
             <div className="home-title">
               <Title level={1} className="custom-title">
@@ -89,8 +110,16 @@ const Welcome: React.FC = () => {
                     />
                   </div>
                 </Col>
-                <Col xs={0} sm={0} lg={{ span: 7, offset: 1 }}>
-                  <Carousel arrows infinite autoplay>
+                <Col xs={0} sm={0} lg={{ span: 8 }}>
+                  <Carousel
+                    arrows
+                    infinite
+                    autoplay
+                    fade
+                    draggable
+                    autoplaySpeed={3500}
+                    style={{ transform: 'scale(0.8)' }}
+                  >
                     <div>
                       <ImageLoader
                         src="https://shs3.b.qianxin.com/ti_portal_upload_s3/1672307736_V52"
@@ -106,6 +135,162 @@ const Welcome: React.FC = () => {
                       />
                     </div>
                   </Carousel>
+                </Col>
+              </Row>
+            </div>
+          </div>
+
+          <Divider style={{ borderWidth: '2px' }} />
+
+          <div className="static-cart">
+            <div style={{ display: 'flex', marginBottom: 16 }}>
+              <Title style={{ marginLeft: 'auto', marginRight: 'auto' }} level={3}>
+                系统信息
+              </Title>
+            </div>
+
+            {/*信息卡*/}
+            <div>
+              <Row gutter={16}>
+                <Col xs={24} sm={12} lg={{ span: 8 }}>
+                  <Card className="static-card" bordered={false}>
+                    <Row>
+                      <Col span={18}>
+                        <Statistic
+                          title="报告总数"
+                          value={112893}
+                          precision={2}
+                          valueStyle={{ color: '#3f8600' }}
+                          prefix={<ArrowUpOutlined />}
+                          suffix="篇"
+                          formatter={formatter}
+                        />
+                      </Col>
+                      <Col span={6}>
+                        <div className="static-card-icon">
+                          <ContainerTwoTone />
+                        </div>
+                      </Col>
+                    </Row>
+                  </Card>
+                </Col>
+                <Col xs={24} sm={12} lg={{ span: 8 }}>
+                  <Card className="static-card" bordered={false}>
+                    <Row>
+                      <Col span={18}>
+                        <Statistic
+                          title="域对象总数（SDO）"
+                          value={11.28}
+                          precision={2}
+                          valueStyle={{ color: '#3f8600' }}
+                          prefix={<ArrowUpOutlined />}
+                          suffix="个"
+                          formatter={formatter}
+                        />
+                      </Col>
+                      <Col span={6}>
+                        <div className="static-card-icon">
+                          <SecurityScanTwoTone />
+                        </div>
+                      </Col>
+                    </Row>
+                  </Card>
+                </Col>
+                <Col xs={24} sm={24} lg={{ span: 8 }}>
+                  <Card className="static-card" bordered={false}>
+                    <Row>
+                      <Col span={18}>
+                        <Statistic
+                          title="可观测对象（SCO）"
+                          value={9.323434}
+                          precision={1}
+                          valueStyle={{ color: '#cf1322' }}
+                          prefix={<ArrowDownOutlined />}
+                          suffix="个"
+                          formatter={formatter}
+                        />
+                      </Col>
+                      <Col span={6}>
+                        <div className="static-card-icon">
+                          <ToolTwoTone />
+                        </div>
+                      </Col>
+                    </Row>
+                  </Card>
+                </Col>
+              </Row>
+            </div>
+
+            <Divider style={{ borderWidth: '2px' }} />
+
+            {/*实体信息*/}
+            <div>
+              <div style={{ display: 'flex', marginBottom: 16 }}>
+                <Title style={{ marginLeft: 'auto', marginRight: 'auto' }} level={3}>
+                  实体信息
+                </Title>
+              </div>
+              <Row gutter={16}>
+                {/*xs={24} sm={16} lg={{ span: 16 }}*/}
+                <Col span={16} className="entity-col">
+                  <Card className="entity-card">
+                    <div className="entity-item-parent">
+                      <div className="entity-item">
+                        <Statistic title="Active Users" value={112893} />
+                      </div>
+                      <div className="entity-item">
+                        <Statistic title="Active Users" value={112893} />
+                      </div>
+                      <div className="entity-item">
+                        <Statistic title="Active Users" value={112893} />
+                      </div>
+                      <div className="entity-item">
+                        <Statistic title="Active Users" value={112893} />
+                      </div>
+                      <div style={{ backgroundColor: '#FUF4E5' }} className="entity-item">
+                        xxx
+                      </div>
+                      <div className="entity-item">xxx</div>
+                      <div className="entity-item">xxx</div>
+                      <div className="entity-item">xxx</div>
+                      <div className="entity-item">xxx</div>
+                      <div className="entity-item">xxx</div>
+                      <div className="entity-item">xxx</div>
+                      <div className="entity-item">xxx</div>
+                      <div className="entity-item">xxx</div>
+                    </div>
+                  </Card>
+                </Col>
+
+                {/*xs={24} sm={8} lg={{ span: 8 }}*/}
+                <Col span={8} className="entity-col">
+                  <Card className="entity-card">
+                    <div className="entity-item-parent">
+                      <div style={{ backgroundColor: '#FFF4E1' }} className="entity-item">
+                        xxx
+                      </div>
+                      <div style={{ backgroundColor: '#FAF4E2' }} className="entity-item">
+                        xxx
+                      </div>
+                      <div style={{ backgroundColor: '#FGF4E3' }} className="entity-item">
+                        xxx
+                      </div>
+                      <div style={{ backgroundColor: '#FHF4E4' }} className="entity-item">
+                        xxx
+                      </div>
+                      <div style={{ backgroundColor: '#FUF4E5' }} className="entity-item">
+                        xxx
+                      </div>
+                      <div className="entity-item">xxx</div>
+                      <div className="entity-item">xxx</div>
+                      <div className="entity-item">xxx</div>
+                      <div className="entity-item">xxx</div>
+                      <div className="entity-item">xxx</div>
+                      <div className="entity-item">xxx</div>
+                      <div className="entity-item">xxx</div>
+                      <div className="entity-item">xxx</div>
+                    </div>
+                  </Card>
                 </Col>
               </Row>
             </div>

@@ -21,7 +21,6 @@ const ImageLoader: React.FC<Props> = (props: Props) => {
     ...style,
     opacity: opacity,
     transition: 'opacity 1s ease-in-out', // 平滑过渡效果
-    // display: loaded ? 'block' : 'none'
   };
 
   return (

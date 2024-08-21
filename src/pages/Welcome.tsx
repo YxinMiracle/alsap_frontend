@@ -78,6 +78,9 @@ const Welcome: React.FC = () => {
     private _create(info: CarInfo[]): void {
       info.forEach((car) => {
         const dom = document.querySelector(car.id) as Element;
+        // 防止异步操作导致页面找不到元素
+        if (!dom) return; // 如果元素不存在，直接返回
+
         const effect = gsap.to(dom, {
           duration: car.duration,
           ease: car.ease,
@@ -202,7 +205,7 @@ const Welcome: React.FC = () => {
   };
 
   const clickStart = () => {
-    history.push('/cti');
+    history.push('/information/show');
   };
 
   return (
