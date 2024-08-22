@@ -1,7 +1,14 @@
 import ImageLoader from '@/components/Image';
+import HistoryBox from '@/pages/Home/components/history';
+import HotBox from '@/pages/Home/components/hot';
 import { pageStyles } from '@/pages/Home/style/homeStyle';
 import {
-  ArrowDownOutlined,
+  getHomeCtiTotalCountUsingGet,
+  getHomeScoItemsCountUsingGet,
+  getHomeSdoItemsCountUsingGet,
+} from '@/services/backend/ctiController';
+import { useModel } from '@@/exports';
+import {
   ArrowUpOutlined,
   ContainerTwoTone,
   SecurityScanTwoTone,
@@ -12,10 +19,12 @@ import {
   Carousel,
   Col,
   Divider,
+  message,
   Row,
   Statistic,
   StatisticProps,
   Tabs,
+  TabsProps,
   Typography,
 } from 'antd';
 import Search from 'antd/es/input/Search';
@@ -26,7 +35,26 @@ const { Title } = Typography;
 
 // https://shs3.b.qianxin.com:443/ti_portal_upload_s3/1703471334_VDC
 
+interface SdoData {
+  sdoList: API.ItemHomeVo[];
+  sdoCount: number;
+}
+
+interface ScoData {
+  scoList: API.ItemHomeVo[];
+  scoCount: number;
+}
+
 const Welcome: React.FC = () => {
+  const [inputFocus, setInputFocus] = React.useState<boolean>(false);
+  const [tabIndex, setTabIndex] = React.useState<string>('1');
+  const [ctiCount, setCtiCount] = React.useState<number>(0);
+  const [loadingCtiCount, setLoadingCtiCount] = React.useState<boolean>(false);
+  const [sdoData, setSdoData] = React.useState<SdoData>({ sdoList: [], sdoCount: 0 });
+  const [sdoDataLoading, setSdoDataLoading] = React.useState<boolean>(false);
+  const [scoData, setScoData] = React.useState<ScoData>({ scoList: [], scoCount: 0 });
+  const [scoDataLoading, setScoDataLoading] = React.useState<boolean>(false);
+
   enum TagEnum {
     CTI_SEARCH = '威胁情报',
     CTI_YANPAN = '威胁研判',
@@ -44,6 +72,12 @@ const Welcome: React.FC = () => {
       allowClear
       enterButton="搜索"
       size="large"
+      onFocus={(e) => {
+        setInputFocus(true);
+      }}
+      onBlur={(e) => {
+        setInputFocus(false);
+      }}
       onSearch={(value: string) => {
         console.log(value);
       }}
@@ -75,6 +109,98 @@ const Welcome: React.FC = () => {
   const formatter: StatisticProps['formatter'] = (value) => (
     <CountUp end={value as number} separator="," />
   );
+
+  const onItemClick = () => {
+    setInputFocus(false);
+  };
+
+  const { initialState } = useModel('@@initialState');
+
+  const hotArr = [
+    '172.104.120.244',
+    '95.164.33.227',
+    '104.234.10.26',
+    ' 154.213.186.220',
+    'xred.mooo.com',
+    'pz.11115yur.com',
+    'hot.tenchier.com',
+    '28bb5f8d.u.fn03.vip',
+    '226a32a52c5ddc76bb8785ae1cea0c81',
+    '14e504e4c3e12375423b64c6f9269b01',
+  ];
+
+  const items: TabsProps['items'] = [
+    {
+      key: '1',
+      label: '历史记录',
+      children: <HistoryBox onItemClick={onItemClick} />,
+    },
+    {
+      key: '2',
+      label: '热点IOC',
+      children: <HotBox onItemClick={onItemClick} hotList={hotArr} />,
+    },
+  ];
+
+  const onTabChange = (key: string) => {
+    setTabIndex(key);
+  };
+
+  const initScoData = async () => {
+    setScoDataLoading(true);
+    try {
+      const res = await getHomeScoItemsCountUsingGet();
+      if (res.code === 0) {
+        setScoData({
+          scoList: res.data?.scoItemHomeVos as API.ItemHomeVo[],
+          scoCount: res.data?.scoCount as number,
+        });
+      }
+    } catch (e: any) {
+      message.error('请求Sco总数失败');
+    }
+    setScoDataLoading(false);
+  };
+
+  // 获取home页面sdo相关数据
+  const initSdoData = async () => {
+    setSdoDataLoading(true);
+    try {
+      const res = await getHomeSdoItemsCountUsingGet();
+      if (res.code === 0) {
+        setSdoData({
+          sdoList: res.data?.sdoItemHomeVos as API.ItemHomeVo[],
+          sdoCount: res.data?.sdoCount as number,
+        });
+      }
+    } catch (e: any) {
+      message.error('请求Sdo总数失败');
+    }
+    setSdoDataLoading(false);
+  };
+
+  // 获取home页面cti情报在系统中的个数
+  const initCtiData = async () => {
+    setLoadingCtiCount(true);
+    try {
+      const res = await getHomeCtiTotalCountUsingGet();
+      if (res.code === 0) {
+        setCtiCount(res.data?.ctiCount as number);
+      }
+    } catch (e: any) {
+      message.error('请求CTI总数失败');
+    }
+    setLoadingCtiCount(false);
+  };
+
+  useEffect(() => {
+    // 请求CTI相关数据
+    initCtiData();
+    // 请求Sdo相关数据
+    initSdoData();
+    // 请求Sco相关数据
+    initScoData();
+  }, []);
 
   return (
     <div className="home-root">
@@ -108,6 +234,19 @@ const Welcome: React.FC = () => {
                         },
                       ]}
                     />
+                    {inputFocus && (
+                      <Card className="tabs-content" style={{ marginTop: 8, zIndex: 2 }}>
+                        <Tabs
+                          onMouseDown={(e) => {
+                            e.preventDefault(); // 阻止事件的默认行为，避免输入框失去焦点
+                            // e.stopPropagation(); // 阻止事件冒泡到更上层的 DOM 元素
+                          }}
+                          defaultActiveKey={tabIndex}
+                          items={items}
+                          onChange={onTabChange}
+                        />
+                      </Card>
+                    )}
                   </div>
                 </Col>
                 <Col xs={0} sm={0} lg={{ span: 8 }}>
@@ -158,12 +297,13 @@ const Welcome: React.FC = () => {
                       <Col span={18}>
                         <Statistic
                           title="报告总数"
-                          value={112893}
+                          value={ctiCount}
                           precision={2}
                           valueStyle={{ color: '#3f8600' }}
                           prefix={<ArrowUpOutlined />}
                           suffix="篇"
                           formatter={formatter}
+                          loading={loadingCtiCount}
                         />
                       </Col>
                       <Col span={6}>
@@ -180,12 +320,13 @@ const Welcome: React.FC = () => {
                       <Col span={18}>
                         <Statistic
                           title="域对象总数（SDO）"
-                          value={11.28}
+                          value={sdoData.sdoCount}
                           precision={2}
                           valueStyle={{ color: '#3f8600' }}
                           prefix={<ArrowUpOutlined />}
                           suffix="个"
                           formatter={formatter}
+                          loading={sdoDataLoading}
                         />
                       </Col>
                       <Col span={6}>
@@ -202,12 +343,13 @@ const Welcome: React.FC = () => {
                       <Col span={18}>
                         <Statistic
                           title="可观测对象（SCO）"
-                          value={9.323434}
+                          value={scoData.scoCount}
                           precision={1}
-                          valueStyle={{ color: '#cf1322' }}
-                          prefix={<ArrowDownOutlined />}
+                          valueStyle={{ color: '#3f8600' }}
+                          prefix={<ArrowUpOutlined />}
                           suffix="个"
                           formatter={formatter}
+                          loading={scoDataLoading}
                         />
                       </Col>
                       <Col span={6}>
@@ -235,29 +377,17 @@ const Welcome: React.FC = () => {
                 <Col span={16} className="entity-col">
                   <Card className="entity-card">
                     <div className="entity-item-parent">
-                      <div className="entity-item">
-                        <Statistic title="Active Users" value={112893} />
-                      </div>
-                      <div className="entity-item">
-                        <Statistic title="Active Users" value={112893} />
-                      </div>
-                      <div className="entity-item">
-                        <Statistic title="Active Users" value={112893} />
-                      </div>
-                      <div className="entity-item">
-                        <Statistic title="Active Users" value={112893} />
-                      </div>
-                      <div style={{ backgroundColor: '#FUF4E5' }} className="entity-item">
-                        xxx
-                      </div>
-                      <div className="entity-item">xxx</div>
-                      <div className="entity-item">xxx</div>
-                      <div className="entity-item">xxx</div>
-                      <div className="entity-item">xxx</div>
-                      <div className="entity-item">xxx</div>
-                      <div className="entity-item">xxx</div>
-                      <div className="entity-item">xxx</div>
-                      <div className="entity-item">xxx</div>
+                      {sdoData.sdoList &&
+                        sdoData.sdoList.map((item: API.ItemHomeVo, index: number) => (
+                          <div className="entity-item">
+                            <Statistic
+                              title={item.itemName}
+                              value={item.itemDbCount}
+                              suffix="个"
+                              loading={sdoDataLoading}
+                            />
+                          </div>
+                        ))}
                     </div>
                   </Card>
                 </Col>
@@ -266,29 +396,12 @@ const Welcome: React.FC = () => {
                 <Col span={8} className="entity-col">
                   <Card className="entity-card">
                     <div className="entity-item-parent">
-                      <div style={{ backgroundColor: '#FFF4E1' }} className="entity-item">
-                        xxx
-                      </div>
-                      <div style={{ backgroundColor: '#FAF4E2' }} className="entity-item">
-                        xxx
-                      </div>
-                      <div style={{ backgroundColor: '#FGF4E3' }} className="entity-item">
-                        xxx
-                      </div>
-                      <div style={{ backgroundColor: '#FHF4E4' }} className="entity-item">
-                        xxx
-                      </div>
-                      <div style={{ backgroundColor: '#FUF4E5' }} className="entity-item">
-                        xxx
-                      </div>
-                      <div className="entity-item">xxx</div>
-                      <div className="entity-item">xxx</div>
-                      <div className="entity-item">xxx</div>
-                      <div className="entity-item">xxx</div>
-                      <div className="entity-item">xxx</div>
-                      <div className="entity-item">xxx</div>
-                      <div className="entity-item">xxx</div>
-                      <div className="entity-item">xxx</div>
+                      {scoData.scoList &&
+                        scoData.scoList.map((item: API.ItemHomeVo, index: number) => (
+                          <div className="entity-item">
+                            <Statistic title={item.itemName} value={item.itemDbCount} suffix="个" />
+                          </div>
+                        ))}
                     </div>
                   </Card>
                 </Col>

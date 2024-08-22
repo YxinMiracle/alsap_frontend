@@ -38,6 +38,17 @@ export const pageStyles = `
 
 .search-left {
   margin-top: -39px;
+  position: relative;
+}
+
+.tabs-content {
+  position: absolute;
+  width: 100%;
+}
+
+.tabs-content :where(.css-dev-only-do-not-override-r7v25l).ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: #343333;
+    text-shadow: 0 0 0.25px currentcolor;
 }
 
 
@@ -109,9 +120,9 @@ export const pageStyles = `
   display: flex;
   align-items: center;
   padding: 0 20px;
-    border: 1px solid #f2eded; /* 添加一个浅灰色的边框 */
+  border: 1px solid #f2eded; /* 添加一个浅灰色的边框 */
   border-radius: 5px; /* 轻微的圆角 */
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); /* 添加阴影 */
 
 }
 

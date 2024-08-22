@@ -1,0 +1,45 @@
+.hot-box {
+  padding: 10px 0 0 0;
+  height: 250px !important;
+  overflow-y: hidden;
+}
+
+.hot-box .hot-item {
+  background-color: transparent; /* 设置初始背景颜色为透明 */
+  height: 24px;
+  transition: background-color 0.2s ease;
+}
+
+.hot-item:hover {
+  cursor: pointer;
+}
+
+.light-theme:hover {
+  background-color: #f6f6f6;
+}
+
+.dark-theme:hover {
+  background-color: rgba(241, 241, 241, 0.45);;
+}
+
+.hot-box .hot-item:nth-child(1) .hot-item-index {
+  color: #f64141;
+}
+
+.hot-box .hot-item:nth-child(2) .hot-item-index {
+  color: #fe8673;
+}
+
+.hot-box .hot-item:nth-child(3) .hot-item-index {
+  color: #ffaa4e;
+}
+
+.hot-box .hot-item:nth-child(1) .hot-item-value::after,
+.hot-box .hot-item:nth-child(2) .hot-item-value::after,
+.hot-box .hot-item:nth-child(3) .hot-item-value::after{
+  content: url('http://localhost:8000/hot.svg');
+  display: inline-block; /* 或者 block，取决于你的具体布局需要 */
+  width: 20px; /* 设置图片的宽度 */
+  height: 20px; /* 设置图片的高度 */
+  margin-left: 6px; /* 在图片和前面的文本之间添加一些空间 */
+}
