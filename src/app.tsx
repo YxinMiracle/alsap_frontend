@@ -63,6 +63,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         width: '331px',
       },
     ],
+    // logo: ()=><div>xxx</div>,
     links: false
       ? [
           <Link key="openapi" to="/umi/plugin/openapi" target="_blank">

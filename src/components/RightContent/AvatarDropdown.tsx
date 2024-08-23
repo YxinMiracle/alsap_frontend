@@ -1,7 +1,6 @@
 import { getInitialState } from '@/app';
 import { pageStyles } from '@/components/RightContent/style/headerStyle';
 import { userLogoutUsingPost } from '@/services/backend/userController';
-import '@/style/headerStyle.css';
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import { history, useModel } from '@umijs/max';
 import { Avatar, Button, Space } from 'antd';
@@ -58,13 +57,15 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   const { currentUser } = initialState || {};
 
   const switchDarkMode = async (checked: boolean) => {
-    const { settings, currentUser } = await getInitialState();
-    setInitialState(() => ({
+    await getInitialState()
+    // @ts-ignore
+    setInitialState((prevState) => ({
+      ...prevState,
       settings: {
-        ...settings,
+        ...prevState?.settings, // 注意这里使用的是 prevState.settings
         navTheme: checked ? 'realDark' : 'light',
       },
-      currentUser: currentUser,
+      currentUser: prevState?.currentUser,
     }));
     setIsLight(!isLight);
   };

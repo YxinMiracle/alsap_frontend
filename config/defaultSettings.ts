@@ -15,7 +15,7 @@ const Settings: ProLayoutProps & {
   fixedHeader: true,
   fixSiderbar: true,
   colorWeak: false,
-  title: 'Ant Design Pro',
+  title: '威胁情报利用平台',
   menu: {
     locale: false
   },
