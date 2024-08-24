@@ -1,14 +1,12 @@
 import Footer from '@/components/Footer';
 import { AvatarDropdown } from '@/components/RightContent/AvatarDropdown';
 import { getLoginUserUsingGet } from '@/services/backend/userController';
+import '@/style/homePageStyle.css';
 import { LinkOutlined } from '@ant-design/icons';
-import type { Settings as LayoutSettings } from '@ant-design/pro-components';
-import { SettingDrawer } from '@ant-design/pro-layout';
 import type { RequestConfig, RunTimeLayoutConfig } from '@umijs/max';
 import { history, Link } from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
 import { requestConfig } from './requestConfig';
-import '@/style/homePageStyle.css'
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -26,11 +24,10 @@ export async function getInitialState(): Promise<InitialState> {
   if (location.pathname !== loginPath) {
     try {
       const res = await getLoginUserUsingGet();
-      initialState.currentUser = res.data;
+      // initialState.currentUser = res.data;
     } catch (error: any) {
       // 如果未登录
     }
-
   }
   // @ts-ignore
   return initialState;
@@ -38,7 +35,7 @@ export async function getInitialState(): Promise<InitialState> {
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 // @ts-ignore
-export const layout: RunTimeLayoutConfig = ({ initialState,setInitialState }) => {
+export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
     avatarProps: {
       render: () => {
@@ -66,6 +63,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState,setInitialState }) =>
         width: '331px',
       },
     ],
+    // logo: ()=><div>xxx</div>,
     links: false
       ? [
           <Link key="openapi" to="/umi/plugin/openapi" target="_blank">

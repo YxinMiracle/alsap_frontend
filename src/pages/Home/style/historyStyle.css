@@ -1,0 +1,23 @@
+.history-box {
+  padding: 10px 0 0 0;
+  height: 250px!important;
+  overflow-y: hidden;
+}
+
+.history-box .history-item {
+  background-color: transparent; /* 设置初始背景颜色为透明 */
+  height: 24px;
+  transition: background-color 0.2s ease;
+}
+
+.history-item:hover {
+  cursor: pointer;
+}
+
+.light-theme:hover {
+  background-color: #f6f6f6;;
+}
+
+.dark-theme:hover {
+  background-color: rgba(241, 241, 241, 0.45);;
+}

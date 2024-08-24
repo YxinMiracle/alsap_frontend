@@ -5,23 +5,23 @@
   border-bottom: 3px solid #005aff
 }
 
-/*:where(.css-dev-only-do-not-override-nwdjko).ant-menu-light.ant-menu-horizontal > .ant-menu-item-selected, :where(.css-dev-only-do-not-override-nwdjko).ant-menu-light > .ant-menu.ant-menu-horizontal > .ant-menu-item-selected, :where(.css-dev-only-do-not-override-nwdjko).ant-menu-light.ant-menu-horizontal > .ant-menu-submenu-selected, :where(.css-dev-only-do-not-override-nwdjko).ant-menu-light > .ant-menu.ant-menu-horizontal > .ant-menu-submenu-selected::before {*/
-/*  content: "";*/
-/*  display: block;*/
-/*  position: absolute;*/
-/*  bottom: -5px;*/
-/*  left: 50%;*/
-/*  width: 0;*/
-/*  height: 3px;*/
-/*  border-radius: 3px;*/
-/*  background-color: #005aff;*/
-/*  transition: 0.3s ease;*/
-/*}*/
+:where(.css-dev-only-do-not-override-fw79vu).ant-tabs-top >.ant-tabs-nav::before, :where(.css-dev-only-do-not-override-fw79vu).ant-tabs-top >div>.ant-tabs-nav::before {
+  bottom: 0;
+  display: none;
+}
 
-/*:where(.css-dev-only-do-not-override-nwdjko).ant-menu-light.ant-menu-horizontal > .ant-menu-item-selected, :where(.css-dev-only-do-not-override-nwdjko).ant-menu-light > .ant-menu.ant-menu-horizontal > .ant-menu-item-selected, :where(.css-dev-only-do-not-override-nwdjko).ant-menu-light.ant-menu-horizontal > .ant-menu-submenu-selected, :where(.css-dev-only-do-not-override-nwdjko).ant-menu-light > .ant-menu.ant-menu-horizontal > .ant-menu-submenu-selected:hover::before {*/
-/*  width: 100%;*/
-/*  left: 0;*/
-/*}*/
+:where(.css-dev-only-do-not-override-fw79vu).ant-tabs >.ant-tabs-nav, :where(.css-dev-only-do-not-override-fw79vu).ant-tabs >div>.ant-tabs-nav {
+  position: relative;
+  display: flex;
+  flex: none;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.ant-input-search :where(.css-dev-only-do-not-override-fw79vu).ant-input-group .ant-input-affix-wrapper:not(:last-child) {
+   border-start-start-radius: 0;
+   border-end-start-radius: 0;
+}
 
 /* 确保布局在500px以下保持不变 */
 @media (max-width: 500px) {
