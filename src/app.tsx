@@ -24,7 +24,7 @@ export async function getInitialState(): Promise<InitialState> {
   if (location.pathname !== loginPath) {
     try {
       const res = await getLoginUserUsingGet();
-      // initialState.currentUser = res.data;
+      initialState.currentUser = res.data;
     } catch (error: any) {
       // 如果未登录
     }

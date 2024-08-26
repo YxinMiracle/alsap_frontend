@@ -45,6 +45,7 @@
     "antd": "^5.12.7",
     "antd-style": "^3.6.1",
     "classnames": "^2.5.1",
+    "crypto-js": "^4.2.0",
     "dayjs": "^1.11.10",
     "echarts-for-react": "^3.0.2",
     "gsap": "^3.12.5",
