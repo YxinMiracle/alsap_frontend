@@ -28,9 +28,9 @@
   }
 }
 
-*,
-*::before,
-*::after {
+.root *,
+.root *::before,
+.root *::after {
   /* 设定字体 */
   font-family: 'Montserrat', sans-serif;
   /* 设定 box-sizing 模式 */
@@ -47,8 +47,7 @@
   -webkit-user-drag: none;
 }
 
-html,
-body {
+.root {
   /* 宽度全屏 */
   width: 100vw;
   /* 最大宽度，防止超宽屏导致的内容过度分离 */
@@ -60,19 +59,20 @@ body {
   /* 文本颜色 */
   color: var(--text-color);
   /* 背景颜色 */
+  background-color: var(--primary-color);
 }
 
-a {
+.root a {
   /* link 颜色单独设置 */
   color: var(--text-color);
 }
 
-.content {
+.root .content {
   border-top: none;
 }
 
-header,
-.content {
+.root header,
+.root .content {
   /* flex 布局 */
   display: flex;
   /* 相对位置，为绝对定位做铆钉点 */
@@ -83,7 +83,7 @@ header,
   transition: 0.3s;
 }
 
-header {
+.root header {
   /* 横向两侧展开 */
   justify-content: space-between;
   height: var(--header-height);
@@ -91,20 +91,20 @@ header {
   transition: none;
 }
 
-.content {
+.root .content {
   /* 横向从左侧开始 */
   justify-content: flex-start;
   height: var(--content-height);
   padding-left: var(--body-left-padding);
 }
 
-header a.logo {
+.root header a.logo {
   font-size: 2rem;
   /* 文字贴合 */
   line-height: 1em;
 }
 
-header nav {
+.root header nav {
   width: 40%;
   min-width: 300px;
   display: flex;
@@ -114,11 +114,11 @@ header nav {
   font-size: 0.9rem;
 }
 
-header nav a {
+.root header nav a {
   position: relative;
 }
 /* nav bar 文字下面加入动效 */
-header nav a::before {
+.root header nav a::before {
   content: "";
   display: block;
   position: absolute;
@@ -136,51 +136,51 @@ header nav a::before {
   transition: 0.3s ease;
 }
 
-header nav a:hover::before {
+.root header nav a:hover::before {
   width: 100%;
   left: 0;
 }
 
-header i {
+.root header i {
   display: none;
   color: var(--text-color);
   font-size: 1.4rem;
   cursor: pointer;
 }
 
-header i:hover {
+.root header i:hover {
   color: var(--second-color);
 }
-.content .info {
+.root .content .info {
   z-index: 1; /* 左侧 SVG 图片会在文字下方*/
 }
 
-.content .info h2 {
+.root .content .info h2 {
   font-size: 3rem;
-  line-height: 1.2em; /* 加大文字间间距 */
+  line-height: 1.5em; /* 加大文字间间距 */
 }
 
-.content .info h2:nth-child(3) {
+.root .content .info h2:nth-child(3) {
   color: var(--second-color); /* 第三行颜色和其他不同 */
 }
 
-.content .info h2:nth-child(3)::after {
+.root .content .info h2:nth-child(3)::after {
   content: ".";
   color: var(--text-color); /* 通过伪元素形式添加不同颜色点号 */
 }
 
-.content .info h3 {
+.root .content .info h3 {
   font-weight: 300;
   font-size: 0.9rem;
   margin: 2rem 0;
 }
 
-.btn-group {
+.root .btn-group {
   display: flex;
   gap: 1rem; /* 间距设定比使用 ::not(:last-child) 选择器优雅 */
 }
 
-.content .info a {
+.root .content .info a {
   border: 1px solid #fff;
   padding: 0.9rem 2rem;
   border-radius: 3rem;
@@ -188,18 +188,18 @@ header i:hover {
   transition: 0.3s;
 }
 
-.content .info a:first-child {
+.root .content .info a:first-child {
   color: var(--primary-color);
   background: var(--text-color);
 }
 
-.content .info a:hover {
+.root .content .info a:hover {
   color: var(--second-color);
   background: var(--primary-color);
   border-color: var(--second-color);
 }
 
-.background-svg {
+.root .background-svg {
   /*绝对定位防止 svg走形*/
   position: absolute;
   top: 0;
@@ -210,7 +210,7 @@ header i:hover {
   overflow: hidden;
 }
 
-.loading {
+.root .loading {
   position: fixed;
   left: 0;
   top: 0;
@@ -224,7 +224,7 @@ header i:hover {
   background-color: var(--primary-color);
 }
 
-.menu {
+.root .menu {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -242,7 +242,7 @@ header i:hover {
   display: none;
 }
 
-.menu a{
+.root .menu a{
   width: var(--menu-width);
   text-align: center;
   border: 1px solid var(--text-color);
@@ -252,7 +252,7 @@ header i:hover {
   border-radius: 10rem;
 }
 
-.menu i{
+.root .menu i{
   font-size: 1.7rem;
   position: fixed;
   right: var(--header-right-left-padding);
@@ -260,18 +260,18 @@ header i:hover {
   cursor: pointer;
 }
 
-.menu i:hover{
+.root .menu i:hover{
   color: var(--second-color);
 }
 
 
 
-.menu a:hover{
+.root .menu a:hover{
   color: var(--second-color);
   border-color: var(--second-color);
 }
 
-.btn {
+.root .btn {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -297,7 +297,7 @@ header i:hover {
   background-clip: content-box, border-box;
 }
 
-#container-stars {
+.root #container-stars {
   position: absolute;
   z-index: -1;
   width: 100%;
@@ -308,7 +308,7 @@ header i:hover {
   border-radius: 5rem;
 }
 
-strong {
+.root strong {
   z-index: 2;
   font-family: "Avalors Personal Use";
   font-size: 12px;
@@ -317,13 +317,13 @@ strong {
   text-shadow: 0 0 4px white;
 }
 
-#glow {
+.root #glow {
   position: absolute;
   display: flex;
   width: 12rem;
 }
 
-.circle {
+.root .circle {
   width: 100%;
   height: 30px;
   filter: blur(2rem);
@@ -331,42 +331,42 @@ strong {
   z-index: -1;
 }
 
-.circle:nth-of-type(1) {
+.root .circle:nth-of-type(1) {
   background: rgba(254, 83, 186, 0.636);
 }
 
-.circle:nth-of-type(2) {
+.root .circle:nth-of-type(2) {
   background: rgba(142, 81, 234, 0.704);
 }
 
-.btn:hover #container-stars {
+.root .btn:hover #container-stars {
   z-index: 1;
   background-color: #212121;
 }
 
-.btn:hover {
+.root .btn:hover {
   transform: scale(1.1);
 }
 
-.btn:active {
+.root .btn:active {
   border: double 4px #fe53bb;
   background-origin: border-box;
   background-clip: content-box, border-box;
   animation: none;
 }
 
-.btn:active .circle {
+.root .btn:active .circle {
   background: #fe53bb;
 }
 
-#stars {
+.root #stars {
   position: relative;
   background: transparent;
   width: 200rem;
   height: 200rem;
 }
 
-#stars::after {
+.root #stars::after {
   content: "";
   position: absolute;
   top: -10rem;
@@ -376,12 +376,12 @@ strong {
   animation: animStarRotate 90s linear infinite;
 }
 
-#stars::after {
+.root #stars::after {
   background-image: radial-gradient(#ffffff 1px, transparent 1%);
   background-size: 50px 50px;
 }
 
-#stars::before {
+.root #stars::before {
   content: "";
   position: absolute;
   top: 0;
@@ -391,7 +391,7 @@ strong {
   animation: animStar 60s linear infinite;
 }
 
-#stars::before {
+.root #stars::before {
   background-image: radial-gradient(#ffffff 1px, transparent 1%);
   background-size: 50px 50px;
   opacity: 0.5;
@@ -448,7 +448,7 @@ strong {
   }
 }
 
-button {
+.root button {
   position: relative;
   display: inline-block;
   cursor: pointer;
@@ -460,7 +460,7 @@ button {
   font-size: 15px;
 }
 
-button.learn-more {
+.root button.learn-more {
   font-weight: 600;
   color: #382b22;
   text-transform: uppercase;
@@ -474,7 +474,7 @@ button.learn-more {
   transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), background 150ms cubic-bezier(0, 0, 0.58, 1), -webkit-transform 150ms cubic-bezier(0, 0, 0.58, 1);
 }
 
-button.learn-more::before {
+.root button.learn-more::before {
   position: absolute;
   content: '';
   width: 100%;
@@ -492,26 +492,26 @@ button.learn-more::before {
   transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), box-shadow 150ms cubic-bezier(0, 0, 0.58, 1), -webkit-transform 150ms cubic-bezier(0, 0, 0.58, 1), -webkit-box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
 }
 
-button.learn-more:hover {
+.root button.learn-more:hover {
   background: #ffe9e9;
   -webkit-transform: translate(0, 0.25em);
   transform: translate(0, 0.25em);
 }
 
-button.learn-more:hover::before {
+.root button.learn-more:hover::before {
   -webkit-box-shadow: 0 0 0 2px #b18597, 0 0.5em 0 0 #ffe3e2;
   box-shadow: 0 0 0 2px #b18597, 0 0.5em 0 0 #ffe3e2;
   -webkit-transform: translate3d(0, 0.5em, -1em);
   transform: translate3d(0, 0.5em, -1em);
 }
 
-button.learn-more:active {
+.root button.learn-more:active {
   background: #ffe9e9;
   -webkit-transform: translate(0em, 0.75em);
   transform: translate(0em, 0.75em);
 }
 
-button.learn-more:active::before {
+.root button.learn-more:active::before {
   -webkit-box-shadow: 0 0 0 2px #b18597, 0 0 #ffe3e2;
   box-shadow: 0 0 0 2px #b18597, 0 0 #ffe3e2;
   -webkit-transform: translate3d(0, 0, -1em);

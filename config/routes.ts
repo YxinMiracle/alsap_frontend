@@ -23,13 +23,14 @@
     name: '威胁情报',
     routes: [
       { path: '/cti', redirect: '/cti/show' },
-      { path: '/cti/show', component: './Cti', name: '威胁情报管理' },
+      { path: '/cti/show', component: './Cti/CtiShow', name: '威胁情报管理' },
+      { path: '/cti/item/show', component: './Cti/ItemShow', name: '实体类型管理' },
       { path: '/cti/anno', component: './Cti/Annotation', name: '威胁情报标注' },
     ],
   },
   {
     path: '/chat',
-    icon: 'crown',
+    icon: 'AppstoreAddOutlined',
     name: '大模型',
     routes: [
       // { path: '/chat', redirect: '/cti/show' },
@@ -39,7 +40,7 @@
   },
   {
     path: '/admin',
-    icon: 'crown',
+    icon: 'SettingOutlined',
     name: '管理页',
     access: 'canAdmin',
     routes: [

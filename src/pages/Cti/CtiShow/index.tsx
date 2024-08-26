@@ -8,8 +8,7 @@ import { Button, Col, message, Row, Space, Tag, Typography } from 'antd';
 import React, { useRef, useState } from 'react';
 
 /**
- * 用户管理页面
- *
+ * Cti信息管理页面
  * @constructor
  */
 const CtiInformationPage: React.FC = () => {
@@ -154,17 +153,21 @@ const CtiInformationPage: React.FC = () => {
               const sortField = Object.keys(sort)?.[0];
               const sortOrder = sort?.[sortField] ?? undefined;
 
-              const { data, code } = await getCtiByPageUsingPost({
+              const res = await getCtiByPageUsingPost({
                 ...params,
                 sortField,
                 sortOrder,
                 ...filter,
               } as API.CtiQueryRequest);
 
+              if (res.code !== 0) {
+                message.error(res.message ?? '情报数据请求失败');
+              }
+
               return {
-                success: code === 0,
-                data: data?.records || [],
-                total: Number(data?.total) || 0,
+                success: res.code === 0,
+                data: res.data?.records || [],
+                total: Number(res.data?.total) || 0,
               };
             }}
             columns={columns}

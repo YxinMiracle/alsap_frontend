@@ -6,7 +6,7 @@ import {
   getHomeCtiTotalCountUsingGet,
   getHomeScoItemsCountUsingGet,
   getHomeSdoItemsCountUsingGet,
-} from '@/services/backend/ctiController';
+} from '@/services/backend/homeController';
 import { useModel } from '@@/exports';
 import {
   ArrowUpOutlined,

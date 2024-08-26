@@ -183,10 +183,15 @@ const Welcome: React.FC = () => {
   };
 
   useEffect(() => {
+    const originalColor = document.documentElement.style.backgroundColor;
     document.documentElement.style.backgroundColor = '#1c073e';
-    document.body.style.backgroundColor = '#1c073e';
     gsap.registerPlugin(ScrollTrigger, Draggable, MotionPathPlugin);
     loadAnimation();
+    // 返回的函数将在组件卸载时执行
+    return () => {
+      // 恢复原始的背景色
+      document.documentElement.style.backgroundColor = originalColor;
+    };
   }, []);
 
   const clickRightTopIcon = () => {
