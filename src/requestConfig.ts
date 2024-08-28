@@ -57,8 +57,7 @@ const uK = (input: string): string => {
 
 const t1 = (e: T1Params = {}): string => {
   const { p: t, n: u, k: o, a: i } = e;
-  console.log(u + o + decodeURIComponent(t) + i);
-  return uK(u + o + decodeURIComponent(t) + i);
+  return uK(u + o + i);
 };
 
 /**

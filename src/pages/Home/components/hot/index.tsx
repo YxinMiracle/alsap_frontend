@@ -29,7 +29,7 @@ const HotBox: React.FC<Props> = (props) => {
       <div className="hot-box">
         {hotList?.length > 0 &&
           hotList.map((hotName: string, i) => (
-            <div className={`hot-item ${themeState}`} onClick={() => onItemClick?.()}>
+            <div key={i} className={`hot-item ${themeState}`} onClick={() => onItemClick?.()}>
               <Row>
                 <Col span={1}>
                   <div className="hot-item-index">{i + 1}.</div>

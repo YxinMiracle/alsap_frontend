@@ -1,11 +1,11 @@
-import CreateModal from '@/pages/Admin/User/components/CreateModal';
 import { deleteCtiByCtiIdUsingPost, getCtiByPageUsingPost } from '@/services/backend/ctiController';
 import { CheckCircleOutlined, CloseCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { PageContainer, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
-import { Button, Col, message, Row, Space, Tag, Typography } from 'antd';
+import {Button, Col, FloatButton, message, Row, Space, Tag, Typography} from 'antd';
 import React, { useRef, useState } from 'react';
+import CreateModal from "@/pages/Cti/CtiShow/components/CreateModal";
 
 /**
  * Cti信息管理页面
@@ -183,6 +183,7 @@ const CtiInformationPage: React.FC = () => {
               setCreateModalVisible(false);
             }}
           />
+          <FloatButton.BackTop />
         </PageContainer>
       </Col>
     </Row>

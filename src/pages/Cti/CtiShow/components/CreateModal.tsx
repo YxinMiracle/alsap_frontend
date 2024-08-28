@@ -1,9 +1,7 @@
-import { addUserUsingPost } from '@/services/backend/userController';
 import { ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
 import { message, Modal } from 'antd';
 import React from 'react';
-import {addCtiReportUsingPost1} from "@/services/backend/ctiController";
 
 interface Props {
   visible: boolean;

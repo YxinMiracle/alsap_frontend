@@ -18,7 +18,7 @@ import {
   Card,
   Carousel,
   Col,
-  Divider,
+  Divider, FloatButton,
   message,
   Row,
   Statistic,
@@ -409,6 +409,7 @@ const Welcome: React.FC = () => {
             </div>
           </div>
         </Col>
+        <FloatButton.BackTop />
       </Row>
     </div>
   );

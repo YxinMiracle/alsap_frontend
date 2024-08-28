@@ -12,10 +12,7 @@
     path: '/information',
     icon: 'PieChartOutlined',
     name: '平台信息',
-    routes: [
-      { path: '/information', redirect: '/information/show' },
-      { path: '/information/show', component: './Home', name: '平台信息展示' },
-    ],
+    component: './Home',
   },
   {
     path: '/cti',
@@ -25,6 +22,7 @@
       { path: '/cti', redirect: '/cti/show' },
       { path: '/cti/show', component: './Cti/CtiShow', name: '威胁情报管理' },
       { path: '/cti/item/show', component: './Cti/ItemShow', name: '实体类型管理' },
+      { path: '/cti/relation/show', component: './Cti/RelationShow', name: '实体关系管理' },
       { path: '/cti/anno', component: './Cti/Annotation', name: '威胁情报标注' },
     ],
   },
@@ -34,7 +32,7 @@
     name: '大模型',
     routes: [
       // { path: '/chat', redirect: '/cti/show' },
-      { path: '/chat', component: './Chat', name: '大模型Demo' },
+      { path: '/chat/show', component: './Chat', name: '大模型Demo' },
       // { path: '/cti/anno', component: './Cti/Annotation', name: '威胁情报标注' },
     ],
   },

@@ -195,7 +195,6 @@ const Welcome: React.FC = () => {
   }, []);
 
   const clickRightTopIcon = () => {
-    console.log(111);
     gsap.fromTo(
       '.menu',
       { y: -window.innerHeight, opacity: 0, display: 'none' },
@@ -210,7 +209,7 @@ const Welcome: React.FC = () => {
   };
 
   const clickStart = () => {
-    history.push('/information/show');
+    history.push('/information');
   };
 
   return (
@@ -222,16 +221,16 @@ const Welcome: React.FC = () => {
         </a>
         <nav>
           <a href="#">
-            <span>Products</span>
+            <span>了解产品</span>
           </a>
           <a href="#">
-            <span>Company</span>
+            <span>了解作者</span>
           </a>
           <a href="#">
-            <span>Safety</span>
+            <span>了解团队</span>
           </a>
           <a href="#">
-            <span>Help</span>
+            <span>开发记录</span>
           </a>
         </nav>
         <i onClick={clickRightTopIcon} className="uil uil-apps">
