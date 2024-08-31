@@ -239,9 +239,13 @@ const Welcome: React.FC = () => {
       </header>
       <section className="content">
         <aside className="info">
-          <h2>YxinMiracle</h2>
+          <h2>@ TraceSec.cn</h2>
           <h2>智能威胁情报利用平台</h2>
-          <h2>ALSAP</h2>
+          <div className="container">
+            <span className="text-6xl font-bold h-auto tracking-tighter leading-[60px] text-center text-gradient-animate span-container">
+              ALSAP
+            </span>
+          </div>
           {/*<h3>*/}
           {/*  结合大模型、深度学习、自然语言处理、React18、ant design pro、GSAP、*/}
           {/*  <br />*/}
