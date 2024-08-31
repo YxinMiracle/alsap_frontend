@@ -1,4 +1,3 @@
-
 :root {
   /* header 高度 */
   --header-height: 6rem;
@@ -117,6 +116,7 @@
 .root header nav a {
   position: relative;
 }
+
 /* nav bar 文字下面加入动效 */
 .root header nav a::before {
   content: "";
@@ -151,6 +151,7 @@
 .root header i:hover {
   color: var(--second-color);
 }
+
 .root .content .info {
   z-index: 1; /* 左侧 SVG 图片会在文字下方*/
 }
@@ -160,14 +161,14 @@
   line-height: 1.5em; /* 加大文字间间距 */
 }
 
-.root .content .info h2:nth-child(3) {
-  color: var(--second-color); /* 第三行颜色和其他不同 */
-}
+/*.root .content .info h2:nth-child(3) {*/
+/*  color: var(--second-color); !* 第三行颜色和其他不同 *!*/
+/*}*/
 
-.root .content .info h2:nth-child(3)::after {
-  content: ".";
-  color: var(--text-color); /* 通过伪元素形式添加不同颜色点号 */
-}
+/*.root .content .info h2:nth-child(3)::after {*/
+/*  content: ".";*/
+/*  color: var(--text-color); !* 通过伪元素形式添加不同颜色点号 *!*/
+/*}*/
 
 .root .content .info h3 {
   font-weight: 300;
@@ -235,14 +236,14 @@
   bottom: 0;
   right: 0;
   left: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(15px);
   z-index: 998;
 
   display: none;
 }
 
-.root .menu a{
+.root .menu a {
   width: var(--menu-width);
   text-align: center;
   border: 1px solid var(--text-color);
@@ -252,7 +253,7 @@
   border-radius: 10rem;
 }
 
-.root .menu i{
+.root .menu i {
   font-size: 1.7rem;
   position: fixed;
   right: var(--header-right-left-padding);
@@ -260,13 +261,12 @@
   cursor: pointer;
 }
 
-.root .menu i:hover{
+.root .menu i:hover {
   color: var(--second-color);
 }
 
 
-
-.root .menu a:hover{
+.root .menu a:hover {
   color: var(--second-color);
   border-color: var(--second-color);
 }
@@ -518,3 +518,46 @@
   -webkit-transform: translate3d(0, 0, -1em);
   transform: translate3d(0, 0, -1em);
 }
+
+.container {
+  margin-top: 8px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: flex-end;  /* 使所有子元素底部对齐 */
+}
+.h-auto {
+  height: auto;
+}
+.text-center {
+  text-align: center;
+}
+.text-6xl {
+  font-size: 3.95rem;
+  line-height: 1;
+  letter-spacing: 6px;  /* 字符间距 */
+}
+.font-bold {
+  font-weight: 1000;
+}
+.leading-\[60px\] {
+  line-height: 60px;
+}
+
+@keyframes text-gradient-sweep {
+  0%, 100% {
+    background-size: 400% 400%;
+    background-position: 100% center;
+  }
+  50% {
+    background-size: 400% 400%;
+    background-position: 0% center;
+  }
+}
+.text-gradient-animate {
+  background: linear-gradient(to right, rgba(239, 68, 68, 1), rgba(217, 70, 239, 1), rgba(59, 130, 246, 1));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: text-gradient-sweep 3s linear infinite;
+}
+

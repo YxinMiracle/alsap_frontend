@@ -6,6 +6,8 @@ import '@umijs/max';
 import {Button, Col, FloatButton, message, Row, Space, Tag, Typography} from 'antd';
 import React, { useRef, useState } from 'react';
 import CreateModal from "@/pages/Cti/CtiShow/components/CreateModal";
+import {useModel} from "@@/exports";
+import ACCESS_ENUM from "@/constants/access/accessEnum";
 
 /**
  * Cti信息管理页面
@@ -15,7 +17,9 @@ const CtiInformationPage: React.FC = () => {
   // 是否显示新建窗口
   const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
-
+  const { initialState, setInitialState } = useModel('@@initialState');
+  const currentUser = initialState.currentUser || {};
+  const [isAdmin, setIsAdmin] = useState<boolean>(currentUser.userRole === ACCESS_ENUM.ADMIN);
   /**
    * 删除节点
    *
@@ -73,6 +77,7 @@ const CtiInformationPage: React.FC = () => {
       fieldProps: {
         width: 32,
       },
+      hideInForm: true,
     },
     {
       title: '可观测对象数量',

@@ -10,7 +10,7 @@ interface Props {
   visible: boolean;
   columns: ProColumns<API.ItemVo>[];
   isAdmin: boolean;
-  onSubmit: (values: API.Item_) => void;
+  onSubmit: (values: API.ItemVo) => void;
   onCancel: () => void;
 }
 
@@ -19,7 +19,7 @@ interface Props {
  *
  * @param fields
  */
-const handleUpdate = async (fields: API.Item_) => {
+const handleUpdate = async (fields: API.ItemVo) => {
   const hide = message.loading('正在更新');
   try {
     await updateItemUsingPost(fields);
@@ -45,7 +45,7 @@ const UpdateModal: React.FC<Props> = (props) => {
     return <></>;
   }
 
-  const onFinish: FormProps<API.Item_>['onFinish'] = async (values) => {
+  const onFinish: FormProps<API.ItemVo>['onFinish'] = async (values) => {
     console.log(values);
     const success = await handleUpdate({
       ...values,
@@ -62,7 +62,7 @@ const UpdateModal: React.FC<Props> = (props) => {
     }
   };
 
-  const onFinishFailed: FormProps<API.Item_>['onFinishFailed'] = (errorInfo) => {
+  const onFinishFailed: FormProps<API.ItemVo>['onFinishFailed'] = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
 
@@ -84,7 +84,7 @@ const UpdateModal: React.FC<Props> = (props) => {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
-        <Form.Item<API.Item_>
+        <Form.Item<API.ItemVo>
           label="实体名称"
           name="itemName"
           rules={[{ max: 80, message: 'to long!!' }]}
@@ -92,7 +92,7 @@ const UpdateModal: React.FC<Props> = (props) => {
           <Input disabled={!isAdmin} defaultValue={oldData.itemName} />
         </Form.Item>
 
-        <Form.Item<API.Item_>
+        <Form.Item<API.ItemVo>
           label="内容描述"
           name="itemContent"
           rules={[{ max: 80, message: 'to long!!' }]}
@@ -100,14 +100,14 @@ const UpdateModal: React.FC<Props> = (props) => {
           <Input disabled={!isAdmin} defaultValue={oldData.itemContent} />
         </Form.Item>
 
-        <Form.Item<API.Item_> label="实体类型" name="itemType">
+        <Form.Item<API.ItemVo> label="实体类型" name="itemType">
           <Select disabled={!isAdmin} defaultValue={oldData.itemType}>
             <Select.Option value={1}>SDO</Select.Option>
             <Select.Option value={2}>SCO</Select.Option>
           </Select>
         </Form.Item>
 
-        <Form.Item<API.Item_> label="实体类型" name="itemTypeContent">
+        <Form.Item<API.ItemVo> label="实体类型" name="itemTypeContent">
           <Select
             disabled={!isAdmin}
             defaultValue={oldData.itemTypeContent}
@@ -119,7 +119,7 @@ const UpdateModal: React.FC<Props> = (props) => {
           ></Select>
         </Form.Item>
 
-        <Form.Item<API.Item_>
+        <Form.Item<API.ItemVo>
           label="背景颜色"
           name="backgroundColor"
           getValueFromEvent={(color) => {
@@ -137,7 +137,7 @@ const UpdateModal: React.FC<Props> = (props) => {
           />
         </Form.Item>
 
-        <Form.Item<API.Item_>
+        <Form.Item<API.ItemVo>
           label="字体颜色"
           name="textColor"
           getValueFromEvent={(color) => {

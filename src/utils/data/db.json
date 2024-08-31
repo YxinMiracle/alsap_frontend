@@ -1,0 +1,40 @@
+{
+  "car": [
+    {
+      "id": "#red-car",
+      "position": {
+        "x": 2100,
+        "y": 370
+      },
+      "repeat": -1,
+      "repeatDelay": 1,
+      "ease": "none",
+      "duration": 15,
+      "sound_effect": "car1.wav"
+    },
+    {
+      "id": "#yellow-car",
+      "position": {
+        "x": 750,
+        "y": 1200
+      },
+      "repeat": -1,
+      "ease": "none",
+      "repeatDelay": 2,
+      "duration": 10,
+      "sound_effect": "car2.wav"
+    },
+    {
+      "id": "#blue-car",
+      "position": {
+        "x": 200,
+        "y": 0
+      },
+      "repeat": -1,
+      "ease": "none",
+      "repeatDelay": 3,
+      "duration": 18,
+      "sound_effect": "car3.wav"
+    }
+  ]
+}
