@@ -1,7 +1,7 @@
 ﻿import { BACKEND_HOST_LOCAL, BACKEND_HOST_PROD } from '@/constants';
 import type { RequestOptions } from '@@/plugin-request/request';
 import type { RequestConfig } from '@umijs/max';
-import { message } from 'antd';
+//@ts-ignore
 import CryptoJS from 'crypto-js';
 
 interface ResponseStructure {
@@ -55,8 +55,10 @@ const uK = (input: string): string => {
   return CryptoJS.SHA256(input).toString(CryptoJS.enc.Hex);
 };
 
+//@ts-ignore
 const t1 = (e: T1Params = {}): string => {
   const { p: t, n: u, k: o, a: i } = e;
+  //@ts-ignore
   return uK(u + o + i);
 };
 
@@ -107,6 +109,7 @@ export const requestConfig: RequestConfig = {
           k: qu([8, 28, 20, 42, 21, 53, 65, 6]),
         };
 
+        //@ts-ignore
         d[qu([56, 62, 52, 11, 23, 62, 39, 18, 16, 62, 53, 23, 11, 5, 15, 20, 22, 19, 18])] = t1(p);
 
         config.headers = {

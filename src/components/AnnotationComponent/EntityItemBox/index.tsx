@@ -77,8 +77,9 @@ const EntityItemBox: React.FC<Props> = (props) => {
   // element 表示存放整个文档的父标签对应的ref实例
   const getSelectionCharacterOffsetWithin = (element: any) => {
     const selection = window.getSelection();
+    // @ts-ignore
     if (selection.rangeCount === 0) return null; // 未选择任何文本
-
+    // @ts-ignore
     const range = selection.getRangeAt(0);
     const preCaretRange = range.cloneRange();
     preCaretRange.selectNodeContents(element);
@@ -142,11 +143,13 @@ const EntityItemBox: React.FC<Props> = (props) => {
 
   // 判断颜色
   const getBackGroundColor = async () => {
+    // @ts-ignore
     if (!initialState.settings) return;
+    // @ts-ignore
     if (initialState.settings.navTheme === "light"){
       setListBackGroundColor("#fff")
     }else {
-      setListBackGroundColor("#000")
+      setListBackGroundColor("#141414")
     }
   };
 
@@ -207,6 +210,7 @@ const EntityItemBox: React.FC<Props> = (props) => {
       {getChunkList().map((chunk: ChunkType, i) => (
         <EntityItem
           key={i}
+          // @ts-ignore
           id={chunk.id}
           text={chunk.text}
           label={chunk.label}

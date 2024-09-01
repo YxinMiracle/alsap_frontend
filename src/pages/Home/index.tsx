@@ -405,6 +405,7 @@ const Welcome: React.FC = () => {
                     </div>
                   </Card>
                 </Col>
+
               </Row>
             </div>
           </div>

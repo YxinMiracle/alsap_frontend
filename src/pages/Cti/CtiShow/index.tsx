@@ -1,13 +1,14 @@
+import ACCESS_ENUM from '@/constants/access/accessEnum';
+import CreateModal from '@/pages/Cti/CtiShow/components/CreateModal';
 import { deleteCtiByCtiIdUsingPost, getCtiByPageUsingPost } from '@/services/backend/ctiController';
+import { useModel } from '@@/exports';
 import { CheckCircleOutlined, CloseCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { PageContainer, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
-import {Button, Col, FloatButton, message, Row, Space, Tag, Typography} from 'antd';
+import { history } from '@umijs/max';
+import { Button, Col, FloatButton, message, Row, Space, Tag, Typography } from 'antd';
 import React, { useRef, useState } from 'react';
-import CreateModal from "@/pages/Cti/CtiShow/components/CreateModal";
-import {useModel} from "@@/exports";
-import ACCESS_ENUM from "@/constants/access/accessEnum";
 
 /**
  * Cti信息管理页面
@@ -18,6 +19,7 @@ const CtiInformationPage: React.FC = () => {
   const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
   const { initialState, setInitialState } = useModel('@@initialState');
+  // @ts-ignore
   const currentUser = initialState.currentUser || {};
   const [isAdmin, setIsAdmin] = useState<boolean>(currentUser.userRole === ACCESS_ENUM.ADMIN);
   /**
@@ -43,6 +45,11 @@ const CtiInformationPage: React.FC = () => {
     }
   };
 
+  const doAnnotation = (row: API.CtiVo) => {
+    history.push(`/cti/show/anno/${row.id}`);
+
+  };
+
   /**
    * 表格列配置
    */
@@ -65,32 +72,37 @@ const CtiInformationPage: React.FC = () => {
       title: '实体总数',
       dataIndex: 'entityNum',
       valueType: 'text',
-      fieldProps: {
-        width: 32,
-      },
+      width: 120,
+      align: 'center',
       hideInForm: true,
+      // @ts-ignore
+      sorter: (a, b) => a.entityNum - b.entityNum,
     },
     {
       title: '域对象数量',
       dataIndex: 'sdoNum',
       valueType: 'text',
-      fieldProps: {
-        width: 32,
-      },
+      width: 120,
       hideInForm: true,
+      align: 'center',
+      // @ts-ignore
+      sorter: (a, b) => a.sdoNum - b.sdoNum,
     },
     {
       title: '可观测对象数量',
       dataIndex: 'scoNum',
       valueType: 'text',
-      fieldProps: {
-        width: 32,
-      },
+      width: 130,
       hideInForm: true,
+      align: 'center',
+      // @ts-ignore
+      sorter: (a: API.CtiVo, b: API.CtiVo) => a.scoNum - b.scoNum,
     },
     {
       title: '是否已构图',
       dataIndex: 'hasGraph',
+      align: 'center',
+      width: 120,
       render: (value) =>
         value === 1 ? (
           <Tag icon={<CheckCircleOutlined />} color="success">
@@ -125,9 +137,17 @@ const CtiInformationPage: React.FC = () => {
       valueType: 'option',
       render: (_, record) => (
         <Space size="middle">
+          <Typography.Link onClick={() => doAnnotation(record)}>
+            实体标注{isAdmin ? '修改' : '查看'}
+          </Typography.Link>
           <Typography.Link type="danger" onClick={() => handleDelete(record)}>
             删除
           </Typography.Link>
+          {isAdmin && (
+            <Typography.Link type="danger" onClick={() => handleDelete(record)}>
+              删除情报
+            </Typography.Link>
+          )}
         </Space>
       ),
     },
@@ -158,6 +178,7 @@ const CtiInformationPage: React.FC = () => {
               const sortField = Object.keys(sort)?.[0];
               const sortOrder = sort?.[sortField] ?? undefined;
 
+              // @ts-ignore
               const res = await getCtiByPageUsingPost({
                 ...params,
                 sortField,

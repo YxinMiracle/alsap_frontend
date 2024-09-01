@@ -83,7 +83,7 @@ export const pageStyles = `
 }
 
 .static-card {
-  margin-bottom: 16px
+  margin-bottom: 8px
 }
 
 .static-card-icon {
