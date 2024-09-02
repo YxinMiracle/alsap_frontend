@@ -36,6 +36,7 @@ const CtiItemInformationPage: React.FC = () => {
   const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
   const [currentRow, setCurrentRow] = useState<API.ItemVo>();
   const { initialState, setInitialState } = useModel('@@initialState');
+  // @ts-ignore
   const currentUser = initialState.currentUser || {};
   const [isAdmin, setIsAdmin] = useState<boolean>(currentUser.userRole === ACCESS_ENUM.ADMIN);
 
@@ -106,6 +107,7 @@ const CtiItemInformationPage: React.FC = () => {
       ],
       filterMode: 'tree',
       filterSearch: true,
+      // @ts-ignore
       onFilter: (value, record) => {
         return record?.itemTypeContent?.endsWith(value as string);
       },
@@ -151,12 +153,14 @@ const CtiItemInformationPage: React.FC = () => {
     {
       title: '实体背景颜色',
       dataIndex: 'backgroundColor',
+      // @ts-ignore
       render: (value) => <ColorPicker defaultValue={value} showText disabled />,
       hideInSearch: true,
     },
     {
       title: '实体字体颜色',
       dataIndex: 'textColor',
+      // @ts-ignore
       render: (value) => <ColorPicker defaultValue={value} showText disabled />,
       hideInSearch: true,
     },
@@ -183,11 +187,6 @@ const CtiItemInformationPage: React.FC = () => {
       render: (_, record) => (
         <Space size="middle">
           {isAdmin && (
-            <Typography.Link type="danger" onClick={() => handleDelete(record)}>
-              删除
-            </Typography.Link>
-          )}
-          {isAdmin && (
             <Typography.Link
               onClick={() => {
                 setCurrentRow(record);
@@ -195,6 +194,11 @@ const CtiItemInformationPage: React.FC = () => {
               }}
             >
               修改
+            </Typography.Link>
+          )}
+          {isAdmin && (
+            <Typography.Link type="danger" onClick={() => handleDelete(record)}>
+              删除
             </Typography.Link>
           )}
           {!isAdmin && (
@@ -229,6 +233,7 @@ const CtiItemInformationPage: React.FC = () => {
               const sortField = Object.keys(sort)?.[0];
               const sortOrder = sort?.[sortField] ?? undefined;
 
+              // @ts-ignore
               const res = await getItemByPageUsingPost({
                 ...params,
                 sortField,

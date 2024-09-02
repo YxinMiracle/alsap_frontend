@@ -2,9 +2,10 @@ import { CarData, CarInfo } from '@/constants/car/carConstants';
 import '@/style/welcomePageStyle.css';
 import { car as car_info } from '@/utils/data/db.json';
 import '@/utils/fonts/fonts.css';
+import { history } from '@umijs/max';
+// @ts-ignore
 import { Draggable, gsap, MotionPathPlugin, ScrollTrigger } from 'gsap/all';
 import React, { useEffect } from 'react';
-import { history } from '@umijs/max';
 
 const Welcome: React.FC = () => {
   enum SizeState {

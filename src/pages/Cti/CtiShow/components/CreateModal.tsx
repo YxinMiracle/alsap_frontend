@@ -2,6 +2,7 @@ import { ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
 import { message, Modal } from 'antd';
 import React from 'react';
+import {addCtiReportUsingPost} from "@/services/backend/ctiController";
 
 interface Props {
   visible: boolean;
@@ -17,7 +18,7 @@ interface Props {
 const handleAdd = async (fields: API.CtiAddRequest) => {
   const hide = message.loading('正在添加');
   try {
-    await addCtiReportUsingPost1(fields);
+    await addCtiReportUsingPost(fields);
     hide();
     message.success('创建成功');
     return true;

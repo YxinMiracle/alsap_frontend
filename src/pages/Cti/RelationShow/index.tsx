@@ -27,6 +27,7 @@ const CtiRelationInformationPage: React.FC = () => {
   const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
   const [currentRow, setCurrentRow] = useState<API.ItemVo>();
   const { initialState, setInitialState } = useModel('@@initialState');
+  // @ts-ignore
   const currentUser = initialState.currentUser || {};
   const [isAdmin, setIsAdmin] = useState<boolean>(currentUser.userRole === ACCESS_ENUM.ADMIN);
   const [itemIdAndNameList, setItemIdAndNameList] = useState({ sdo: [], sco: [] });
@@ -59,6 +60,7 @@ const CtiRelationInformationPage: React.FC = () => {
     try {
       const res = await getAllItemMapDataUsingGet();
       if (res.code === 0) {
+        // @ts-ignore
         Object.values(res.data).forEach((item: any) => {
           if (item.itemType === 1) {
             setItemIdAndNameList((prevState: any) => ({
@@ -85,12 +87,14 @@ const CtiRelationInformationPage: React.FC = () => {
       const res = await getRelationTypeNameListUsingGet();
       const processedRelationTypeNameList: any[] = [];
       if (res.code === 0) {
+        // @ts-ignore
         res.data.forEach((relationTypeName: string) => {
           processedRelationTypeNameList.push({
             value: relationTypeName,
             label: relationTypeName,
           });
         });
+        // @ts-ignore
         setRelationTypeNameList(processedRelationTypeNameList);
       }
     } catch (e: any) {
@@ -229,6 +233,7 @@ const CtiRelationInformationPage: React.FC = () => {
             showSearch
             placeholder="请选择关系类型"
             filterOption={(input, option) =>
+              // @ts-ignore
               String(option?.label).toLowerCase().includes(input.toLowerCase())
             }
             options={relationTypeNameList}
@@ -310,6 +315,7 @@ const CtiRelationInformationPage: React.FC = () => {
         <JsxGraph
           tagId={String(record.id)}
           data={getTaleLineData(
+            // @ts-ignore
             record.startItemName,
             record.startItemType,
             record.relationName,
@@ -391,7 +397,9 @@ const CtiRelationInformationPage: React.FC = () => {
             columns={columns}
             oldData={currentRow}
             isAdmin={isAdmin}
+            // @ts-ignore
             itemIdAndNameList={itemIdAndNameList}
+            // @ts-ignore
             relationTypeNameList={relationTypeNameList}
             onSubmit={() => {
               setUpdateModalVisible(false);

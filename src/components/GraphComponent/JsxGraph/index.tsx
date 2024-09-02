@@ -14,8 +14,13 @@ const JsxGraph: React.FC<Props> = (props: Props) => {
   const ref = useRef(null);
 
   const { initialState } = useModel('@@initialState');
+
+  /**
+   * 根据系统当前的主题设定对应的背景颜色和字体颜色
+   */
   const setGraphTheme = () => {
     // 根据 navTheme 设置 fill 的颜色
+    // @ts-ignore
     const navTheme = initialState.settings.navTheme;
     const fill = navTheme === 'light' ? 'rgba(0, 0, 0, 0.88)' : 'rgba(255, 255, 255, 0.85)';
     data.edges.forEach((edge: any) => {
@@ -29,8 +34,12 @@ const JsxGraph: React.FC<Props> = (props: Props) => {
     });
   };
 
+  /**
+   * 初始化图的样式
+   */
   const graphRegisterNode = () => {
     // 根据 navTheme 设置 fill 的颜色
+    // @ts-ignore
     const navTheme = initialState.settings.navTheme;
     const fontFill = navTheme === 'light' ? '#000' : '#DDDDDD';
     const backgroundFill = navTheme === 'light' ? '#ffffff' : '#1D1D1D';
