@@ -27,24 +27,24 @@
       },
       { path: '/cti/item/show', component: './Cti/ItemShow', name: '实体类型管理' },
       { path: '/cti/relation/show', component: './Cti/RelationShow', name: '实体关系管理' },
-      // {
-      //   path: '/cti/anno/:id',
-      //   hideInMenu: true,
-      //   component: './Cti/Annotation',
-      //   name: '威胁情报标注',
-      // },
     ],
   },
   {
-    name: "威胁情报标注",
+    name: "威胁情报管理",
     path: '/cti/show',  // 注意这里的路径调整
     routes: [
       {
-        path: '/cti/show/anno/:id',  // 注意这里的路径调整
+        path: '/cti/show/graph/:id',
+        component: './Cti/Graph',
+        name: '威胁情报图谱',
+        hideInMenu: true,
+      },
+      {
+        path: '/cti/show/anno/:id',
         component: './Cti/Annotation',
         name: '威胁情报标注',
         hideInMenu: true,
-      }
+      },
     ],
     parentKeys: ['/cti'],  // 父级属性
     hideInMenu: true,

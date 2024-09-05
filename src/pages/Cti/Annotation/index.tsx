@@ -6,11 +6,25 @@ import {
   getPageCtiWordLabelListUsingPost,
 } from '@/services/backend/ctiController';
 import { getAllItemMapDataUsingGet } from '@/services/backend/itemController';
-import { useModel, useParams } from '@@/exports';
+import { history, useModel, useParams } from '@@/exports';
 import { PageContainer } from '@ant-design/pro-components';
 import '@umijs/max';
-import { Button, Card, Col, Drawer, FloatButton, message, Row, Tag, Typography } from 'antd';
+import {
+  Button,
+  Card,
+  Col,
+  Divider,
+  Drawer,
+  FloatButton,
+  message,
+  Progress,
+  Row,
+  Spin,
+  Tag,
+  Typography,
+} from 'antd';
 import ReactECharts, { EChartsOption } from 'echarts-for-react';
+import { throttle } from 'lodash';
 import React, { useEffect, useState } from 'react';
 
 const { Text, Title } = Typography;
@@ -30,22 +44,31 @@ const CtiAnnotationPage: React.FC = () => {
   const { currentUser } = initialState || {};
   const [sysTheme, setSysTheme] = useState<string>();
   const [open, setOpen] = useState(false);
-  const [requestWordLabelListParams, setRequestWordLabelListParams] =
-    useState<API.CtiModelWordLabelResultDto>({
-      ctiId: id,
-      size: 10,
-      current: 1,
-    });
+  const [requestWordLabelListParams, setRequestWordLabelListParams] = useState({
+    ctiId: id,
+    size: 10,
+    current: 1,
+  });
   const [wordLabelResult, setWordLabelList] = useState<API.CtiWordLabelVo>({
     wordList: [],
     labelList: [],
+    total: 0,
   });
+  const [isSetRollEvent, setRollEvent] = useState<boolean>(false);
+  const [readingProgress, setReadingProgress] = useState<number>(0);
+  const [continueAdd, setContinueAdd] = useState<boolean>(true);
+
+  // 展示cti图谱
+  const showCtiGraph = () => {
+    history.push(`/cti/show/graph/${id}`);
+  };
 
   /**
    * 开启模型抽取结果的抽屉
    */
   const showDrawer = () => {
     setOpen(true);
+    setRollEvent(true);
   };
 
   /**
@@ -54,6 +77,62 @@ const CtiAnnotationPage: React.FC = () => {
   const onClose = () => {
     setOpen(false);
   };
+
+  /**
+   * 监听滑动事件
+   */
+  const handleScroll = () => {
+    if (open) {
+      setTimeout(() => {
+        // 使用 setTimeout 来异步处理滚动逻辑
+        let lastVisibleId = 0;
+        for (let i = 1; i <= wordLabelResult.total; i++) {
+          const element = document.getElementById(`sent-${i}`);
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            if (rect.top >= 0 && rect.top <= window.innerHeight) {
+              lastVisibleId = i; // 最后一个可见的元素ID
+            }
+          }
+        }
+        if (lastVisibleId >= wordLabelResult.total) {
+          setContinueAdd(false);
+        }
+        setReadingProgress(Math.round((lastVisibleId / wordLabelResult.total) * 100));
+      }, 0);
+    }
+  };
+
+  const throttledHandleScroll = throttle(handleScroll, 1000);
+
+  // 创建一个观察对象
+  const ob = new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting) {
+        // 获取模型标注数据
+        getWordLabelData();
+      }
+    },
+    {
+      threshold: 0,
+    },
+  );
+
+  // @ts-ignore
+  useEffect(() => {
+    if (isSetRollEvent && continueAdd) {
+      const spin = document.querySelector('.bottom-spin');
+      const drawerElement = document.querySelector('.ant-drawer-body');
+      if (drawerElement) {
+        ob.observe(spin);
+        drawerElement.addEventListener('scroll', throttledHandleScroll);
+        return () => {
+          drawerElement.removeEventListener('scroll', throttledHandleScroll);
+          ob.unobserve(spin);
+        };
+      }
+    }
+  }, [open]);
 
   /**
    * 初始化界面获取数据
@@ -77,6 +156,9 @@ const CtiAnnotationPage: React.FC = () => {
     }
   };
 
+  /**
+   * 加载item数据
+   */
   const loadItemData = async () => {
     try {
       const res = await getAllItemMapDataUsingGet();
@@ -103,6 +185,9 @@ const CtiAnnotationPage: React.FC = () => {
     );
   };
 
+  /**
+   * 获取itemId对应item的Dict
+   */
   const getLabelDict = () => {
     const itemId2ItemName = new Map<string, string>();
     const itemId2BackgroundColor = new Map<string, string>();
@@ -179,33 +264,39 @@ const CtiAnnotationPage: React.FC = () => {
       endOffset: end,
       itemId: entityTypeId,
     };
-    console.log(payload);
     ctiChunkList.push(payload);
     updateEchartData();
     setCtiChunkList(ctiChunkList);
   };
 
-  /**
-   * 获取情报中的标签和单词数据，模型训练好的
-   */
-  const getWordLabelData = async () => {
+  const requestData = async (requestWordLabelListParams) => {
     try {
+      console.log(requestWordLabelListParams);
       const res = await getPageCtiWordLabelListUsingPost(requestWordLabelListParams);
       if (res.code === 0) {
         setWordLabelList((prevState) => ({
           // @ts-ignore
           wordList: [...prevState.wordList, ...res.data.wordList],
           labelList: [...prevState.labelList, ...res.data.labelList],
-        }));
-        setRequestWordLabelListParams((prevState) => ({
-          ...prevState,
-          // @ts-ignore
-          current: prevState.current + 1,
+          total: res.data.total,
         }));
       }
     } catch (e: any) {
-      message.error('获取数据出错', e);
+      message.error('获取数据失败');
     }
+  };
+
+  /**
+   * 获取情报中的标签和单词数据，模型训练好的
+   */
+  const getWordLabelData = () => {
+    setRequestWordLabelListParams((prevState) => {
+      requestData(prevState);
+      return {
+        ...prevState,
+        current: prevState.current + 1,
+      };
+    });
   };
 
   useEffect(() => {
@@ -279,18 +370,22 @@ const CtiAnnotationPage: React.FC = () => {
                   >
                     查看模型识别结果
                   </Button>
-                  <Drawer
-                    width={1200}
-                    style={{ backgroundColor: '#efefef' }}
-                    title="Basic Drawer"
-                    onClose={onClose}
-                    open={open}
-                  >
+                  <Drawer width={1200} title="模型识别结果" onClose={onClose} open={open}>
                     <div>
+                      <Title level={4}>阅读进度</Title>
+                      <Progress
+                        style={{ position: 'sticky', top: -38, zIndex: '2', marginBottom: '20px' }}
+                        percent={readingProgress}
+                        status="active"
+                        showInfo={false}
+                      />
+
                       {wordLabelResult.wordList.map((word_list: string[], list_index: number) => (
                         <>
-                          <Title level={3}>第 {list_index+1} 句: </Title>
-                          <Card bordered={false} className="annotation-right-card">
+                          <Title id={`sent-${list_index + 1}`} level={3}>
+                            第 {list_index + 1} 句:{' '}
+                          </Title>
+                          <Card className="annotation-right-card">
                             <Row gutter={16} key={list_index}>
                               {' '}
                               {/* 注意增加 key 用于优化渲染性能 */}
@@ -321,8 +416,7 @@ const CtiAnnotationPage: React.FC = () => {
                                         }
                                       >
                                         {wordLabelResult.labelList[list_index][word_index]}
-                                      </Tag>{' '}
-                                      {/* 单词作为Tag显示 */}
+                                      </Tag>
                                     </div>
                                   </div>
                                 </Col>
@@ -330,11 +424,25 @@ const CtiAnnotationPage: React.FC = () => {
                             </Row>
                           </Card>
                         </>
-
                       ))}
                     </div>
+                    {continueAdd ? (
+                      <div
+                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                      >
+                        <Spin className="bottom-spin" size="large" />
+                      </div>
+                    ) : (
+                      <Divider style={{ borderColor: '#7cb305' }} dashed>
+                        已经加载完啦
+                      </Divider>
+                    )}
                   </Drawer>
-                  <Button className="annotation-right-card-btn" size="large">
+                  <Button
+                    onClick={() => showCtiGraph()}
+                    className="annotation-right-card-btn"
+                    size="large"
+                  >
                     查看情报图谱
                   </Button>
                   {currentUser?.userRole === accessEnum.ADMIN && (
@@ -342,6 +450,7 @@ const CtiAnnotationPage: React.FC = () => {
                       复制模型识别结果
                     </Button>
                   )}
+
                   <Button className="annotation-right-card-btn" size="large">
                     大模型关系抽取
                   </Button>
