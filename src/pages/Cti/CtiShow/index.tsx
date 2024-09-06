@@ -140,9 +140,6 @@ const CtiInformationPage: React.FC = () => {
           <Typography.Link onClick={() => doAnnotation(record)}>
             实体标注{isAdmin ? '修改' : '查看'}
           </Typography.Link>
-          <Typography.Link type="danger" onClick={() => handleDelete(record)}>
-            删除
-          </Typography.Link>
           {isAdmin && (
             <Typography.Link type="danger" onClick={() => handleDelete(record)}>
               删除情报

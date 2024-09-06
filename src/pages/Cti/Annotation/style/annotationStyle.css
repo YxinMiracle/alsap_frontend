@@ -1,0 +1,28 @@
+.annotation-right-card {
+  margin-bottom: 32px;
+}
+
+.annotation-right-card-btn {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.annotation-sent-card {
+}
+
+.annotation-sent-card div{
+  display: flex;
+  height: 20px;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.normal-text {
+  padding-bottom: 12px;
+}
+
+.single-word-div {
+  margin-bottom: 16px;
+
+}
