@@ -198,6 +198,9 @@ const CtiAnnotationPage: React.FC = () => {
     return { itemId2ItemName, itemId2BackgroundColor };
   };
 
+  /**
+   * 当用户抽取了实体之后，需要更新图
+   */
   const updateEchartData = () => {
     const echartData = [];
     const { itemId2ItemName, itemId2BackgroundColor } = getLabelDict();
