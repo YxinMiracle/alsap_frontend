@@ -1,0 +1,25 @@
+
+.detail-page :where(.css-dev-only-do-not-override-r7v25l).ant-tabs .ant-tabs-tab {
+  font-weight: 500;
+  font-size: 0.975rem;
+  font-family: "IBM Plex Sans", sans-serif;
+  padding: 12px 25px;
+}
+
+.detail-page :where(.css-dev-only-do-not-override-fw79vu).ant-tabs .ant-tabs-tab {
+  font-weight: 500!important;
+  padding: 12px 25px!important;
+  font-size: 0.975rem!important;
+}
+
+.detail-page :where(.css-dev-only-do-not-override-fw79vu).ant-tabs >.ant-tabs-nav, :where(.css-dev-only-do-not-override-fw79vu).ant-tabs >div>.ant-tabs-nav {
+  position: relative;
+  display: flex;
+  flex: none;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+:where(.css-dev-only-do-not-override-r7v25l).ant-tooltip .ant-tooltip-content {
+  min-width: 32em!important;
+}

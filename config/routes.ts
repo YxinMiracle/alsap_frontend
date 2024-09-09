@@ -45,6 +45,12 @@
         name: '威胁情报标注',
         hideInMenu: true,
       },
+      {
+        path: '/cti/show/detail/:id',
+        component: './Cti/Detail',
+        name: '威胁情报内容',
+        hideInMenu: true,
+      },
     ],
     parentKeys: ['/cti'],  // 父级属性
     hideInMenu: true,
