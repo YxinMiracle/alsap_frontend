@@ -1,20 +1,19 @@
+import CtiDetailInformationPage from '@/pages/Cti/Detail/components/Information';
+import '@/pages/Cti/Detail/style/detailPageStyle.css';
+import { getDetailCtiUsingPost } from '@/services/backend/ctiController';
 import { useParams } from '@@/exports';
 import {
-  AndroidOutlined,
-  AppleOutlined,
   CodeSandboxOutlined,
   FileProtectOutlined,
   FileTextOutlined,
-  GoldOutlined
+  GoldOutlined,
 } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-components';
 import '@umijs/max';
-import {Col, message, Row, Tabs, Tooltip, TooltipProps} from 'antd';
-import React, {useEffect, useMemo, useState} from 'react';
-import '@/pages/Cti/Detail/style/detailPageStyle.css'
-import {getDetailCtiUsingPost} from "@/services/backend/ctiController";
+import { Col, message, Row, Tabs, Tooltip, TooltipProps } from 'antd';
+import React, { useEffect, useMemo, useState } from 'react';
 
-const CtiGraphInformationPage: React.FC = () => {
+const CtiDetailPage: React.FC = () => {
   const { id } = useParams();
 
   const [ctiVo, setCtiVo] = useState<API.CtiVo>({});
@@ -32,7 +31,7 @@ const CtiGraphInformationPage: React.FC = () => {
       const res = await getDetailCtiUsingPost({ id });
       if (res.code === 0) {
         // @ts-ignore
-        setCtiVo(res.data)
+        setCtiVo(res.data);
       }
     } catch (error: any) {
       message.error('加载CTI数据失败' + error.message);
@@ -40,7 +39,7 @@ const CtiGraphInformationPage: React.FC = () => {
   };
 
   useEffect(() => {
-    loadData()
+    loadData();
   }, []);
 
   const mergedArrow = useMemo<TooltipProps['arrow']>(() => {
@@ -51,30 +50,31 @@ const CtiGraphInformationPage: React.FC = () => {
 
   const tabItemsList = [
     {
-      key: "information",
+      key: 'information',
       label: `概况`,
-      children: `概况 ${id}`,
+      // @ts-ignore
+      children: <CtiDetailInformationPage id={id}/>,
       icon: <FileProtectOutlined />,
     },
     {
-      key: "knowledge",
+      key: 'knowledge',
       label: `知识`,
       children: `知识 ${id}`,
       icon: <GoldOutlined />,
     },
     {
-      key: "content",
+      key: 'content',
       label: `内容`,
       children: `内容 ${id}`,
       icon: <FileTextOutlined />,
     },
     {
-      key: "entity",
+      key: 'entity',
       label: `实体`,
       children: `实体 ${id}`,
       icon: <CodeSandboxOutlined />,
-    }
-  ]
+    },
+  ];
 
   return (
     <Row>
@@ -100,4 +100,4 @@ const CtiGraphInformationPage: React.FC = () => {
     </Row>
   );
 };
-export default CtiGraphInformationPage;
+export default CtiDetailPage;
