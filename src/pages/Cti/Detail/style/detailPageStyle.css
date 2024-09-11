@@ -87,6 +87,22 @@
   }
 }
 
+.list-item-hover:hover {
+  background-color: rgba(239, 239, 239, 0.4);
+  cursor: pointer;
+}
+
 :where(.css-dev-only-do-not-override-r7v25l).ant-tooltip .ant-tooltip-content {
   min-width: 32em !important;
+}
+
+.list-item-img {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+@media (max-width: 750px) {
+  .list-item-img {
+    display: none;
+  }
 }

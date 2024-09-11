@@ -16,6 +16,7 @@ const CtiGraphInformationPage: React.FC = () => {
   const initData = async () => {
     try {
       const res = await getGraphDataByCtiIdUsingPost({
+        // @ts-ignore
         id: id,
       });
       if (res.code === 0) {

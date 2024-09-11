@@ -53,7 +53,7 @@ const CtiDetailPage: React.FC = () => {
       key: 'information',
       label: `概况`,
       // @ts-ignore
-      children: <CtiDetailInformationPage id={id}/>,
+      children: <CtiDetailInformationPage id={id} />,
       icon: <FileProtectOutlined />,
     },
     {
@@ -81,6 +81,7 @@ const CtiDetailPage: React.FC = () => {
       <Col xs={24} sm={24} lg={{ span: 20, offset: 2 }}>
         <PageContainer
           title={
+            // @ts-ignore
             ctiVo.title?.length > 62 ? (
               <Tooltip placement="top" color="blue" title={ctiVo.title} arrow={mergedArrow}>
                 <span style={{ fontSize: '2rem' }}>{ctiVo.title?.substring(0, 62) + '...'}</span>
