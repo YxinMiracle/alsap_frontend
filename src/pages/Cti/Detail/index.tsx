@@ -1,4 +1,5 @@
 import CtiDetailInformationPage from '@/pages/Cti/Detail/components/Information';
+import CtiDetailKnowledgePage from '@/pages/Cti/Detail/components/knowledge';
 import '@/pages/Cti/Detail/style/detailPageStyle.css';
 import { getDetailCtiUsingPost } from '@/services/backend/ctiController';
 import { useParams } from '@@/exports';
@@ -7,6 +8,8 @@ import {
   FileProtectOutlined,
   FileTextOutlined,
   GoldOutlined,
+  RadarChartOutlined,
+  ZoomInOutlined,
 } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-components';
 import '@umijs/max';
@@ -59,7 +62,8 @@ const CtiDetailPage: React.FC = () => {
     {
       key: 'knowledge',
       label: `知识`,
-      children: `知识 ${id}`,
+      // @ts-ignore
+      children: <CtiDetailKnowledgePage id={id} />,
       icon: <GoldOutlined />,
     },
     {
@@ -73,6 +77,18 @@ const CtiDetailPage: React.FC = () => {
       label: `实体`,
       children: `实体 ${id}`,
       icon: <CodeSandboxOutlined />,
+    },
+    {
+      key: 'ttps',
+      label: `情报技战术`,
+      children: `情报技战术 ${id}`,
+      icon: <ZoomInOutlined />,
+    },
+    {
+      key: 'defind',
+      label: `防御库`,
+      children: `防御库 ${id}`,
+      icon: <RadarChartOutlined />,
     },
   ];
 
