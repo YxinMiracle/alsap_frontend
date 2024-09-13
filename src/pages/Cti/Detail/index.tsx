@@ -18,7 +18,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 const CtiDetailPage: React.FC = () => {
   const { id } = useParams();
-
   const [ctiVo, setCtiVo] = useState<API.CtiVo>({});
 
   /**
@@ -50,6 +49,7 @@ const CtiDetailPage: React.FC = () => {
       pointAtCenter: true,
     };
   }, []);
+
 
   const tabItemsList = [
     {

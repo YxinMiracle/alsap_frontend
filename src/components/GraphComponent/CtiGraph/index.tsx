@@ -1,7 +1,9 @@
-import graph from '@/pages/Cti/Graph';
-import { useModel } from '@@/exports';
-import G6, { IG6GraphEvent } from '@antv/g6';
+import '@/components/GraphComponent/style/graphDrawerStyle.css';
+import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import G6 from '@antv/g6';
 import '@umijs/max';
+import { Descriptions, Drawer, List, Tag, Typography } from 'antd';
+import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react';
 
 interface Props {
@@ -10,10 +12,25 @@ interface Props {
 
 const CtiGraph: React.FC<Props> = (props: Props) => {
   const { graphData } = props;
-  //
   const graphRef = useRef(null);
+  // @ts-ignore
   let graphObj = null;
+  // 节点上的字体大小
   const globalFontSize = 12;
+  // 监控是否需要查看节点的详情信息
+  const [open, setOpen] = useState(false);
+  // 点击过后的节点信息
+  const [clickedNodeInformation, setClickedNodeInformation] = useState<API.GraphNodeVo>({});
+  // 定义标签
+  const { Title } = Typography;
+
+  const showDrawer = () => {
+    setOpen(true);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
 
   // 插入信息
   const treeTooltip = () => {
@@ -166,18 +183,18 @@ const CtiGraph: React.FC<Props> = (props: Props) => {
     );
   };
 
+  // @ts-ignore
   const refreshDragedNodePosition = (e) => {
     const model = e.item.get('model');
     model.fx = e.x;
     model.fy = e.y;
     model.x = e.x;
     model.y = e.y;
-  }
+  };
 
   // 3. 开始绘图
   const drawGraph = () => {
     if (graphRef.current && graphData.nodes.length > 0) {
-
       // 1. 注册图形的边
       registerGraphNode();
       // 2. 注册图形的节点
@@ -185,7 +202,9 @@ const CtiGraph: React.FC<Props> = (props: Props) => {
       // 3. 开始绘图
       const container = graphRef.current;
 
+      // @ts-ignore
       let width = container.scrollWidth;
+      // @ts-ignore
       let height = container.scrollHeight;
       const graphObj = new G6.Graph({
         container: container,
@@ -254,6 +273,7 @@ const CtiGraph: React.FC<Props> = (props: Props) => {
       graphObj.on('node:mouseenter', (evt: { item: any }) => {
         const { item } = evt;
         const node = item.get('model');
+        console.log(node);
         graphObj.setItemState(item, 'active', true);
       });
 
@@ -261,18 +281,21 @@ const CtiGraph: React.FC<Props> = (props: Props) => {
       graphObj.on('node:mouseleave', (evt: { item: any }) => {
         const { item } = evt;
         const node = item.get('model');
+        console.log(node);
         graphObj.setItemState(item, 'active', false);
       });
 
       // 边移入事件监听
       graphObj.on('edge:mouseenter', (ev: { item: unknown }) => {
         const edge = ev.item;
+        // @ts-ignore
         graphObj.setItemState(edge, 'active', true);
       });
 
       // 边移出的事件监听
       graphObj.on('edge:mouseleave', (ev: { item: unknown }) => {
         const edge = ev.item;
+        // @ts-ignore
         graphObj.setItemState(edge, 'active', false);
       });
 
@@ -288,6 +311,8 @@ const CtiGraph: React.FC<Props> = (props: Props) => {
       graphObj.on('node:click', (evt: { item: any }) => {
         const { item } = evt;
         const node = item.get('model');
+        setClickedNodeInformation(node);
+        showDrawer();
         // emits("getNode", node);
       });
 
@@ -295,75 +320,186 @@ const CtiGraph: React.FC<Props> = (props: Props) => {
       graphObj.on('edge:click', (evt: { item: any }) => {
         const { item } = evt;
         const node = item.get('model');
+        console.log('>>>>>>>>>>>>>', node);
         // emits("getSide", node);
       });
 
-      graphObj.on('node:dragstart', function (e) {
+      graphObj.on('node:dragstart', function () {
         const forceLayout = graphObj.get('layoutController').layoutMethods[0];
-        forceLayout.stop()
+        forceLayout.stop();
       });
 
       graphObj.on('node:drag', function (e) {
         refreshDragedNodePosition(e);
-        graphObj.layout()
+        graphObj.layout();
       });
 
       if (typeof window !== 'undefined')
         window.onresize = () => {
           if (!graphObj || graphObj.get('destroyed')) return;
+          // @ts-ignore
           if (!container || !container.scrollWidth || !container.scrollHeight) return;
+          // @ts-ignore
           graphObj.changeSize(container.scrollWidth, container.scrollHeight);
         };
-
     }
   };
 
   useEffect(() => {
-    if (graphObj!==null){
+    // @ts-ignore
+    if (graphObj !== null) {
+      // @ts-ignore
       graphObj.destroy();
     }
     drawGraph();
     return () => {
-      if (graphObj!==null) {
+      // @ts-ignore
+      if (graphObj !== null) {
         // @ts-ignore
         graphObj.destroy();
       }
     };
   }, [graphData]);
 
-  // useEffect(() => {
-  //   if (graphObj !==null && graphData.nodes.length !== 0) {
-  //     console.log(">>>>>>>>>>>>>>>>>>>", graphData)
-  //
-  //   }
-  // }, [graphData]);
 
   return (
     <>
       <div style={{ width: '100%', height: '100%' }} className="relative">
-        <div ref={graphRef} id="container" style={{ width: '100%', height: '750px' }}>
-        </div>
+        <Drawer
+          title=""
+          placement="right"
+          closable={false}
+          onClose={onClose}
+          open={open}
+          getContainer={false}
+        >
+          <div>
+            <Descriptions
+              layout="vertical"
+              title="节点信息"
+              items={[
+                {
+                  key: '1',
+                  label: '节点名称',
+                  span: 3,
+                  children: <Title level={5}>{clickedNodeInformation.entityName}</Title>,
+                },
+                {
+                  key: '2',
+                  label: '类型',
+                  span: 3,
+                  children: (
+                    <Tag color={clickedNodeInformation.itemData?.backgroundColor}>
+                      {clickedNodeInformation.itemData?.itemName}
+                    </Tag>
+                  ),
+                },
+                {
+                  key: '3',
+                  label: '节点在平台的创建时间',
+                  span: 3,
+                  children: moment(clickedNodeInformation.createTime).format('YYYY-MM-DD'),
+                },
+                {
+                  key: '4',
+                  label: '节点在平台的最后更新时间',
+                  span: 3,
+                  children: moment(clickedNodeInformation.updateTime).format('YYYY-MM-DD'),
+                },
+                {
+                  key: '5',
+                  label: '相关的额外情报',
+                  span: 3,
+                  children: (
+                    <List
+                      className="graph-drawer"
+                      itemLayout="horizontal"
+                      size="large"
+                      dataSource={clickedNodeInformation.relatedCti}
+                      renderItem={(item, index) => (
+                        <List.Item className="list-item-hover">
+                          <List.Item.Meta
+                            prefixCls="1"
+                            title={
+                              <a href={'/cti/show/detail/' + item.id} target="_blank">
+                                {item.title?.length >= 30
+                                  ? item.title.substring(0, 30) + '...'
+                                  : item.title}
+                              </a>
+                            }
+                            description={
+                              <div>
+                                <Descriptions
+                                  items={[
+                                    {
+                                      key: '1',
+                                      label: '实体总数',
+                                      span: 3,
+                                      children: item.entityNum,
+                                    },
+                                    {
+                                      key: '2',
+                                      label: 'SDO总数',
+                                      span: 3,
+                                      children: item.sdoNum,
+                                    },
+                                    {
+                                      key: '3',
+                                      label: 'SCO总数',
+                                      span: 3,
+                                      children: item.scoNum,
+                                    },
+                                    {
+                                      key: '4',
+                                      label: '是否已构图',
+                                      span: 3,
+                                      children:
+                                        item.hasGraph === 1 ? (
+                                          <Tag icon={<CheckCircleOutlined />} color="success">
+                                            已构图
+                                          </Tag>
+                                        ) : (
+                                          <Tag icon={<CloseCircleOutlined />} color="error">
+                                            未构图
+                                          </Tag>
+                                        ),
+                                    },
+                                  ]}
+                                />
+                              </div>
+                            }
+                          />
+                        </List.Item>
+                      )}
+                    />
+                  ),
+                },
+              ]}
+            />
+          </div>
+        </Drawer>
+        <div ref={graphRef} id="container" style={{ width: '100%', height: '750px' }}></div>
         <div className="graph_view" style={{ position: 'absolute', right: '20px' }}>
           <img
-            src="@/utils/graphicon/boost.svg"
+            src="/graphicon/boost.svg"
             alt=""
             width="30"
             className="boost"
-            // onClick={()=>boost()}
+            // onClick={() => boost()}
           />
           <img
-            src="@/utils/graphicon/zoom.svg"
+            src="/graphicon/zoom.svg"
             alt=""
             width="30"
             className="zoom"
-            // onClick={()=>zoom()}
+            // onClick={() => zoom()}
           />
           <img
-            src="@/utils/graphicon/expand.svg"
+            src="/graphicon/expand.svg"
             alt=""
             width="30"
             className="expand"
-            // onClick={()=>expand()}
+            // onClick={() => expand()}
           />
         </div>
       </div>

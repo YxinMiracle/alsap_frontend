@@ -89,7 +89,6 @@
 
 .list-item-hover:hover {
   background-color: rgba(239, 239, 239, 0.4);
-  cursor: pointer;
 }
 
 :where(.css-dev-only-do-not-override-r7v25l).ant-tooltip .ant-tooltip-content {

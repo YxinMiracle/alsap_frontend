@@ -1,0 +1,22 @@
+:where(.css-dev-only-do-not-override-r7v25l).ant-descriptions .ant-descriptions-item-container .ant-descriptions-item-content {
+  display: block;
+  align-items: baseline;
+  min-width: 0;
+  width: 100%;
+}
+
+.graph_view {
+  height: 130px;
+  width: 50px;
+  border: 1px solid #fff;
+  position: absolute;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.521);
+  background-color: rgb(247, 247, 247);
+  border-radius: 10px;
+  right: 10px;
+  bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
