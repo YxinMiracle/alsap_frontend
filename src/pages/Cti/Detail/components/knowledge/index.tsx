@@ -2,13 +2,12 @@ import CtiGraph from '@/components/GraphComponent/CtiGraph';
 import '@/pages/Cti/Detail/style/detailPageStyle.css';
 import { getGraphDataByCtiIdUsingPost } from '@/services/backend/graphController';
 import GraphUtils from '@/utils/graphUtil';
-import { useParams } from '@@/exports';
 import '@umijs/max';
 import { Card, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 interface Props {
-  id: number
+  id: number;
 }
 
 const CtiDetailKnowledgePage: React.FC<Props> = (props: Props) => {
@@ -43,8 +42,10 @@ const CtiDetailKnowledgePage: React.FC<Props> = (props: Props) => {
   }, []);
 
   return (
-    <div className="detail-page-knowledge">
-      <Card hoverable loading={loading}>{graphMap && <CtiGraph graphData={graphMap} />}</Card>
+    <div className="detail-page-knowledge" >
+        <Card hoverable loading={loading}>
+          {graphMap && <CtiGraph  graphData={graphMap} />}
+        </Card>
     </div>
   );
 };

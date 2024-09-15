@@ -1,9 +1,10 @@
 import _ from 'lodash';
 
 export const GraphUtils = () => {
+  //@ts-ignore
   const listLoop = (graphdata) => {
     let graphMap = { nodes: [], edges: [] };
-
+    //@ts-ignore
     graphdata.forEach((item) => {
       //@ts-ignore
       graphMap.nodes.push({
@@ -38,10 +39,13 @@ export const GraphUtils = () => {
     // 处理边，合并重复项，并分配曲线偏移
     const edgesGroupedBySource = _.groupBy(graphMap.edges, 'source');
     graphMap.edges = [];
-    Object.entries(edgesGroupedBySource).forEach(([source, edges]) => {
+    //@ts-ignore
+    Object.entries(edgesGroupedBySource).forEach(([, edges]) => {
       const targetCounts = {};
       edges.forEach((edge) => {
+        //@ts-ignore
         targetCounts[edge.target] = (targetCounts[edge.target] || 0) + 1;
+        //@ts-ignore
         edge.curveOffset = -30 * targetCounts[edge.target];
         graphMap.edges.push(edge);
       });

@@ -13,6 +13,7 @@ interface Props {
 const CtiGraph: React.FC<Props> = (props: Props) => {
   const { graphData } = props;
   const graphRef = useRef(null);
+  const miniMapRef = useRef(null);
   // @ts-ignore
   let graphObj = null;
   // 节点上的字体大小
@@ -41,21 +42,15 @@ const CtiGraph: React.FC<Props> = (props: Props) => {
         const outDiv = document.createElement('div');
         outDiv.style.minWidth = '180px';
         outDiv.innerHTML = `
-          <h4>NODE 信息</h4>
-          <ul>
-            <li>nodeName: ${e?.item.getModel().nodeName}</li>
-            <li>ioc: ${e?.item.getModel().nodeIoc}</li>
-          </ul>`;
+          <h4 style="font-weight: bold;font-size: 1rem">节点信息</h4>
+          <div>节点名称: ${e?.item.getModel().entityName}</div>
+          <div>节点类型: ${e?.item.getModel().itemData.itemName}</div>
+          <div>节点大类: ${e?.item.getModel().itemData.itemType === 1 ? '域对象SDO' : '可观测对象SCO'}</div>
+          <div>相关情报数: ${e?.item.getModel().relatedCti.length}</div>
+        `;
         return outDiv;
         // return outDiv
       },
-      //显示条件
-      shouldBegin(e: any) {
-        //鼠标移入后显示
-        return e.name.includes('mousemove');
-        // return e.item?.get("model")?.label?.includes("...");
-      },
-      // 类型响应 ["node",'edge','canvas']
       itemTypes: ['node'],
     });
   };
@@ -82,6 +77,27 @@ const CtiGraph: React.FC<Props> = (props: Props) => {
       }
     });
     return res;
+  };
+
+  // 加深节点颜色
+  // @ts-ignore
+  const darkenColor = (color, amount) => {
+    let r = parseInt(color.substring(1, 3), 16);
+    let g = parseInt(color.substring(3, 5), 16);
+    let b = parseInt(color.substring(5, 7), 16);
+
+    // 使用Math.max确保颜色值不会小于0
+    r = Math.max(0, r - amount);
+    g = Math.max(0, g - amount);
+    b = Math.max(0, b - amount);
+
+    // 将修改后的RGB值转回十六进制
+    r = r.toString(16).padStart(2, '0');
+    g = g.toString(16).padStart(2, '0');
+    b = b.toString(16).padStart(2, '0');
+
+    // 返回加深后的颜色
+    return `#${r}${g}${b}`;
   };
 
   /**
@@ -164,12 +180,13 @@ const CtiGraph: React.FC<Props> = (props: Props) => {
           const shape = group?.get('children')[0]; // 顺序根据 draw 时确定
           const entityObj = item?.getModel()?.itemData as API.ItemVo;
           const color = entityObj?.backgroundColor;
+          const darkerColor = darkenColor(color, 30); // 可以调整20这个值来设置加深的程度
           if (value) {
-            shape.attr('stroke', color);
+            shape.attr('stroke', darkerColor);
             shape.attr('fill', color);
             shape.attr('shadowColor', color); //阴影
-            shape.attr('shadowBlur', 10); //阴影范围
-            shape.attr('lineWidth', 8);
+            shape.attr('shadowBlur', 5); //阴影范围
+            shape.attr('lineWidth', 5);
           } else {
             shape.attr('stroke', color);
             shape.attr('fill', color);
@@ -206,6 +223,15 @@ const CtiGraph: React.FC<Props> = (props: Props) => {
       let width = container.scrollWidth;
       // @ts-ignore
       let height = container.scrollHeight;
+      // 创建一个工具栏插件
+      const toolbar = new G6.ToolBar();
+      // 创建一个小地图插件
+      const minimap = new G6.Minimap({
+        container: miniMapRef.current,
+      });
+      // 创建一个绘制网格的插件
+      const grid = new G6.Grid({});
+
       const graphObj = new G6.Graph({
         container: container,
         width: width,
@@ -213,7 +239,7 @@ const CtiGraph: React.FC<Props> = (props: Props) => {
         fitView: true,
         fitViewPadding: [10, 10, 10, 10],
         animate: true,
-        plugins: [treeTooltip()], //添加插入信息
+        plugins: [treeTooltip(), toolbar, minimap, grid], //添加插入信息
         linkCenter: true, // 使边连入节点的中心
         fitCenter: true,
         defaultNode: {
@@ -361,7 +387,6 @@ const CtiGraph: React.FC<Props> = (props: Props) => {
     };
   }, [graphData]);
 
-
   return (
     <>
       <div style={{ width: '100%', height: '100%' }} className="relative">
@@ -478,29 +503,8 @@ const CtiGraph: React.FC<Props> = (props: Props) => {
             />
           </div>
         </Drawer>
-        <div ref={graphRef} id="container" style={{ width: '100%', height: '750px' }}></div>
-        <div className="graph_view" style={{ position: 'absolute', right: '20px' }}>
-          <img
-            src="/graphicon/boost.svg"
-            alt=""
-            width="30"
-            className="boost"
-            // onClick={() => boost()}
-          />
-          <img
-            src="/graphicon/zoom.svg"
-            alt=""
-            width="30"
-            className="zoom"
-            // onClick={() => zoom()}
-          />
-          <img
-            src="/graphicon/expand.svg"
-            alt=""
-            width="30"
-            className="expand"
-            // onClick={() => expand()}
-          />
+        <div ref={graphRef} id="cti-graph-container">
+          <div ref={miniMapRef} id="cti-graph-minimap"></div>
         </div>
       </div>
     </>

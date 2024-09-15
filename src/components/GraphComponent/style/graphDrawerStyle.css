@@ -20,3 +20,63 @@
   align-items: center;
   justify-content: space-around;
 }
+
+#cti-graph-container {
+  width: 100%;
+  height: 750px;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuXzAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHg9IjAiIHk9IjAiIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCI+PHJlY3Qgd2lkdGg9IjEiIGhlaWdodD0iMSIgcng9IjEiIHJ5PSIxIiBmaWxsPSIjYWFhYWFhIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3BhdHRlcm5fMCkiLz48L3N2Zz4=);
+  z-index: 1001
+}
+
+#cti-graph-minimap {
+  position: absolute;
+  width: 230px;
+  height: 130px;
+  top: 16px;
+  right: 16px;
+  border: 2px #d6d5d5 solid;
+  background-color: #efefef
+}
+
+.g6-component-toolbar {
+  position: absolute;
+  list-style-type: none;
+  padding: 16px;
+  left: auto !important;
+  top: auto !important;
+  right: 16px !important;
+  bottom: 16px !important;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e2e2e2;
+  border-radius: 10px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, .521);
+  font-size: 12px;
+  color: #545454;
+  display: flex; /* 添加flex布局 */
+  flex-direction: column; /* 设置主轴为垂直方向 */
+}
+
+.g6-component-toolbar li {
+  text-align: center;
+  width: 100%; /* 设置宽度为100%，使每个列表项占满容器宽度 */
+  height: 24px;
+  cursor: pointer;
+  list-style-type: none;
+  margin: 6px 0; /* 添加上下边距以分隔列表项，可以根据需要调整 */
+}
+
+
+.g6-component-toolbar li:last-child {
+  border-bottom: none; /* 最后一个列表项不添加分割线 */
+}
+
+.g6-minimap {
+  width: 100% !important;
+  height: 100%!important;
+  overflow: hidden;
+}
+
+.g6-minimap canvas {
+  width: 100% !important;
+  height: 100%!important;
+}
