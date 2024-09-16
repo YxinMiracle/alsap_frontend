@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
       links={[
         {
           key: 'backend',
-          title: '后端必胜',
+          title: 'YxinMiracle',
           href: 'https://github.com/YxinMiracle/',
           blankTarget: true,
         },
@@ -23,7 +23,7 @@ const Footer: React.FC = () => {
           key: 'github',
           title: (
             <>
-              <GithubOutlined /> YxinMiracle前端万用模板
+              <GithubOutlined /> GitHub
             </>
           ),
           href: 'https://github.com/YxinMiracle/yxinmiralce-antd-frontend-init',

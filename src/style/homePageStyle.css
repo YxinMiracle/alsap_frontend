@@ -23,6 +23,10 @@
    border-end-start-radius: 0;
 }
 
+.ant-pro-layout .ant-layout-header.ant-pro-layout-header-fixed-header {
+  z-index: 2000!important;
+}
+
 /* 确保布局在500px以下保持不变 */
 @media (max-width: 500px) {
   #root {

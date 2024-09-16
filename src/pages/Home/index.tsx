@@ -18,7 +18,8 @@ import {
   Card,
   Carousel,
   Col,
-  Divider, FloatButton,
+  Divider,
+  FloatButton,
   message,
   Row,
   Statistic,
@@ -283,9 +284,11 @@ const Welcome: React.FC = () => {
 
           <div className="static-cart">
             <div style={{ display: 'flex', marginBottom: 16 }}>
-              <Title style={{ marginLeft: 'auto', marginRight: 'auto' }} level={3}>
+              <div
+                style={{ marginLeft: 'auto', marginRight: 'auto', fontSize: 38, fontWeight: 900 }}
+              >
                 系统信息
-              </Title>
+              </div>
             </div>
 
             {/*信息卡*/}
@@ -367,10 +370,21 @@ const Welcome: React.FC = () => {
 
             {/*实体信息*/}
             <div>
-              <div style={{ display: 'flex', marginBottom: 16 }}>
-                <Title style={{ marginLeft: 'auto', marginRight: 'auto' }} level={3}>
+              <div style={{ display: 'flex', marginBottom: 16, flexDirection: 'column' }}>
+                <div
+                  style={{
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    fontSize: 38,
+                    fontWeight: 900,
+                    marginBottom: 19,
+                  }}
+                >
                   实体信息
-                </Title>
+                </div>
+                <div style={{ marginLeft: 'auto', marginRight: 'auto', marginBottom: 16 }}>
+                  系统自动抽取非结构化威胁情报中的实体，并根据STIX 2.1标准使用自然语言处理技术分析实体分布的结果
+                </div>
               </div>
               <Row gutter={16}>
                 {/*xs={24} sm={16} lg={{ span: 16 }}*/}
@@ -405,7 +419,6 @@ const Welcome: React.FC = () => {
                     </div>
                   </Card>
                 </Col>
-
               </Row>
             </div>
           </div>

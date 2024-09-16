@@ -1,0 +1,107 @@
+
+.detail-page :where(.css-dev-only-do-not-override-r7v25l).ant-tabs .ant-tabs-tab {
+  font-weight: 500;
+  font-size: 0.975rem;
+  font-family: "IBM Plex Sans", sans-serif;
+  padding: 12px 25px;
+}
+
+.detail-page :where(.css-dev-only-do-not-override-fw79vu).ant-tabs .ant-tabs-tab {
+  font-weight: 500 !important;
+  padding: 12px 25px !important;
+  font-size: 0.975rem !important;
+}
+
+.detail-page :where(.css-dev-only-do-not-override-fw79vu).ant-tabs > .ant-tabs-nav, :where(.css-dev-only-do-not-override-fw79vu).ant-tabs > div > .ant-tabs-nav {
+  position: relative;
+  display: flex;
+  flex: none;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.cti-short-title {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  border-radius: 8px;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -o-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  padding: 0 5px;
+}
+
+.cti-short-title .ai-title-text {
+  font-weight: 700;
+  font-size: 24px;
+  margin-left: 8px;
+}
+
+#ai-tag {
+  background-color: #202040;
+  color: rgba(255, 255, 255, .9);
+  font-size: 24px;
+  border-radius: 8px;
+  line-height: 1;
+  padding: 4px 5px;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.cti-detail-page-normal-margin-top {
+  margin-top: 16px;
+}
+
+.cursor-ani {
+  position: relative;
+}
+
+.cursor-ani::after {
+  content: '';
+  position: absolute;
+  width: 1px;
+  height: 28px;
+  background: #333;
+  transform: translateX(3px) translateY(3px);
+  animation: cursor-blinks 0.8s infinite forwards;
+}
+
+.msg-text {
+  margin-top: 16px;
+  font-size: 20px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+@keyframes cursor-blinks {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.list-item-hover:hover {
+  background-color: rgba(239, 239, 239, 0.4);
+}
+
+:where(.css-dev-only-do-not-override-r7v25l).ant-tooltip .ant-tooltip-content {
+  min-width: 32em !important;
+}
+
+.list-item-img {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+@media (max-width: 750px) {
+  .list-item-img {
+    display: none;
+  }
+}

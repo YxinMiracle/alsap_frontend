@@ -47,8 +47,11 @@ const CtiInformationPage: React.FC = () => {
 
   const doAnnotation = (row: API.CtiVo) => {
     history.push(`/cti/show/anno/${row.id}`);
-
   };
+
+  const toDetailPage = (row: API.CtiVo) => {
+    history.push(`/cti/show/detail/${row.id}`)
+  }
 
   /**
    * 表格列配置
@@ -137,6 +140,9 @@ const CtiInformationPage: React.FC = () => {
       valueType: 'option',
       render: (_, record) => (
         <Space size="middle">
+          <Typography.Link type="success" onClick={() => toDetailPage(record)}>
+            情报详情
+          </Typography.Link>
           <Typography.Link onClick={() => doAnnotation(record)}>
             实体标注{isAdmin ? '修改' : '查看'}
           </Typography.Link>

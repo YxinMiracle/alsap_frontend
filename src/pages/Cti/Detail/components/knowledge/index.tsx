@@ -1,19 +1,27 @@
 import CtiGraph from '@/components/GraphComponent/CtiGraph';
+import '@/pages/Cti/Detail/style/detailPageStyle.css';
 import { getGraphDataByCtiIdUsingPost } from '@/services/backend/graphController';
 import GraphUtils from '@/utils/graphUtil';
-import { useParams } from '@@/exports';
-import { PageContainer } from '@ant-design/pro-components';
 import '@umijs/max';
-import {Card, Col, message, Row} from 'antd';
+import { Card, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-const CtiGraphInformationPage: React.FC = () => {
-  const { id } = useParams();
+interface Props {
+  id: number;
+}
 
+const CtiDetailKnowledgePage: React.FC<Props> = (props: Props) => {
+  const { id } = props;
+
+  const [loading, setLoading] = useState<boolean>(false);
+  // 处理三元组数据
   const { listLoop } = GraphUtils();
+  // 处理页面loading逻辑
+
   const [graphMap, setGraphMap] = useState({ nodes: [], edges: [] });
 
   const initData = async () => {
+    setLoading(true);
     try {
       const res = await getGraphDataByCtiIdUsingPost({
         // @ts-ignore
@@ -26,6 +34,7 @@ const CtiGraphInformationPage: React.FC = () => {
     } catch (e: any) {
       message.error('获取图谱数据失败');
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -33,15 +42,11 @@ const CtiGraphInformationPage: React.FC = () => {
   }, []);
 
   return (
-    <Row>
-      <Col xs={24} sm={24} lg={{ span: 20, offset: 2 }}>
-        <PageContainer>
-          <Card>
-            {graphMap && <CtiGraph graphData={graphMap} />}
-          </Card>
-        </PageContainer>
-      </Col>
-    </Row>
+    <div className="detail-page-knowledge" >
+        <Card hoverable loading={loading}>
+          {graphMap && <CtiGraph  graphData={graphMap} />}
+        </Card>
+    </div>
   );
 };
-export default CtiGraphInformationPage;
+export default CtiDetailKnowledgePage;
