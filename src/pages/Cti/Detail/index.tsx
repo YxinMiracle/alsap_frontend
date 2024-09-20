@@ -15,6 +15,7 @@ import { PageContainer } from '@ant-design/pro-components';
 import '@umijs/max';
 import { Col, message, Row, Tabs, Tooltip, TooltipProps } from 'antd';
 import React, { useEffect, useMemo, useState } from 'react';
+import CtiDetailTtpPage from "@/pages/Cti/Detail/components/ttps";
 
 const CtiDetailPage: React.FC = () => {
   const { id } = useParams();
@@ -81,7 +82,8 @@ const CtiDetailPage: React.FC = () => {
     {
       key: 'ttps',
       label: `情报技战术`,
-      children: `情报技战术 ${id}`,
+      // @ts-ignore
+      children: <CtiDetailTtpPage id={id}/>,
       icon: <ZoomInOutlined />,
     },
     {

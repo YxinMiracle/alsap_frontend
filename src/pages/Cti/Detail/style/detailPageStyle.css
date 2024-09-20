@@ -105,3 +105,8 @@
     display: none;
   }
 }
+
+iframe {
+  border: none;
+
+}
