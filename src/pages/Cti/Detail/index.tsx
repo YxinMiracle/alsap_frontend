@@ -37,7 +37,7 @@ const CtiDetailPage: React.FC = () => {
         setCtiVo(res.data);
       }
     } catch (error: any) {
-      message.error('加载CTI数据失败' + error.message);
+      // message.error('加载CTI数据失败' + error.message);
     }
   };
 

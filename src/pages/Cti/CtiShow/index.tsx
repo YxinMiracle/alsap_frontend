@@ -50,8 +50,8 @@ const CtiInformationPage: React.FC = () => {
   };
 
   const toDetailPage = (row: API.CtiVo) => {
-    history.push(`/cti/show/detail/${row.id}`)
-  }
+    history.push(`/cti/show/detail/${row.id}`);
+  };
 
   /**
    * 表格列配置
@@ -70,6 +70,23 @@ const CtiInformationPage: React.FC = () => {
       dataIndex: 'title',
       valueType: 'text',
       ellipsis: true,
+      formItemProps: {
+        rules: [
+          { required: true, message: '情报名称不能为空' },
+        ],
+      },
+    },
+    {
+      title: '情报内容',
+      dataIndex: 'content',
+      valueType: 'textarea',
+      hideInTable: true,
+      hideInSearch: true,
+      formItemProps: {
+        rules: [
+          { required: true, message: '情报内容不能为空' },
+        ],
+      },
     },
     {
       title: '实体总数',

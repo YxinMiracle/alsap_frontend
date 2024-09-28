@@ -3,7 +3,7 @@ import '@/pages/Cti/Detail/style/detailPageStyle.css';
 import { getGraphDataByCtiIdUsingPost } from '@/services/backend/graphController';
 import GraphUtils from '@/utils/graphUtil';
 import '@umijs/max';
-import { Card, message } from 'antd';
+import { Card, Empty, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 interface Props {
@@ -20,6 +20,8 @@ const CtiDetailKnowledgePage: React.FC<Props> = (props: Props) => {
 
   const [graphMap, setGraphMap] = useState({ nodes: [], edges: [] });
 
+  const [hasGraph, setHasGraph] = useState<boolean>(false);
+
   const initData = async () => {
     setLoading(true);
     try {
@@ -28,7 +30,7 @@ const CtiDetailKnowledgePage: React.FC<Props> = (props: Props) => {
         id: id,
       });
       if (res.code === 0) {
-        message.success('图谱数据获取成功');
+        setHasGraph(res.data!.length !== 0);
         setGraphMap(listLoop(res.data));
       }
     } catch (e: any) {
@@ -42,10 +44,10 @@ const CtiDetailKnowledgePage: React.FC<Props> = (props: Props) => {
   }, []);
 
   return (
-    <div className="detail-page-knowledge" >
-        <Card hoverable loading={loading}>
-          {graphMap && <CtiGraph  graphData={graphMap} />}
-        </Card>
+    <div className="detail-page-knowledge">
+      <Card hoverable loading={loading}>
+        {!hasGraph ? <Empty /> : graphMap && <CtiGraph graphData={graphMap} />}
+      </Card>
     </div>
   );
 };

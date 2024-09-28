@@ -130,6 +130,12 @@ export const requestConfig: RequestConfig = {
 
       // 响应
       const { data } = response as unknown as ResponseStructure;
+
+      // 文件下载的时候就直接返回
+      if (data instanceof Blob) {
+        return response;
+      }
+
       if (!data) {
         throw new Error('服务异常');
       }

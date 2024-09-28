@@ -2,7 +2,7 @@ import '@/pages/Cti/Detail/style/detailPageStyle.css';
 import { getDetailCtiUsingPost } from '@/services/backend/ctiController';
 import { getAllItemMapDataUsingGet } from '@/services/backend/itemController';
 import { useModel } from '@@/exports';
-import {FileTextOutlined, UserOutlined} from '@ant-design/icons';
+import { FileTextOutlined, UserOutlined } from '@ant-design/icons';
 import '@umijs/max';
 import {
   Avatar,
@@ -10,11 +10,11 @@ import {
   Col,
   Descriptions,
   DescriptionsProps,
+  Empty,
   Image,
   List,
   message,
   Row,
-  Space,
   Tag,
   Typography,
 } from 'antd';
@@ -52,6 +52,7 @@ const CtiDetailInformationPage: React.FC<Props> = (props: Props) => {
   const { initialState } = useModel('@@initialState');
   const echartsRef = useRef(null);
   const { Title } = Typography;
+  const [hasData, setHasData] = useState<boolean>(false);
   /**
    * 初始化界面获取数据
    */
@@ -70,9 +71,11 @@ const CtiDetailInformationPage: React.FC<Props> = (props: Props) => {
         setCreateCtiUser(res.data.user);
         // @ts-ignore
         setCtiDetailVo(res.data);
+        setHasData(true);
       }
     } catch (error: any) {
-      message.error('加载CTI数据失败' + error.message);
+      message.error(error.message);
+      setHasData(false);
     }
   };
 
@@ -313,7 +316,7 @@ const CtiDetailInformationPage: React.FC<Props> = (props: Props) => {
       span: 1,
       label: '创建者标签',
       children: (
-        <Tag icon={<UserOutlined />}  color="#55acee">
+        <Tag icon={<UserOutlined />} color="#55acee">
           {createCtiUser.userProfile}
         </Tag>
       ),
@@ -394,13 +397,18 @@ const CtiDetailInformationPage: React.FC<Props> = (props: Props) => {
     );
   }, []);
 
-  return (
+  return !hasData ? (
+    <Card hoverable>
+      <Empty />
+    </Card>
+  ) : (
     <div className="detail-page-inforamtion">
       <div className="cti-short-information cti-detail-page-normal-margin-top">
         <Card>
           <div className="cti-short-title">
             <div className="ai-title-text">CTI-AI-摘要</div>
             <div id="ai-tag">YxinMiracle GPT</div>
+            {ctiDetailVo.entityNum}
           </div>
           <div className="msg-text cursor-ani">{dialogueAnswer}</div>
         </Card>

@@ -108,5 +108,16 @@
 
 iframe {
   border: none;
+}
 
+.detail-page-ttp {
+  position: relative;
+}
+
+.detail-page-ttp .ttp-config-download {
+  position: absolute;
+  right: 15px;
+  top: 0;
+  height: 100px;
+  width: 240px;
 }
