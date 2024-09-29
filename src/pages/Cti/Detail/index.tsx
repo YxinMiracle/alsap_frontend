@@ -1,3 +1,4 @@
+import CtiDetailDefencePage from '@/pages/Cti/Detail/components/Defense';
 import CtiDetailInformationPage from '@/pages/Cti/Detail/components/Information';
 import CtiDetailKnowledgePage from '@/pages/Cti/Detail/components/knowledge';
 import '@/pages/Cti/Detail/style/detailPageStyle.css';
@@ -51,7 +52,6 @@ const CtiDetailPage: React.FC = () => {
     };
   }, []);
 
-
   const tabItemsList = [
     {
       key: 'information',
@@ -83,13 +83,14 @@ const CtiDetailPage: React.FC = () => {
       key: 'ttps',
       label: `情报技战术`,
       // @ts-ignore
-      children: <CtiDetailTtpPage id={id}/>,
+      children: <CtiDetailTtpPage id={id} />,
       icon: <ZoomInOutlined />,
     },
     {
-      key: 'defind',
+      key: 'defense',
       label: `防御库`,
-      children: `防御库 ${id}`,
+      // @ts-ignore
+      children: <CtiDetailDefencePage id={id} />,
       icon: <RadarChartOutlined />,
     },
   ];

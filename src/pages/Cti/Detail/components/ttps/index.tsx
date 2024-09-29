@@ -27,10 +27,10 @@ const CtiDetailTtpPage: React.FC<Props> = (props: Props) => {
       if (res.code === 0) {
         setTtpConfigUrlPath(res.data);
       } else {
-        message.error('请求情报TTP数据出错');
+        // message.error('请求情报TTP数据出错');
       }
     } catch (e: any) {
-      message.error('请求情报TTP数据出错: ', e.message);
+      // message.error('请求情报TTP数据出错: ', e.message);
     }
   };
 
@@ -48,7 +48,7 @@ const CtiDetailTtpPage: React.FC<Props> = (props: Props) => {
     <div className="detail-page-ttp">
       {loading ?? <Card loading={true} hoverable></Card>}
       <iframe
-        src={`https://mitre-attack.github.io/attack-navigator/#layerURL=${COS_HOST + ttpConfigUrlPath}`}
+        src="https://mitre-attack.github.io/attack-navigator/#layerURL=https://raw.githubusercontent.com/mitre-attack/attack-navigator/master/layers/samples/Bear_APT.json"
         width="100%"
         height="1700px"
         onLoad={handleLoad}

@@ -393,7 +393,7 @@ const CtiDetailInformationPage: React.FC<Props> = (props: Props) => {
     loadCtiData();
     loadItemData();
     setAnswer(
-      '这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。',
+      'APT33, identified as a suspected Iranian cyber espionage group, has been active since at least 2013, targeting organizations in the aerospace and energy sectors across the United States, Saudi Arabia, and South Korea. This group, which operates at the behest of the Iranian government, has shown particular interest in aviation-related industries, both military and commercial, as well as petrochemical production. APT33 uses a variety of tactics including spear phishing with malicious .hta files and domain masquerading to infiltrate target organizations. Their activities suggest a focus on gathering strategic intelligence to enhance Iran\'s military and petrochemical capabilities, possibly to aid Iran’s decision-making against regional rivals. Furthermore, APT33 has potential ties to destructive malware, evidenced by links to DROPSHOT and SHAPESHIFT wiper malware, indicating their capability for not just espionage but potentially disruptive cyber attacks as well. Their operations align with Iranian working hours and leverage tools and infrastructure indicative of a state-sponsored actor.',
     );
   }, []);
 
