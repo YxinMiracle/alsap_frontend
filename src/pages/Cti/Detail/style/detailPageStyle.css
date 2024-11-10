@@ -121,3 +121,22 @@ iframe {
   height: 100px;
   width: 240px;
 }
+
+.rule-card {
+  margin-bottom: 16px;
+}
+
+.ant-pro-page-container-children-container {
+  padding-right: 25px;
+  padding-left: 25px;
+}
+
+
+:where(.css-dev-only-do-not-override-no4izc).ant-spin-nested-loading > div > .ant-spin .ant-spin-text {
+  top: 53%;
+}
+
+.ant-pro-page-container .ant-pro-page-container-warp-page-header {
+  padding-right: 25px;
+  padding-left: 25px;
+}

@@ -285,7 +285,7 @@ const CtiAnnotationPage: React.FC = () => {
         }));
       }
     } catch (e: any) {
-      message.error('获取数据失败');
+      message.info('暂无模型标注数据');
     }
   };
 

@@ -44,7 +44,7 @@
     "@antv/l7-maps": "^2.20.13",
     "@antv/l7-react": "^2.4.3",
     "@umijs/route-utils": "^2.2.2",
-    "antd": "^5.12.7",
+    "antd": "^5.21.5",
     "antd-style": "^3.6.1",
     "classnames": "^2.5.1",
     "crypto-js": "^4.2.0",
@@ -62,7 +62,8 @@
     "react-dom": "^18.2.0",
     "react-fittext": "^1.0.0",
     "react-json-view": "^1.21.3",
-    "react-markdown": "^9.0.1"
+    "react-markdown": "^9.0.1",
+    "react-router-dom": "^6.28.0"
   },
   "devDependencies": {
     "@ant-design/pro-cli": "^2.1.5",

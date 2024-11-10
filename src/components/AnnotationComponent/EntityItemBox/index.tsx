@@ -102,14 +102,17 @@ const EntityItemBox: React.FC<Props> = (props) => {
     }
 
     for (const entity of currentEntityList) {
-      if (entity.startOffset <= start && start < entity.endOffset) {
-        return false;
-      }
-      if (entity.startOffset < end && end <= entity.endOffset) {
-        return false;
-      }
-      if (start < entity.startOffset && entity.endOffset < end) {
-        return false;
+      // 添加不为空的条件
+      if (entity.startOffset !== undefined && entity.endOffset !== undefined) {
+        if (entity.startOffset <= start && start < entity.endOffset) {
+          return false;
+        }
+        if (entity.startOffset < end && end <= entity.endOffset) {
+          return false;
+        }
+        if (start < entity.startOffset && entity.endOffset < end) {
+          return false;
+        }
       }
     }
 

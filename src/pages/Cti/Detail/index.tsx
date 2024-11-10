@@ -1,6 +1,7 @@
 import CtiDetailDefencePage from '@/pages/Cti/Detail/components/Defense';
 import CtiDetailInformationPage from '@/pages/Cti/Detail/components/Information';
 import CtiDetailKnowledgePage from '@/pages/Cti/Detail/components/knowledge';
+import CtiDetailTtpPage from '@/pages/Cti/Detail/components/ttps';
 import '@/pages/Cti/Detail/style/detailPageStyle.css';
 import { getDetailCtiUsingPost } from '@/services/backend/ctiController';
 import { useParams } from '@@/exports';
@@ -14,13 +15,23 @@ import {
 } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-components';
 import '@umijs/max';
-import { Col, message, Row, Tabs, Tooltip, TooltipProps } from 'antd';
+import { Col, FloatButton, message, Row, Tabs, Tooltip, TooltipProps } from 'antd';
 import React, { useEffect, useMemo, useState } from 'react';
-import CtiDetailTtpPage from "@/pages/Cti/Detail/components/ttps";
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const CtiDetailPage: React.FC = () => {
   const { id } = useParams();
   const [ctiVo, setCtiVo] = useState<API.CtiVo>({});
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // 获取当前 URL 中的 tab 参数
+  const currentTab = new URLSearchParams(location.search).get('tab') || 'information';
+
+  // 处理 tab 切换，更新 URL 参数
+  const onTabChange = (key:string) => {
+    navigate(`${location.pathname}?tab=${key}`);
+  };
 
   /**
    * 初始化界面获取数据
@@ -112,9 +123,14 @@ const CtiDetailPage: React.FC = () => {
         >
           <div className="detail-page">
             <div className="detail-page-top-tabs">
-              <Tabs defaultActiveKey="information" items={tabItemsList} />
+              <Tabs
+                activeKey={currentTab}
+                onChange={onTabChange}
+                items={tabItemsList}
+              />
             </div>
           </div>
+          <FloatButton.BackTop />
         </PageContainer>
       </Col>
     </Row>

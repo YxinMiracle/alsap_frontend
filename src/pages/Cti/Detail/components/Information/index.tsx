@@ -408,7 +408,6 @@ const CtiDetailInformationPage: React.FC<Props> = (props: Props) => {
           <div className="cti-short-title">
             <div className="ai-title-text">CTI-AI-摘要</div>
             <div id="ai-tag">YxinMiracle GPT</div>
-            {ctiDetailVo.entityNum}
           </div>
           <div className="msg-text cursor-ani">{dialogueAnswer}</div>
         </Card>

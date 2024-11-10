@@ -1,9 +1,35 @@
+import {
+  RULE_FILE_RESULT_ENUM,
+  RULE_LLM_RESULT_ENUM,
+  RULE_TYPE_ENUM,
+} from '@/constants/ruleType/RuleEnum';
 import '@/pages/Cti/Detail/style/detailPageStyle.css';
+import {
+  createRuleUsingPost,
+  downloadRuleByIdUsingGet,
+  getRuleByCtiIdUsingPost,
+  removeRuleByRuleIdUsingPost,
+} from '@/services/backend/ruleController';
+// @ts-ignore
+import { saveAs } from 'file-saver';
+import moment from 'moment';
+
+import { COS_HOST } from '@/constants';
+import ACCESS_ENUM from '@/constants/access/accessEnum';
+import { useModel } from '@@/exports';
+import {
+  DeleteFilled,
+  DownloadOutlined,
+  ExclamationCircleFilled,
+  EyeOutlined,
+  ReloadOutlined,
+} from '@ant-design/icons';
 import '@umijs/max';
-import {Card, Col, Modal, Row, Typography} from 'antd';
-import React, {useState} from 'react';
-import {EditOutlined, EllipsisOutlined, SettingOutlined} from "@ant-design/icons";
-import ReactJson from 'react-json-view'
+import { Button, Card, Col, Empty, message, Modal, Row, Spin, Tag, Typography } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
+import ReactJson from 'react-json-view';
+
+const { confirm } = Modal;
 
 const { Title } = Typography;
 
@@ -16,9 +42,118 @@ const CtiDetailDefencePage: React.FC<Props> = (props: Props) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
+  const [yaraRules, setYaraRules] = useState([]);
+  const [snortRules, setSnortRules] = useState([]);
+  const [yaraShowRule, setYaraShowRule] = useState({});
+  const intervalYaraRuleIdRef = useRef(null);
+  const intervalSnortRuleIdRef = useRef(null);
 
+  // 用户相关
+  const { initialState } = useModel('@@initialState');
+  // @ts-ignore
+  const currentUser = initialState.currentUser || {};
+  const [isAdmin] = useState<boolean>(currentUser.userRole === ACCESS_ENUM.ADMIN);
 
-  const showModal = () => {
+  // 加载规则
+  const initRules = async (ruleType: string) => {
+    try {
+      const res = await getRuleByCtiIdUsingPost({
+        ctiId: id,
+        ruleName: ruleType,
+      });
+      if (res.code === 0 && res.data) {
+        if (res.data.length === 0) {
+          return true; // 停止轮询
+        }
+        if (ruleType === RULE_TYPE_ENUM.YARA_RULE) {
+          // @ts-ignore
+          setYaraRules(res.data);
+        }
+        if (ruleType === RULE_TYPE_ENUM.SNORT_RULE) {
+          // @ts-ignore
+          setSnortRules(res.data);
+        }
+        // 检查是否需要继续轮询
+        return res.data.every((rule) => rule.llmStatus === 3 && rule.ruleFileStatus === 2);
+      }
+    } catch (e: any) {
+      message.error(e.message ?? '获取规则出错');
+    }
+    return false; // 默认返回false以继续轮询
+  };
+
+  // 加载yara规则(定时)
+  const fetchYaraRules = async () => {
+    const shouldStop = await initRules(RULE_TYPE_ENUM.YARA_RULE);
+    if (shouldStop) {
+      // @ts-ignore
+      clearInterval(intervalYaraRuleIdRef.current);
+      intervalYaraRuleIdRef.current = null;
+    } else {
+      if (!intervalYaraRuleIdRef.current) {
+        // @ts-ignore
+        clearInterval(intervalYaraRuleIdRef.current); // 确保清理
+        // @ts-ignore
+        intervalYaraRuleIdRef.current = setInterval(fetchYaraRules, 5000);
+      }
+    }
+  };
+
+  // 加载snort规则(定时)
+  const fetchSnortRules = async () => {
+    const shouldStop = await initRules(RULE_TYPE_ENUM.SNORT_RULE);
+    if (shouldStop) {
+      // @ts-ignore
+      clearInterval(intervalSnortRuleIdRef.current);
+      intervalSnortRuleIdRef.current = null;
+    } else {
+      if (!intervalSnortRuleIdRef.current) {
+        // @ts-ignore
+        clearInterval(intervalSnortRuleIdRef.current); // 确保清理
+        // @ts-ignore
+        intervalSnortRuleIdRef.current = setInterval(fetchSnortRules, 5000);
+      }
+    }
+  };
+
+  // 初始化规则
+  useEffect(() => {
+    fetchYaraRules(); // 立即执行一次
+    fetchSnortRules(); // 立即执行一次
+    return () => {
+      if (intervalYaraRuleIdRef.current) {
+        clearInterval(intervalYaraRuleIdRef.current); // 清除定时器
+      }
+      if (intervalSnortRuleIdRef.current) {
+        clearInterval(intervalSnortRuleIdRef.current); // 清除定时器
+      }
+    };
+  }, []);
+
+  // 删除规则确认框
+  const deleteConfirm = (ruleName: string, ruleId: number, ruleType: string) => {
+    confirm({
+      title: '删除提醒',
+      icon: <ExclamationCircleFilled />,
+      content: `你确定你要删除 ${ruleName} 规则吗？`,
+      async onOk() {
+        // 开始删除规则
+        const res = await removeRuleByRuleIdUsingPost({
+          ruleId: ruleId,
+        });
+        if (res.code === 0) {
+          initRules(ruleType);
+          message.success('删除成功');
+        }
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
+
+  const showModal = (llmResult: string) => {
+    setYaraShowRule(JSON.parse(llmResult) ?? '{}');
     setIsModalOpen(true);
   };
 
@@ -30,157 +165,239 @@ const CtiDetailDefencePage: React.FC<Props> = (props: Props) => {
     setIsModalOpen(false);
   };
 
-  const showModal2 = () => {
-    setIsModalOpen2(true);
+  // 根据id下载规则
+  const downloadRuleFile = async (ruleId: number, filePath: string) => {
+    const blob = await downloadRuleByIdUsingGet(
+      // @ts-ignore
+      { id: ruleId },
+      {
+        responseType: 'blob',
+      },
+    );
+    const fullPath = COS_HOST + filePath;
+    saveAs(blob, fullPath.substring(fullPath.lastIndexOf('/') + 1));
   };
 
-  const handleOk2 = () => {
-    setIsModalOpen2(false);
-  };
+  const getActions = (
+    ruleId: number,
+    llmResult: string,
+    filePath: string,
+    ruleName: string,
+    ruleType: string,
+  ) => {
+    // 基础操作数组
+    const actions = [
+      <div key="view" onClick={() => showModal(llmResult)}>
+        <EyeOutlined /> 查看规则
+      </div>,
+      <div key="download" onClick={() => downloadRuleFile(ruleId, filePath)}>
+        <DownloadOutlined /> 下载规则
+      </div>,
+    ];
 
-  const handleCancel2 = () => {
-    setIsModalOpen2(false);
-  };
-
-  const actions: React.ReactNode[] = [
-    <EditOutlined key="edit" onClick={showModal} />,
-    <SettingOutlined key="setting" />,
-    <EllipsisOutlined key="ellipsis" />,
-  ];
-
-  const actions2: React.ReactNode[] = [
-    <EditOutlined key="edit" onClick={showModal2} />,
-    <SettingOutlined key="setting" />,
-    <EllipsisOutlined key="ellipsis" />,
-  ];
-
-  const yaraRules1 = [
-    {
-      "rule_name": "APT33_DROPSHOT_Detector",
-      "meta": {
-        "description": "Detects the DROPSHOT dropper used by APT33 to deploy backdoors and wiper malware.",
-        "author": "YxinMiracle",
-        "reference": "APT33 Cyber Espionage Activities",
-        "date": "2024-09-29"
-      },
-      "strings": {
-        "path": "C:\\Windows\\System32\\",
-        "filename": "dropper.exe",
-        "hash": "E3B0C44298FC1C149AFBF4C8996FB924"
-      },
-      "condition": "filepath contains path and filename == filename and filehash == hash"
-    },
-    {
-      "rule_name": "APT33_TURNEDUP_Backdoor",
-      "meta": {
-        "description": "Detects the TURNEDUP backdoor used by APT33 for espionage activities.",
-        "author": "YxinMiracle",
-        "reference": "APT33 Cyber Espionage Activities",
-        "date": "2024-09-29"
-      },
-      "strings": {
-        "path": "C:\\Program Files\\Common Files\\",
-        "filename": "update.exe",
-        "hash": "FAFDB9C9213C9ED180F74BD87D702DAA"
-      },
-      "condition": "filepath contains path and filename == filename and filehash == hash"
+    // 如果是管理员，添加删除操作
+    if (isAdmin) {
+      actions.push(
+        <div key="delete" onClick={() => deleteConfirm(ruleName, ruleId, ruleType)}>
+          <DeleteFilled /> 删除规则
+        </div>,
+      );
     }
-  ];
 
-  const yaraRules2 = [
-    {
-      "rule_type": "alert",
-      "protocol": "ip",
-      "src_ip": "any",
-      "src_port": "any",
-      "direction": "->",
-      "dest_ip": "[12.34.56.78, 98.76.54.32]",
-      "dest_port": "any",
-      "options": {
-        "message": "Detected outbound traffic to APT33 known malicious IP",
-        "sid": "1000001",
-        "revision": "1"
+    return actions;
+  };
+
+  // 创建规则执行的逻辑
+  const doCreateRule = async (ruleType: string) => {
+    try {
+      const res = await createRuleUsingPost({
+        processRuleName: ruleType,
+        ctiId: id,
+      });
+      if (res.code === 0) {
+        message.success('创建规则成功');
+        if (ruleType === RULE_TYPE_ENUM.YARA_RULE) {
+          // 在创建规则后重新触发数据获取，同时保证不重复创建定时器
+          // @ts-ignore
+          clearInterval(intervalYaraRuleIdRef.current); // 清除现有定时器
+          intervalYaraRuleIdRef.current = null; // 更新 ref
+          fetchYaraRules(); // 立即获取一次数据
+        }
+        if (ruleType === RULE_TYPE_ENUM.SNORT_RULE){
+          // @ts-ignore
+          clearInterval(intervalSnortRuleIdRef.current); // 清除现有定时器
+          intervalSnortRuleIdRef.current = null; // 更新 ref
+          fetchSnortRules(); // 立即获取一次数据
+        }
       }
-    },
-    {
-      "rule_type": "alert",
-      "protocol": "ip",
-      "src_ip": "[12.34.56.78, 98.76.54.32]",
-      "src_port": "any",
-      "direction": "->",
-      "dest_ip": "any",
-      "dest_port": "any",
-      "options": {
-        "message": "Detected inbound traffic from APT33 known malicious IP",
-        "sid": "1000002",
-        "revision": "1"
-      }
+    } catch (e: any) {
+      message.error(e.message ?? '创建Yara规则出错');
     }
-  ]
+  };
 
+  const truncate = (text: string, maxLength: number) => {
+    // 确保传入的text是字符串并且maxLength是有效值
+    if (text && maxLength > 0) {
+      // 如果文本长度超过最大长度，则截断并添加省略号
+      return text.length > maxLength ? text.substring(0, maxLength) + '..' : text;
+    }
+    return text;
+  };
 
-
+  // @ts-ignore
   return (
     <div className="detail-page-defence">
-      <div style={{marginBottom: 16}}>
-        <Title level={4}>本地入侵检测系统Yara规则</Title>
-        <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} style={{width: 400}}>
+      <div style={{ marginBottom: 16 }}>
+        <div style={{ display: 'flex' }}>
+          <Title level={4}>本地入侵检测系统Yara规则</Title>
+          {isAdmin && (
+            <Button
+              color="primary"
+              variant="dashed"
+              icon={<ReloadOutlined />}
+              style={{ marginLeft: 16 }}
+              autoInsertSpace
+              onClick={() => {
+                doCreateRule(RULE_TYPE_ENUM.YARA_RULE);
+              }}
+            >
+              刷新Yara规则
+            </Button>
+          )}
+        </div>
+        {/*弹出框*/}
+
+        <Modal
+          title="Basic Modal"
+          open={isModalOpen}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          width={1000}
+        >
           <div>
-            <ReactJson src={yaraRules1} />
+            <ReactJson src={yaraShowRule} />
           </div>
         </Modal>
-        <div style={{marginTop: 16}}>
-          <Row gutter={16}>
-            <Col xs={24} sm={24} lg={{ span: 6 }}>
-              <Card actions={actions} style={{ minWidth: 300 }}>
-                <Card.Meta
-                  title="APT33 Cyber Espionage Activities"
-                  description={
-                    <>
-                      <p>Detects the DROPSHOT dropper used by APT33 to deploy backdoors and wiper malware.</p>
-                    </>
-                  }
-                />
-              </Card>
-            </Col>
-            <Col xs={24} sm={24} lg={{ span: 6 }}>
-              <Card actions={actions} style={{ minWidth: 300 }}>
-                <Card.Meta
-                  title="APT33_TURNEDUP_Backdoor"
-                  description={
-                    <>
-                      <p>Detects the TURNEDUP backdoor used by APT33 for espionage activities.</p>
-                    </>
-                  }
-                />
-              </Card>
-            </Col>
-          </Row>
-        </div>
+        {/*本地入侵检测系统Yara规则存放的位置*/}
+        {yaraRules.length === 0 ? (
+          <Card>
+            <Empty />
+          </Card>
+        ) : (
+          <div style={{ marginTop: 16 }}>
+            <Row gutter={16}>
+              {yaraRules.map((chunk: API.CtiRules, i) => (
+                <Col xs={24} sm={24} md={12} xl={{ span: 6 }} key={i}>
+                  <Card
+                    className="rule-card"
+                    actions={getActions(
+                      chunk.id,
+                      chunk.llmResult,
+                      chunk.filePath,
+                      chunk.ruleName,
+                      RULE_TYPE_ENUM.YARA_RULE,
+                    )}
+                    hoverable
+                  >
+                    <Card.Meta
+                      title={chunk.ruleName ? i + 1 + '. ' + chunk.ruleName : '加载中..'}
+                      description={
+                        <>
+                          <p>规则描述： {truncate(chunk.ruleDescription, 70) ?? <Spin></Spin>}</p>
+                          <p>最新修改时间：{moment(chunk.updateTime).format('YYYY-MM-DD HH:mm')}</p>
+                          <p>
+                            响应状态：
+                            <Tag color={RULE_LLM_RESULT_ENUM[chunk.llmStatus as number].color}>
+                              {RULE_LLM_RESULT_ENUM[chunk.llmStatus as number].text}
+                            </Tag>
+                          </p>
+                          <p>
+                            规则文件状态：
+                            <Tag
+                              color={RULE_FILE_RESULT_ENUM[chunk.ruleFileStatus as number].color}
+                            >
+                              {RULE_FILE_RESULT_ENUM[chunk.ruleFileStatus as number].text}
+                            </Tag>
+                          </p>
+                        </>
+                      }
+                    />
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          </div>
+        )}
       </div>
+      {/*===============================上下分割线======================================*/}
       <div>
-        <Title level={4}>网络入侵检测系统Snort规则</Title>
-        <Modal title="Basic Modal" open={isModalOpen2} onOk={handleOk2} onCancel={handleCancel2} style={{width: 400}}>
-          <div>
-            <ReactJson src={yaraRules2} />
-          </div>
-        </Modal>
-        <div style={{marginTop: 16}}>
-          <Row gutter={16}>
-            <Col xs={24} sm={24} lg={{span: 6}}>
-              <Card actions={actions2} style={{minWidth: 300}}>
-                <Card.Meta
-                  title="Snort Rules"
-                  description={
-                    <>
-                      <p>Detected inbound traffic from APT33 known malicious IP</p>
-                    </>
-                  }
-                />
-              </Card>
-            </Col>
-          </Row>
+        <div style={{ display: 'flex' }}>
+          <Title level={4}>网络入侵检测系统Snort规则</Title>
+          {isAdmin && (
+            <Button
+              color="primary"
+              variant="dashed"
+              icon={<ReloadOutlined />}
+              style={{ marginLeft: 16 }}
+              autoInsertSpace
+              onClick={() => {
+                doCreateRule(RULE_TYPE_ENUM.SNORT_RULE);
+              }}
+            >
+              刷新Snort规则
+            </Button>
+          )}
         </div>
+        {/*网络入侵检测系统Snort规则存放位置*/}
+        {snortRules.length === 0 ? (
+          <Card>
+            <Empty />
+          </Card>
+        ) : (
+          <div style={{ marginTop: 16 }}>
+            <Row gutter={16}>
+              {snortRules.map((chunk: API.CtiRules, i) => (
+                <Col xs={24} sm={24} md={12} xl={{ span: 6 }} key={i}>
+                  <Card
+                    className="rule-card"
+                    actions={getActions(
+                      chunk.id,
+                      chunk.llmResult,
+                      chunk.filePath,
+                      chunk.ruleName,
+                      RULE_TYPE_ENUM.SNORT_RULE,
+                    )}
+                    hoverable
+                  >
+                    <Card.Meta
+                      title={chunk.ruleName ? i + 1 + '. ' + chunk.ruleName : '加载中..'}
+                      description={
+                        <>
+                          <p>规则描述： {truncate(chunk.ruleDescription, 70) ?? <Spin></Spin>}</p>
+                          <p>最新修改时间：{moment(chunk.updateTime).format('YYYY-MM-DD HH:mm')}</p>
+                          <p>
+                            响应状态：
+                            <Tag color={RULE_LLM_RESULT_ENUM[chunk.llmStatus as number].color}>
+                              {RULE_LLM_RESULT_ENUM[chunk.llmStatus as number].text}
+                            </Tag>
+                          </p>
+                          <p>
+                            规则文件状态：
+                            <Tag
+                              color={RULE_FILE_RESULT_ENUM[chunk.ruleFileStatus as number].color}
+                            >
+                              {RULE_FILE_RESULT_ENUM[chunk.ruleFileStatus as number].text}
+                            </Tag>
+                          </p>
+                        </>
+                      }
+                    />
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          </div>
+        )}
       </div>
     </div>
   );

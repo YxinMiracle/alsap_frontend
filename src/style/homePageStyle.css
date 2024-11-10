@@ -1,8 +1,5 @@
-:where(.css-dev-only-do-not-override-nwdjko).ant-menu-light.ant-menu-horizontal > .ant-menu-item-selected,
-:where(.css-dev-only-do-not-override-nwdjko).ant-menu-light > .ant-menu.ant-menu-horizontal > .ant-menu-item-selected,
-:where(.css-dev-only-do-not-override-nwdjko).ant-menu-light.ant-menu-horizontal > .ant-menu-submenu-selected,
-:where(.css-dev-only-do-not-override-nwdjko).ant-menu-light > .ant-menu.ant-menu-horizontal > .ant-menu-submenu-selected {
-  border-bottom: 3px solid #005aff
+:where(.css-dev-only-do-not-override-c6yjzg).ant-menu-light.ant-menu-horizontal >.ant-menu-item-selected, :where(.css-dev-only-do-not-override-c6yjzg).ant-menu-light>.ant-menu.ant-menu-horizontal >.ant-menu-item-selected, :where(.css-dev-only-do-not-override-c6yjzg).ant-menu-light.ant-menu-horizontal >.ant-menu-submenu-selected, :where(.css-dev-only-do-not-override-c6yjzg).ant-menu-light>.ant-menu.ant-menu-horizontal >.ant-menu-submenu-selected{
+  border-bottom: 3px solid #005aff;
 }
 
 :where(.css-dev-only-do-not-override-fw79vu).ant-tabs-top >.ant-tabs-nav::before, :where(.css-dev-only-do-not-override-fw79vu).ant-tabs-top >div>.ant-tabs-nav::before {

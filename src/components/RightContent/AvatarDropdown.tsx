@@ -8,7 +8,7 @@ import { stringify } from 'querystring';
 import type { MenuInfo } from 'rc-menu/lib/interface';
 import React, { useCallback, useEffect } from 'react';
 import { flushSync } from 'react-dom';
-import { Link } from 'umi';
+import { Link, useLocation } from 'react-router-dom';
 import HeaderDropdown from '../HeaderDropdown';
 
 export type GlobalHeaderRightProps = {
@@ -17,6 +17,9 @@ export type GlobalHeaderRightProps = {
 
 export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   const [isLight, setIsLight] = React.useState(true);
+  const location = useLocation(); // 获取当前页面的 location 对象
+  const { pathname, search } = location; // 解构出路径和查询字符串
+
   /**
    * 退出登录，并且将当前的 url 保存
    */
@@ -114,10 +117,11 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   );
 
   if (!currentUser) {
+    const loginPath = `/user/login?redirect=${encodeURIComponent(pathname + search)}`;
     return (
       <Space>
         {switchTag}
-        <Link to="/user/login">
+        <Link to={loginPath}>
           <Button type="primary" shape="round">
             登录
           </Button>
