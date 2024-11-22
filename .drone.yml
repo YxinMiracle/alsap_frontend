@@ -21,7 +21,7 @@ steps:
       - npm config set registry https://registry.npmmirror.com
       - npm install -g pnpm || npm install -g pnpm || npm install -g pnpm  # Retry logic
       - pnpm config set store-dir /drone/src/node_modules/.pnpm-store
-      - pnpm install || pnpm install || pnpm install  # Retry logic
+      - pnpm install --no-frozen-lockfile || pnpm install || pnpm install --force  # Retry logic
       - npm run build
       - cp -r ./dist /usr/local/frond_end/
 
