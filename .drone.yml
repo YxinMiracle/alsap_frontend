@@ -19,7 +19,7 @@ steps:
       - pwd
       - du -sh *
       - npm config set registry https://registry.npmmirror.com/
-      - npm install --no-frozen-lockfile || npm install || npm install --force
+      - npm install --force || npm install
       - npm run build
       - cp -r ./dist /usr/local/frond_end/
 
