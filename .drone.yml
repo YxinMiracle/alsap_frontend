@@ -20,8 +20,7 @@ steps:
     commands:
       - pwd
       - du -sh *
-      - npm config set registry https://registry.npmmirror.com/
-      - npm config set cache /drone/src/node_modules --global
+      - npm config set registry http://registry.cnpmjs.org/
       - npm install || npm install --force
       - npm run build
       - cp -r ./dist /usr/local/frond_end/
