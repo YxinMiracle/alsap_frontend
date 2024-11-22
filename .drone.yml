@@ -10,7 +10,7 @@ volumes:
 steps:
   - name: npm-package
     image: node:latest
-    volumes: # 将容器内目录挂载到宿主机，仓库需要开启Trusted设置
+    volumes: 
       - name: frond_end_dist
         path: /usr/local/frond_end # 将应用打包好的Jar和执行脚本挂载出来
     commands:
