@@ -6,7 +6,9 @@ volumes:
   - name: frond_end_dist
     host:
       path: /www/wwwroot/alsap.tracesec.cn
-
+  - name: node_modules
+    host:
+      path: /home/drone/cache/node_modules
 steps:
   - name: npm-package
     image: node:20-slim
@@ -19,7 +21,8 @@ steps:
       - pwd
       - du -sh *
       - npm config set registry https://registry.npmmirror.com/
-      - npm install --force || npm install
+      - npm config set cache /drone/src/node_modules --global
+      - npm install || npm install --force
       - npm run build
       - cp -r ./dist /usr/local/frond_end/
 
