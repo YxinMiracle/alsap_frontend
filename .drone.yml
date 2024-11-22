@@ -20,7 +20,6 @@ steps:
       - cp -r /drone/src/dist /usr/local/frond_end/
 
 
-# 可限制哪些分支可以推送自动CICD
 trigger:
   branch:
     - main
