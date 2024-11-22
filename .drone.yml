@@ -18,10 +18,8 @@ steps:
     commands:
       - pwd
       - du -sh *
-      - npm config set registry https://registry.npm.taobao.org/
-      - npm install -g pnpm || npm install -g pnpm || npm install -g pnpm
-      - pnpm config set store-dir /drone/src/node_modules/.pnpm-store
-      - pnpm install --no-frozen-lockfile || pnpm install || pnpm install --force  
+      - npm config set registry https://registry.npmmirror.com/
+      - npm install --no-frozen-lockfile || npm install || npm install --force
       - npm run build
       - cp -r ./dist /usr/local/frond_end/
 
