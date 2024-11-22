@@ -7,8 +7,8 @@ volumes:
     host:
       path: /www/wwwroot/alsap.tracesec.cn
 
-steps: 
-  - name: npm-package # 流水线名称
+steps:
+  - name: npm-package
     image: node:latest # 定义创建容器的Docker镜像
     volumes: # 将容器内目录挂载到宿主机，仓库需要开启Trusted设置
       - name: frond_end_dist
