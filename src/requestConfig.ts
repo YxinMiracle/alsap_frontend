@@ -128,8 +128,23 @@ export const requestConfig: RequestConfig = {
       // 请求地址
       const requestPath: string = response.config.url ?? '';
 
+      // 检查响应的Content-Type
+      const contentType = response.headers['content-type'] || '';
+
+      // 如果是SSE（服务器发送事件），则直接返回响应，不进行处理
+      if (contentType.includes('event-stream')) {
+        return response;
+      }
+
+
       // 响应
       const { data } = response as unknown as ResponseStructure;
+
+      // 文件下载的时候就直接返回
+      if (data instanceof Blob) {
+        return response;
+      }
+
       if (!data) {
         throw new Error('服务异常');
       }
@@ -143,7 +158,7 @@ export const requestConfig: RequestConfig = {
         !location.pathname.includes('/user/login')
       ) {
         // 跳转至登录页
-        window.location.href = `/#/user/login?redirect=${encodeURIComponent(window.location.href)}`;
+        window.location.href = `/user/login?redirect=${encodeURIComponent(window.location.href)}`;
         throw new Error('请先登录');
       }
 

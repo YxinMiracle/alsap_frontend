@@ -2,7 +2,7 @@ import '@/pages/Cti/Detail/style/detailPageStyle.css';
 import { getDetailCtiUsingPost } from '@/services/backend/ctiController';
 import { getAllItemMapDataUsingGet } from '@/services/backend/itemController';
 import { useModel } from '@@/exports';
-import {FileTextOutlined, UserOutlined} from '@ant-design/icons';
+import { FileTextOutlined, UserOutlined } from '@ant-design/icons';
 import '@umijs/max';
 import {
   Avatar,
@@ -10,17 +10,18 @@ import {
   Col,
   Descriptions,
   DescriptionsProps,
+  Empty,
   Image,
   List,
   message,
   Row,
-  Space,
   Tag,
   Typography,
 } from 'antd';
 import ReactECharts, { EChartsOption } from 'echarts-for-react';
 import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react';
+import MarkdownLoader from "@/components/MarkdownComponent";
 
 interface Props {
   id: number;
@@ -52,6 +53,7 @@ const CtiDetailInformationPage: React.FC<Props> = (props: Props) => {
   const { initialState } = useModel('@@initialState');
   const echartsRef = useRef(null);
   const { Title } = Typography;
+  const [hasData, setHasData] = useState<boolean>(false);
   /**
    * 初始化界面获取数据
    */
@@ -70,9 +72,12 @@ const CtiDetailInformationPage: React.FC<Props> = (props: Props) => {
         setCreateCtiUser(res.data.user);
         // @ts-ignore
         setCtiDetailVo(res.data);
+        setAnswer(res.data!.abstractText ?? '');
+        setHasData(true);
       }
     } catch (error: any) {
-      message.error('加载CTI数据失败' + error.message);
+      message.error(error.message);
+      setHasData(false);
     }
   };
 
@@ -313,7 +318,7 @@ const CtiDetailInformationPage: React.FC<Props> = (props: Props) => {
       span: 1,
       label: '创建者标签',
       children: (
-        <Tag icon={<UserOutlined />}  color="#55acee">
+        <Tag icon={<UserOutlined />} color="#55acee">
           {createCtiUser.userProfile}
         </Tag>
       ),
@@ -390,19 +395,24 @@ const CtiDetailInformationPage: React.FC<Props> = (props: Props) => {
     loadCtiData();
     loadItemData();
     setAnswer(
-      '这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。这里是模拟的websocket消息内容。',
+      'APT33, identified as a suspected Iranian cyber espionage group, has been active since at least 2013, targeting organizations in the aerospace and energy sectors across the United States, Saudi Arabia, and South Korea. This group, which operates at the behest of the Iranian government, has shown particular interest in aviation-related industries, both military and commercial, as well as petrochemical production. APT33 uses a variety of tactics including spear phishing with malicious .hta files and domain masquerading to infiltrate target organizations. Their activities suggest a focus on gathering strategic intelligence to enhance Iran\'s military and petrochemical capabilities, possibly to aid Iran’s decision-making against regional rivals. Furthermore, APT33 has potential ties to destructive malware, evidenced by links to DROPSHOT and SHAPESHIFT wiper malware, indicating their capability for not just espionage but potentially disruptive cyber attacks as well. Their operations align with Iranian working hours and leverage tools and infrastructure indicative of a state-sponsored actor.',
     );
   }, []);
 
-  return (
+  return !hasData ? (
+    <Card hoverable>
+      <Empty />
+    </Card>
+  ) : (
     <div className="detail-page-inforamtion">
       <div className="cti-short-information cti-detail-page-normal-margin-top">
         <Card>
           <div className="cti-short-title">
             <div className="ai-title-text">CTI-AI-摘要</div>
-            <div id="ai-tag">YxinMiracle GPT</div>
+            <div id="ai-tag">ALSAP GPT</div>
           </div>
-          <div className="msg-text cursor-ani">{dialogueAnswer}</div>
+          {/*<div className="msg-text cursor-ani">{dialogueAnswer}</div>*/}
+          <MarkdownLoader message={dialogueAnswer}></MarkdownLoader>
         </Card>
       </div>
       <div>

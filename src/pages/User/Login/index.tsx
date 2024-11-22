@@ -73,8 +73,8 @@ const Login: React.FC = () => {
             },
           }}
           logo={<img alt="logo" style={{ height: '100%' }} src="/logo.svg" />}
-          title="YxinMiracle前端万用模板"
-          subTitle={'快速开发属于自己的前端项目'}
+          title="威胁情报利用平台-登陆"
+          subTitle={''}
           initialValues={{
             autoLogin: true,
           }}

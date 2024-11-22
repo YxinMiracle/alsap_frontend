@@ -37,7 +37,7 @@ const EntityItemBox: React.FC<Props> = (props) => {
 
   // 第一步，拿到CTI数据之后前端进行给实体排序
   const getSortedEntities = () => {
-    return currentEntityList.slice().sort((a, b) => a.startOffset - b.startOffset);
+    return currentEntityList.slice().sort((a, b) => (a.startOffset! as number) - (b.startOffset! as number));
   };
 
   // 第二步：这里是为了将文章数据进行分开
@@ -45,7 +45,7 @@ const EntityItemBox: React.FC<Props> = (props) => {
     const labelDict = getLabelDict();
     const sortedEntities = getSortedEntities();
     const chunkList: ChunkType[] = [];
-    let startOffset = 0;
+    let startOffset: number  = 0;
     for (const entity of sortedEntities) {
       // 将文本进行分块，sortedEntities中都是有实体的标注的文本信息
       chunkList.push({
@@ -53,7 +53,7 @@ const EntityItemBox: React.FC<Props> = (props) => {
         color: null,
         text: currentCtiText.slice(startOffset, entity.startOffset),
       });
-      startOffset = entity.endOffset;
+      startOffset = entity.endOffset as number;
 
       // @ts-ignore
       const label = labelDict[entity.itemId];
@@ -102,14 +102,17 @@ const EntityItemBox: React.FC<Props> = (props) => {
     }
 
     for (const entity of currentEntityList) {
-      if (entity.startOffset <= start && start < entity.endOffset) {
-        return false;
-      }
-      if (entity.startOffset < end && end <= entity.endOffset) {
-        return false;
-      }
-      if (start < entity.startOffset && entity.endOffset < end) {
-        return false;
+      // 添加不为空的条件
+      if (entity.startOffset !== undefined && entity.endOffset !== undefined) {
+        if (entity.startOffset <= start && start < entity.endOffset) {
+          return false;
+        }
+        if (entity.startOffset < end && end <= entity.endOffset) {
+          return false;
+        }
+        if (start < entity.startOffset && entity.endOffset < end) {
+          return false;
+        }
       }
     }
 

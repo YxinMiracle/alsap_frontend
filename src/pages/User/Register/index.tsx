@@ -75,8 +75,8 @@ const UserRegisterPage: React.FC = () => {
             maxWidth: '75vw',
           }}
           logo={<img alt="logo" style={{ height: '100%' }} src="/logo.svg" />}
-          title="YxinMiracle万用模板系统 - 注册"
-          subTitle={'高效招聘、爽快求职'}
+          title="威胁情报利用平台 - 注册"
+          subTitle={''}
           initialValues={{
             autoLogin: true,
           }}

@@ -1,4 +1,5 @@
 import '@/components/GraphComponent/style/graphDrawerStyle.css';
+import { getNodeRelCtiDataUsingPost } from '@/services/backend/graphController';
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import G6 from '@antv/g6';
 import '@umijs/max';
@@ -21,7 +22,7 @@ const CtiGraph: React.FC<Props> = (props: Props) => {
   // 监控是否需要查看节点的详情信息
   const [open, setOpen] = useState(false);
   // 点击过后的节点信息
-  const [clickedNodeInformation, setClickedNodeInformation] = useState<API.GraphNodeVo>({});
+  const [clickedNodeInformation, setClickedNodeInformation] = useState({});
   // 定义标签
   const { Title } = Typography;
 
@@ -46,7 +47,6 @@ const CtiGraph: React.FC<Props> = (props: Props) => {
           <div>节点名称: ${e?.item.getModel().entityName}</div>
           <div>节点类型: ${e?.item.getModel().itemData.itemName}</div>
           <div>节点大类: ${e?.item.getModel().itemData.itemType === 1 ? '域对象SDO' : '可观测对象SCO'}</div>
-          <div>相关情报数: ${e?.item.getModel().relatedCti.length}</div>
         `;
         return outDiv;
         // return outDiv
@@ -200,6 +200,25 @@ const CtiGraph: React.FC<Props> = (props: Props) => {
     );
   };
 
+  const getNodeRelCtiList = async (ctiId: number, node: any) => {
+    try {
+      const res = await getNodeRelCtiDataUsingPost({
+        ctiId: ctiId,
+        nodeName: node.entityName,
+      });
+      if (res.code === 0) {
+        setClickedNodeInformation({
+          createTime: node.createTime,
+          updateTime: node.createTime,
+          entityName: node.entityName,
+          itemData: node.itemData,
+          relatedCti: res.data.relatedCti,
+        });
+        showDrawer();
+      }
+    } catch (e: any) {}
+  };
+
   // @ts-ignore
   const refreshDragedNodePosition = (e) => {
     const model = e.item.get('model');
@@ -280,13 +299,13 @@ const CtiGraph: React.FC<Props> = (props: Props) => {
         layout: {
           type: 'gForce',
           animate: false, // 设置为 false 可关闭布局动画
-          maxSpeed: 100,
-          linkDistance: 250, //边长度
+          maxSpeed: 200,
+          linkDistance: 350, //边长度
           clustering: true,
           nodeClusterBy: 'cluster',
           preventOverlap: true, //防止碰撞，配合nodeSize使用
           nodeSize: 100, //
-          clusterNodeStrength: 100,
+          clusterNodeStrength: 300,
         },
       });
 
@@ -299,7 +318,7 @@ const CtiGraph: React.FC<Props> = (props: Props) => {
       graphObj.on('node:mouseenter', (evt: { item: any }) => {
         const { item } = evt;
         const node = item.get('model');
-        console.log(node);
+        graphObj.get('canvas').setCursor('pointer');
         graphObj.setItemState(item, 'active', true);
       });
 
@@ -307,7 +326,7 @@ const CtiGraph: React.FC<Props> = (props: Props) => {
       graphObj.on('node:mouseleave', (evt: { item: any }) => {
         const { item } = evt;
         const node = item.get('model');
-        console.log(node);
+        graphObj.get('canvas').setCursor('default');
         graphObj.setItemState(item, 'active', false);
       });
 
@@ -337,8 +356,9 @@ const CtiGraph: React.FC<Props> = (props: Props) => {
       graphObj.on('node:click', (evt: { item: any }) => {
         const { item } = evt;
         const node = item.get('model');
-        setClickedNodeInformation(node);
-        showDrawer();
+        getNodeRelCtiList(node.id, node);
+        // setClickedNodeInformation(node);
+        // showDrawer();
         // emits("getNode", node);
       });
 
@@ -346,7 +366,6 @@ const CtiGraph: React.FC<Props> = (props: Props) => {
       graphObj.on('edge:click', (evt: { item: any }) => {
         const { item } = evt;
         const node = item.get('model');
-        console.log('>>>>>>>>>>>>>', node);
         // emits("getSide", node);
       });
 
@@ -460,7 +479,7 @@ const CtiGraph: React.FC<Props> = (props: Props) => {
                                       key: '1',
                                       label: '实体总数',
                                       span: 3,
-                                      children: item.entityNum,
+                                      children: item.sdoNum + item.scoNum,
                                     },
                                     {
                                       key: '2',
@@ -479,7 +498,7 @@ const CtiGraph: React.FC<Props> = (props: Props) => {
                                       label: '是否已构图',
                                       span: 3,
                                       children:
-                                        item.hasGraph === 1 ? (
+                                        item.hasGraph > 0 ? (
                                           <Tag icon={<CheckCircleOutlined />} color="success">
                                             已构图
                                           </Tag>

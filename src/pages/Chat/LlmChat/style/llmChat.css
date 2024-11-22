@@ -1,0 +1,113 @@
+
+.chat-llm-root .margin-top-16 {
+  margin-top: 16px;
+}
+
+.btn-flex {
+  display: flex;
+  gap: 16px;
+}
+
+.btn-flex button {
+  flex: 1; /* 让所有按钮等宽 */
+}
+
+.chat-area {
+  height: 380px;
+  overflow-y: auto;
+}
+
+.chat-llm-root .chat-area-parent .ant-card-body:nth-child(2) {
+  padding: 0;
+}
+
+/* 指定容器内的滚动条宽度和轨道颜色 */
+.chat-llm-root .chat-area-parent .ant-card-body:nth-child(2) ::-webkit-scrollbar {
+  width: 5px; /* 细滚动条 */
+  background: #f0f1f5; /* 轨道背景色 */
+}
+
+/* 滚动条滑块颜色和样式 */
+.chat-llm-root .chat-area-parent .ant-card-body:nth-child(2) ::-webkit-scrollbar-thumb {
+  background-color: #ccd1d9; /* 滑块颜色 */
+  border-radius: 10px; /* 滑块圆角 */
+}
+
+/* 可选: 滚动条轨道样式 */
+.chat-llm-root .chat-area-parent .ant-card-body:nth-child(2) ::-webkit-scrollbar-track {
+  background: #e1e4e8; /* 修改轨道颜色 */
+}
+
+.chat-llm-root :where(.css-dev-only-do-not-override-no4izc).ant-card .ant-card-head {
+  min-height: 40px;
+}
+
+.chat-llm-root .message.svelte-gutj6d.svelte-gutj6d.svelte-gutj6d {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-self: flex-end;
+  width: calc(100% - 16px);
+  color: #1f2937;
+  font-size: 16px;
+  overflow-wrap: break-word;
+  overflow-x: hidden;
+  padding-right: 22px;
+  padding: 20px;
+}
+
+
+.chat-llm-root .message-bubble-border.svelte-gutj6d.svelte-gutj6d.svelte-gutj6d {
+  border-width: 1px;
+  border-radius: 22px;
+}
+
+.chat-llm-root .bot.svelte-gutj6d.svelte-gutj6d.svelte-gutj6d {
+  border-bottom-left-radius: 0;
+}
+
+.chat-llm-root .message-row.svelte-gutj6d.svelte-gutj6d.svelte-gutj6d:last-of-type {
+  margin-bottom: 16px;
+}
+
+.chat-llm-root .message-row.svelte-gutj6d.svelte-gutj6d.svelte-gutj6d {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+.chat-llm-root .bubble-gap.svelte-gutj6d.svelte-gutj6d.svelte-gutj6d {
+  gap: 18px;
+}
+
+.chat-llm-root .message-wrap.svelte-gutj6d.svelte-gutj6d.svelte-gutj6d {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 12px 10px 12px;
+  justify-content: space-between;
+}
+
+.chat-llm-root .user-row.bubble.svelte-gutj6d.svelte-gutj6d.svelte-gutj6d {
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.chat-llm-root .user.svelte-gutj6d.svelte-gutj6d.svelte-gutj6d {
+  align-self: flex-start;
+  border-bottom-right-radius: 0;
+  text-align: right;
+}
+
+.chat-llm-root .bot.svelte-gutj6d.svelte-gutj6d.svelte-gutj6d {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #e5e7eb;
+  background: #f6f6f6;
+}
+
+.chat-llm-root .user.svelte-gutj6d.svelte-gutj6d.svelte-gutj6d {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #e9d5ff;
+  background-color: #faf5ff;
+}
