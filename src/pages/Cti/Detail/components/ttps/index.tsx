@@ -6,7 +6,8 @@ import {
 } from '@/services/backend/ttpController';
 import { DownloadOutlined } from '@ant-design/icons';
 import '@umijs/max';
-import { Button, Card, message } from 'antd';
+import { Button, Card, Empty, message } from 'antd';
+// @ts-ignore
 import { saveAs } from 'file-saver';
 import React, { useEffect, useState } from 'react';
 
@@ -18,6 +19,7 @@ const CtiDetailTtpPage: React.FC<Props> = (props: Props) => {
   const { id } = props;
   const [ttpConfigUrlPath, setTtpConfigUrlPath] = React.useState<string>();
   const [loading, setLoading] = useState(true);
+  const [haveData, setHaveData] = useState(false);
 
   const loadData = async () => {
     try {
@@ -25,12 +27,14 @@ const CtiDetailTtpPage: React.FC<Props> = (props: Props) => {
         ctiId: id,
       });
       if (res.code === 0) {
+        setHaveData(true);
         setTtpConfigUrlPath(res.data);
       } else {
-        message.error('该情报暂无TTP数据');
+        setHaveData(false);
+        // message.error('该情报暂无TTP数据');
       }
     } catch (e: any) {
-      message.error('该情报暂无TTP数据 ', e.message);
+      // message.error('该情报暂无TTP数据 ', e.message);
     }
   };
 
@@ -47,12 +51,18 @@ const CtiDetailTtpPage: React.FC<Props> = (props: Props) => {
   return (
     <div className="detail-page-ttp">
       {loading ?? <Card loading={true} hoverable></Card>}
-      <iframe
-        src={`https://mitre-attack.github.io/attack-navigator/#layerURL=${COS_HOST + ttpConfigUrlPath}`}
-        width="100%"
-        height="1700px"
-        onLoad={handleLoad}
-      ></iframe>
+      {haveData ? (
+        <iframe
+          src={`https://mitre-attack.github.io/attack-navigator/#layerURL=${COS_HOST + ttpConfigUrlPath}`}
+          width="100%"
+          height="1700px"
+          onLoad={handleLoad}
+        ></iframe>
+      ) : (
+        <Card>
+          <Empty></Empty>
+        </Card>
+      )}
       {!loading && ttpConfigUrlPath && (
         <Button
           className="ttp-config-download"

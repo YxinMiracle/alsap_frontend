@@ -8,7 +8,8 @@ import { PageContainer, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
 import { history } from '@umijs/max';
 import { Button, Col, FloatButton, message, Row, Space, Tag, Typography } from 'antd';
-import React, { useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
+import {useLocation, useNavigate} from "react-router-dom";
 
 /**
  * Cti信息管理页面
@@ -22,6 +23,48 @@ const CtiInformationPage: React.FC = () => {
   // @ts-ignore
   const currentUser = initialState.currentUser || {};
   const [isAdmin, setIsAdmin] = useState<boolean>(currentUser.userRole === ACCESS_ENUM.ADMIN);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // 获取当前 URL 中的 page 参数
+  const [currentPage, setCurrentPage] = useState(new URLSearchParams(location.search).get('page') || '1');
+
+  useEffect(() => {
+    // 当 URL 中的 page 参数变化时，更新 currentPage 状态
+    const page = new URLSearchParams(location.search).get('page') || '1';
+    setCurrentPage(page);
+  }, [location]);
+
+  const onPageChange = (page: string | number) => {
+    // 更新 URL 参数
+    navigate(`${location.pathname}?page=${page}`);
+  };
+
+  const request = async (params:any, sort:any, filter:any) => {
+    const sortField = Object.keys(sort)?.[0];
+    const sortOrder = sort?.[sortField] ?? undefined;
+
+    // @ts-ignore
+    const res = await getCtiByPageUsingPost({
+      pageSize: params.pageSize,
+      current: currentPage, // 使用从 URL 中解析的页码
+      sortField,
+      sortOrder,
+      ...filter,
+    } as API.CtiQueryRequest);
+
+    if (res.code !== 0) {
+      message.error(res.message ?? '情报数据请求失败');
+    }
+
+    return {
+      success: res.code === 0,
+      data: res.data?.records || [],
+      total: Number(res.data?.total) || 0,
+    };
+  };
+
+
   /**
    * 删除节点
    *
@@ -52,6 +95,8 @@ const CtiInformationPage: React.FC = () => {
   const toDetailPage = (row: API.CtiVo) => {
     history.push(`/cti/show/detail/${row.id}`);
   };
+
+
 
   /**
    * 表格列配置
@@ -194,29 +239,12 @@ const CtiInformationPage: React.FC = () => {
                 <PlusOutlined /> 新建
               </Button>,
             ]}
-            request={async (params, sort, filter) => {
-              const sortField = Object.keys(sort)?.[0];
-              const sortOrder = sort?.[sortField] ?? undefined;
-
-              // @ts-ignore
-              const res = await getCtiByPageUsingPost({
-                ...params,
-                sortField,
-                sortOrder,
-                ...filter,
-              } as API.CtiQueryRequest);
-
-              if (res.code !== 0) {
-                message.error(res.message ?? '情报数据请求失败');
-              }
-
-              return {
-                success: res.code === 0,
-                data: res.data?.records || [],
-                total: Number(res.data?.total) || 0,
-              };
-            }}
+            request={request}
             columns={columns}
+            pagination={{
+              current: parseInt(currentPage, 10),
+              onChange: onPageChange,
+            }}
           />
           <CreateModal
             visible={createModalVisible}

@@ -12,6 +12,7 @@ export const RULE_LLM_RESULT_ENUM = {
   1: { color: "error", text: "还未请求LLM" },
   2: { color: "processing", text: "已经请求LLM" },
   3: { color: "success", text: "已经获取规则数据" },
+  4: { color: "error", text: "规则构建失败" },
 };
 
 export const RULE_FILE_RESULT_ENUM = {

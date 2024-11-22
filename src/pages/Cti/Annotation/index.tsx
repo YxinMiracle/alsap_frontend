@@ -86,7 +86,7 @@ const CtiAnnotationPage: React.FC = () => {
       setTimeout(() => {
         // 使用 setTimeout 来异步处理滚动逻辑
         let lastVisibleId = 0;
-        for (let i = 1; i <= wordLabelResult.total; i++) {
+        for (let i = 1; i <= wordLabelResult.total!; i++) {
           const element = document.getElementById(`sent-${i}`);
           if (element) {
             const rect = element.getBoundingClientRect();
@@ -95,10 +95,10 @@ const CtiAnnotationPage: React.FC = () => {
             }
           }
         }
-        if (lastVisibleId >= wordLabelResult.total) {
+        if (lastVisibleId >= wordLabelResult.total!) {
           setContinueAdd(false);
         }
-        setReadingProgress(Math.round((lastVisibleId / wordLabelResult.total) * 100));
+        setReadingProgress(Math.round((lastVisibleId / wordLabelResult.total!) * 100));
       }, 0);
     }
   };
@@ -124,11 +124,11 @@ const CtiAnnotationPage: React.FC = () => {
       const spin = document.querySelector('.bottom-spin');
       const drawerElement = document.querySelector('.ant-drawer-body');
       if (drawerElement) {
-        ob.observe(spin);
+        ob.observe(spin!);
         drawerElement.addEventListener('scroll', throttledHandleScroll);
         return () => {
           drawerElement.removeEventListener('scroll', throttledHandleScroll);
-          ob.unobserve(spin);
+          ob.unobserve(spin!);
         };
       }
     }
@@ -163,7 +163,7 @@ const CtiAnnotationPage: React.FC = () => {
     try {
       const res = await getAllItemMapDataUsingGet();
       if (res.code === 0) {
-        Object.values(res.data).forEach((item: API.Item) => {
+        Object.values(res.data!).forEach((item: API.Item) => {
           setItemData((prevState) => [...prevState, item]);
         });
       }
@@ -192,7 +192,9 @@ const CtiAnnotationPage: React.FC = () => {
     const itemId2ItemName = new Map<string, string>();
     const itemId2BackgroundColor = new Map<string, string>();
     for (const label of itemData) {
+      //@ts-ignore
       itemId2ItemName.set(label.id, label.itemName);
+      //@ts-ignore
       itemId2BackgroundColor.set(label.itemName, label.backgroundColor);
     }
     return { itemId2ItemName, itemId2BackgroundColor };
@@ -202,6 +204,7 @@ const CtiAnnotationPage: React.FC = () => {
    * 当用户抽取了实体之后，需要更新图
    */
   const updateEchartData = () => {
+    //@ts-ignore
     const echartData = [];
     const { itemId2ItemName, itemId2BackgroundColor } = getLabelDict();
     const charNumMap = new Map<string, number>(); // 键类型为 string，值类型为 any
@@ -211,9 +214,12 @@ const CtiAnnotationPage: React.FC = () => {
         continue;
       } else {
         const itemTypeName = itemId2ItemName.get(itemId);
+        //@ts-ignore
         if (charNumMap.has(itemTypeName)) {
+          //@ts-ignore
           charNumMap.set(itemTypeName, charNumMap.get(itemTypeName) + 1);
         } else {
+          //@ts-ignore
           charNumMap.set(itemTypeName, 1);
         }
       }
@@ -239,6 +245,7 @@ const CtiAnnotationPage: React.FC = () => {
           name: '实体信息',
           type: 'pie',
           radius: '50%',
+          //@ts-ignore
           data: echartData,
           emphasis: {
             itemStyle: {
@@ -272,7 +279,7 @@ const CtiAnnotationPage: React.FC = () => {
     setCtiChunkList(ctiChunkList);
   };
 
-  const requestData = async (requestWordLabelListParams) => {
+  const requestData = async (requestWordLabelListParams:any) => {
     try {
       console.log(requestWordLabelListParams);
       const res = await getPageCtiWordLabelListUsingPost(requestWordLabelListParams);
@@ -280,8 +287,8 @@ const CtiAnnotationPage: React.FC = () => {
         setWordLabelList((prevState) => ({
           // @ts-ignore
           wordList: [...prevState.wordList, ...res.data.wordList],
-          labelList: [...prevState.labelList, ...res.data.labelList],
-          total: res.data.total,
+          labelList: [...prevState.labelList, ...res.data!.labelList],
+          total: res.data!.total,
         }));
       }
     } catch (e: any) {
@@ -315,7 +322,7 @@ const CtiAnnotationPage: React.FC = () => {
     // @ts-ignore
     const navTheme = initialState.settings.navTheme;
     setSysTheme(navTheme === 'light' ? '' : 'dark');
-  }, [initialState.settings.navTheme]);
+  }, [initialState!.settings.navTheme]);
 
   useEffect(() => {
     if (!itemData || itemData.length <= 0) {
@@ -383,7 +390,7 @@ const CtiAnnotationPage: React.FC = () => {
                         showInfo={false}
                       />
 
-                      {wordLabelResult.wordList.map((word_list: string[], list_index: number) => (
+                      {wordLabelResult.wordList!.map((word_list: string[], list_index: number) => (
                         <>
                           <Title id={`sent-${list_index + 1}`} level={3}>
                             第 {list_index + 1} 句:{' '}
@@ -399,12 +406,12 @@ const CtiAnnotationPage: React.FC = () => {
                                   <div className="annotation-sent-card single-word-div">
                                     <div
                                       className={
-                                        wordLabelResult.labelList[list_index][word_index] === 'O'
+                                        wordLabelResult.labelList![list_index][word_index] === 'O'
                                           ? 'normal-text'
                                           : ''
                                       }
                                     >
-                                      {wordLabelResult.labelList[list_index][word_index] === 'O' ? (
+                                      {wordLabelResult.labelList![list_index][word_index] === 'O' ? (
                                         <Text>{word}</Text>
                                       ) : (
                                         <Title level={4}>{word}</Title>
@@ -413,12 +420,12 @@ const CtiAnnotationPage: React.FC = () => {
                                     <div>
                                       <Tag
                                         color={
-                                          wordLabelResult.labelList[list_index][word_index] === 'O'
+                                          wordLabelResult.labelList![list_index][word_index] === 'O'
                                             ? 'default'
                                             : 'processing'
                                         }
                                       >
-                                        {wordLabelResult.labelList[list_index][word_index]}
+                                        {wordLabelResult.labelList![list_index][word_index]}
                                       </Tag>
                                     </div>
                                   </div>

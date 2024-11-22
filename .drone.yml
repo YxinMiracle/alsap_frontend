@@ -1,0 +1,26 @@
+kind: pipeline
+type: docker
+name: alsap_frontend
+
+volumes:
+  - name: frond_end_dist
+    host:
+      path: /www/wwwroot/alsap.tracesec.cn
+
+steps: # 定义流水线执行步骤，这些步骤将顺序执行
+  - name: npm-package # 流水线名称
+    image: node:latest # 定义创建容器的Docker镜像
+    volumes: # 将容器内目录挂载到宿主机，仓库需要开启Trusted设置
+      - name: frond_end_dist
+        path: /usr/local/frond_end # 将应用打包好的Jar和执行脚本挂载出来
+    commands:
+      - npm config set registry https://registry.npm.taobao.org/ # 将npm注册表设置为淘宝镜像
+      - npm install
+      - npm run build
+      - cp -r /drone/src/dist /usr/local/frond_end/
+
+
+# 可限制哪些分支可以推送自动CICD
+trigger:
+  branch:
+    - main

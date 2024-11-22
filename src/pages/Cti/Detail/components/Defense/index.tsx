@@ -41,7 +41,6 @@ const CtiDetailDefencePage: React.FC<Props> = (props: Props) => {
   const { id } = props;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [yaraRules, setYaraRules] = useState([]);
   const [snortRules, setSnortRules] = useState([]);
   const [yaraShowRule, setYaraShowRule] = useState({});
@@ -291,19 +290,20 @@ const CtiDetailDefencePage: React.FC<Props> = (props: Props) => {
                   <Card
                     className="rule-card"
                     actions={getActions(
-                      chunk.id,
-                      chunk.llmResult,
-                      chunk.filePath,
-                      chunk.ruleName,
+                      chunk.id!,
+                      chunk.llmResult!,
+                      chunk.filePath!,
+                      chunk.ruleName!,
                       RULE_TYPE_ENUM.YARA_RULE,
                     )}
                     hoverable
                   >
                     <Card.Meta
-                      title={chunk.ruleName ? i + 1 + '. ' + chunk.ruleName : '加载中..'}
+                      title={chunk.llmStatus!==4 ? (chunk.ruleName ? i + 1 + '. ' + chunk.ruleName : '加载中..') : "失败规则"}
                       description={
                         <>
-                          <p>规则描述： {truncate(chunk.ruleDescription, 70) ?? <Spin></Spin>}</p>
+
+                          <p>规则描述： {chunk.llmStatus!==4 ? (truncate(chunk.ruleDescription!, 70) ?? <Spin></Spin>) : "失败规则"}</p>
                           <p>最新修改时间：{moment(chunk.updateTime).format('YYYY-MM-DD HH:mm')}</p>
                           <p>
                             响应状态：
@@ -361,6 +361,7 @@ const CtiDetailDefencePage: React.FC<Props> = (props: Props) => {
                   <Card
                     className="rule-card"
                     actions={getActions(
+                      // @ts-ignore
                       chunk.id,
                       chunk.llmResult,
                       chunk.filePath,
@@ -373,7 +374,7 @@ const CtiDetailDefencePage: React.FC<Props> = (props: Props) => {
                       title={chunk.ruleName ? i + 1 + '. ' + chunk.ruleName : '加载中..'}
                       description={
                         <>
-                          <p>规则描述： {truncate(chunk.ruleDescription, 70) ?? <Spin></Spin>}</p>
+                          <p>规则描述： {truncate(chunk.ruleDescription!, 70) ?? <Spin></Spin>}</p>
                           <p>最新修改时间：{moment(chunk.updateTime).format('YYYY-MM-DD HH:mm')}</p>
                           <p>
                             响应状态：

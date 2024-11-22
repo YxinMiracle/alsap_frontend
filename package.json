@@ -49,10 +49,12 @@
     "classnames": "^2.5.1",
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.10",
+    "dompurify": "^3.2.0",
     "echarts-for-react": "^3.0.2",
     "file-saver": "^2.0.5",
     "gsap": "^3.12.5",
     "i": "^0.3.7",
+    "js-sha1": "^0.7.0",
     "numeral": "^2.0.6",
     "omit.js": "^2.0.2",
     "querystring": "^0.2.1",
@@ -63,7 +65,11 @@
     "react-fittext": "^1.0.0",
     "react-json-view": "^1.21.3",
     "react-markdown": "^9.0.1",
-    "react-router-dom": "^6.28.0"
+    "react-native-htmlview": "^0.17.0",
+    "react-router-dom": "^6.28.0",
+    "react-syntax-highlighter": "^15.6.1",
+    "rehype-highlight": "^7.0.1",
+    "weixin-js-sdk": "^1.6.5"
   },
   "devDependencies": {
     "@ant-design/pro-cli": "^2.1.5",

@@ -128,6 +128,15 @@ export const requestConfig: RequestConfig = {
       // 请求地址
       const requestPath: string = response.config.url ?? '';
 
+      // 检查响应的Content-Type
+      const contentType = response.headers['content-type'] || '';
+
+      // 如果是SSE（服务器发送事件），则直接返回响应，不进行处理
+      if (contentType.includes('event-stream')) {
+        return response;
+      }
+
+
       // 响应
       const { data } = response as unknown as ResponseStructure;
 

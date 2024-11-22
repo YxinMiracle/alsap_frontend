@@ -21,6 +21,7 @@ import {
 import ReactECharts, { EChartsOption } from 'echarts-for-react';
 import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react';
+import MarkdownLoader from "@/components/MarkdownComponent";
 
 interface Props {
   id: number;
@@ -71,6 +72,7 @@ const CtiDetailInformationPage: React.FC<Props> = (props: Props) => {
         setCreateCtiUser(res.data.user);
         // @ts-ignore
         setCtiDetailVo(res.data);
+        setAnswer(res.data!.abstractText ?? '');
         setHasData(true);
       }
     } catch (error: any) {
@@ -407,9 +409,10 @@ const CtiDetailInformationPage: React.FC<Props> = (props: Props) => {
         <Card>
           <div className="cti-short-title">
             <div className="ai-title-text">CTI-AI-摘要</div>
-            <div id="ai-tag">YxinMiracle GPT</div>
+            <div id="ai-tag">ALSAP GPT</div>
           </div>
-          <div className="msg-text cursor-ani">{dialogueAnswer}</div>
+          {/*<div className="msg-text cursor-ani">{dialogueAnswer}</div>*/}
+          <MarkdownLoader message={dialogueAnswer}></MarkdownLoader>
         </Card>
       </div>
       <div>

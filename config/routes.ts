@@ -62,6 +62,7 @@
     routes: [
       // { path: '/chat', redirect: '/cti/show' },
       { path: '/chat/show', component: './Chat', name: '大模型Demo' },
+      { path: '/chat/llm', component: './Chat/LlmChat', name: '大模型对话' },
       // { path: '/cti/anno', component: './Cti/Annotation', name: '威胁情报标注' },
     ],
   },
