@@ -10,9 +10,9 @@ volumes:
 steps:
   - name: npm-package
     image: node:latest
-    volumes: 
+    volumes:
       - name: frond_end_dist
-        path: /usr/local/frond_end # 将应用打包好的Jar和执行脚本挂载出来
+        path: /usr/local/frond_end 
     commands:
       - npm config set registry https://registry.npm.taobao.org/ # 将npm注册表设置为淘宝镜像
       - npm install
