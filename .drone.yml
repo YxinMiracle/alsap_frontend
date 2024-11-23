@@ -11,7 +11,7 @@ volumes:
       path: /home/drone/cache/node_modules
 steps:
   - name: npm-package
-    image: node:20-slim
+    image: node:18.20.4-alpine
     volumes:
       - name: frond_end_dist
         path: /usr/local/frond_end
