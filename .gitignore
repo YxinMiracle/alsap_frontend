@@ -3,14 +3,14 @@
 # dependencies
 **/node_modules
 # roadhog-api-doc ignore
-#/src/utils/request-temp.js
+/src/utils/request-temp.js
 _roadhog-api-doc
 note.md
 *.rar
 
 # production
 /dist
-#src/services
+src/services
 
 # misc
 .DS_Store
