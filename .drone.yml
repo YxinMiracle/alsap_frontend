@@ -24,7 +24,7 @@ steps:
       - npm config set registry https://registry.npmmirror.com/
       - npm config get registry
       - npm install --legacy-peer-deps || npm install
-      - npm run build
+      - npm run build || max build
       - cp -r ./dist /usr/local/frond_end/
 
 
