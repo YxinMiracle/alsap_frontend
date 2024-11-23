@@ -6,17 +6,17 @@ volumes:
   - name: frond_end_dist
     host:
       path: /www/wwwroot/alsap.tracesec.cn
-  - name: node_modules
-    host:
-      path: /home/drone/cache/node_modules
+#  - name: node_modules
+#    host:
+#      path: /home/drone/cache/node_modules
 steps:
   - name: npm-package
     image: node:18.20.4-alpine
     volumes:
       - name: frond_end_dist
         path: /usr/local/frond_end
-      - name: node_modules
-        path: /drone/src/node_modules
+#      - name: node_modules
+#        path: /drone/src/node_modules
     commands:
       - pwd
       - du -sh *
