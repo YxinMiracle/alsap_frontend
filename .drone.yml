@@ -16,7 +16,7 @@ steps:
       - name: frond_end_dist
         path: /usr/local/frond_end
 #      - name: node_modules
-#        path: /drone/src/node_modules
+#        path: /drone/src/node_modules 
     commands:
       - pwd
       - du -sh *
