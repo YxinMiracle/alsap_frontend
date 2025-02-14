@@ -47,12 +47,42 @@ export async function getDetailCtiUsingPost(
   });
 }
 
+/** getCtiDetailEntityData POST /api/cti/detail/entity */
+export async function getCtiDetailEntityDataUsingPost(
+  body: API.CtiDetailEntityRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseListCtiDetailEntityVo_>('/api/cti/detail/entity', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** 根据Cti查询信息返回CtiVo信息 POST /api/cti/list/page */
-export async function getCtiByPageUsingPost(
+export async function getCtiByPageSentinelUsingPost(
   body: API.CtiQueryRequest,
   options?: { [key: string]: any },
 ) {
   return request<API.BaseResponsePageCtiVo_>('/api/cti/list/page', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** 从es中查询cti相关的数据 POST /api/cti/search/page/es/vo */
+export async function searchCtiVoByPageUsingPost(
+  body: API.CtiEsQueryRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponsePageCtiVo_>('/api/cti/search/page/es/vo', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

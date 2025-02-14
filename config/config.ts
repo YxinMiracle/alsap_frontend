@@ -138,7 +138,8 @@ export default defineConfig({
   openAPI: [
     {
       requestLibPath: "import { request } from '@umijs/max'",
-      schemaPath: 'http://localhost:8763/api/v2/api-docs',
+      // schemaPath: 'http://localhost:8763/api/v2/api-docs',
+      schemaPath: 'https://alsap.tracesec.cn/api/v2/api-docs',
       projectName: 'backend',
     },
   ],

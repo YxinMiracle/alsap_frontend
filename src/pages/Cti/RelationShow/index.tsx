@@ -9,14 +9,15 @@ import {
 import { useModel } from '@@/exports';
 import { TagOutlined, TagsOutlined } from '@ant-design/icons';
 import {
-  PageContainer,
-  ProTable,
   type ActionType,
+  PageContainer,
   type ProColumns,
+  ProTable,
 } from '@ant-design/pro-components';
 import '@umijs/max';
-import { Col, FloatButton, message, Row, Select, Space, Tag, Typography } from 'antd';
+import { Col, message, Row, Select, Space, Tag, Typography } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
+import PageFloatButton from '@/components/FloatButtonComponent';
 
 /**
  * STIX实体信息管理界面
@@ -167,7 +168,7 @@ const CtiRelationInformationPage: React.FC = () => {
       dataIndex: 'startItemId',
       valueType: 'text',
       align: 'center',
-      renderFormItem: (_, { type, defaultRender }, form) => {
+      renderFormItem: () => {
         // @ts-ignore
         return (
           <Select
@@ -191,14 +192,14 @@ const CtiRelationInformationPage: React.FC = () => {
           ></Select>
         );
       },
-      hideInTable: true
+      hideInTable: true,
     },
     {
       title: '头实体类型',
       dataIndex: 'startItemType',
       valueType: 'text',
       align: 'center',
-      renderFormItem: (_, { type, defaultRender }, form) => {
+      renderFormItem: () => {
         // @ts-ignore
         return (
           <Select
@@ -226,7 +227,7 @@ const CtiRelationInformationPage: React.FC = () => {
       dataIndex: 'relationName',
       valueType: 'text',
       align: 'center',
-      renderFormItem: (_, { type, defaultRender }, form) => {
+      renderFormItem: () => {
         // @ts-ignore
         return (
           <Select
@@ -246,14 +247,14 @@ const CtiRelationInformationPage: React.FC = () => {
       dataIndex: 'endItemName',
       valueType: 'text',
       align: 'center',
-      hideInSearch: true
+      hideInSearch: true,
     },
     {
       title: '尾实体名称Id',
       dataIndex: 'endItemId',
       valueType: 'text',
       align: 'center',
-      renderFormItem: (_, { type, defaultRender }, form) => {
+      renderFormItem: () => {
         // @ts-ignore
         return (
           <Select
@@ -277,14 +278,14 @@ const CtiRelationInformationPage: React.FC = () => {
           ></Select>
         );
       },
-      hideInTable: true
+      hideInTable: true,
     },
     {
       title: '尾实体类型',
       dataIndex: 'endItemType',
       valueType: 'text',
       align: 'center',
-      renderFormItem: (_, { type, defaultRender }, form) => {
+      renderFormItem: () => {
         // @ts-ignore
         return (
           <Select
@@ -410,7 +411,7 @@ const CtiRelationInformationPage: React.FC = () => {
               setUpdateModalVisible(false);
             }}
           />
-          <FloatButton.BackTop />
+          <PageFloatButton />
         </PageContainer>
       </Col>
     </Row>

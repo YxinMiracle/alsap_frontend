@@ -1,0 +1,59 @@
+.ant-pro-form-login-container {
+  height: auto;
+}
+
+.wx-login-item-style {
+  width: 328px;
+  margin: 0 auto;
+}
+
+.web_qrcode_wrp {
+  text-align: center;
+  line-height: 1.4;
+  min-width: 200px;
+  max-width: 75%;
+  color: #000;
+  color: rgba(0, 0, 0, .9);
+  margin-top: -100px;
+}
+
+.web_qrcode_tips {
+  margin-right: 10px;
+  font-size: 17px;
+  font-weight: 400;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.web_qrcode_tips_logo {
+  display: inline-block;
+  vertical-align: bottom;
+  font-size: 24px;
+  width: 1em;
+  height: 1em;
+  margin-right: 8px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='24' height='24' viewBox='0 0 24 24'%3E  %3Cdefs%3E    %3Cpath id='0f20791c-6774-4e52-920f-6b6d8404b4dc-a' d='M6.724 0h10.552c2.338 0 3.186.243 4.04.7A4.766 4.766 0 0 1 23.3 2.684c.458.855.701 1.703.701 4.04v10.553c0 2.338-.243 3.186-.7 4.04a4.766 4.766 0 0 1-1.983 1.983c-.855.458-1.703.701-4.04.701H6.723c-2.338 0-3.186-.243-4.04-.7A4.766 4.766 0 0 1 .7 21.316c-.457-.854-.7-1.702-.7-4.039V6.723c0-2.338.243-3.186.7-4.04A4.766 4.766 0 0 1 2.684.7C3.538.243 4.386 0 6.723 0z'/%3E    %3ClinearGradient id='0f20791c-6774-4e52-920f-6b6d8404b4dc-b' x1='50%25' x2='50%25' y1='0%25' y2='100%25'%3E      %3Cstop offset='0%25' stop-color='%2302E36F'/%3E      %3Cstop offset='100%25' stop-color='%2305CD65'/%3E      %3Cstop offset='100%25' stop-color='%2307C160'/%3E    %3C/linearGradient%3E  %3C/defs%3E  %3Cg fill='none' fill-rule='evenodd'%3E    %3Cmask id='0f20791c-6774-4e52-920f-6b6d8404b4dc-c' fill='%23fff'%3E      %3Cuse xlink:href='%230f20791c-6774-4e52-920f-6b6d8404b4dc-a'/%3E    %3C/mask%3E    %3Cpath fill='url(%230f20791c-6774-4e52-920f-6b6d8404b4dc-b)' d='M0 0h24v24H0z' mask='url(%230f20791c-6774-4e52-920f-6b6d8404b4dc-c)'/%3E    %3Cpath fill='%23FFF' d='M19.095 17.63c1.141-.826 1.87-2.05 1.87-3.408 0-2.49-2.423-4.51-5.411-4.51-2.989 0-5.411 2.02-5.411 4.51 0 2.49 2.422 4.51 5.41 4.51.618 0 1.214-.089 1.767-.248a.543.543 0 0 1 .447.06l1.184.683c.033.02.065.034.104.034.1 0 .18-.08.18-.18 0-.045-.017-.09-.028-.132l-.244-.91a.36.36 0 0 1 .132-.409M13.75 13.5a.721.721 0 1 1 0-1.442.721.721 0 0 1 0 1.443M9.493 4.734c3.24 0 5.925 1.977 6.414 4.562a7.206 7.206 0 0 0-.353-.01c-3.27 0-5.922 2.21-5.922 4.936 0 .46.077.904.218 1.326a7.687 7.687 0 0 1-2.476-.288.651.651 0 0 0-.536.071l-1.421.82a.245.245 0 0 1-.125.041.216.216 0 0 1-.217-.216c0-.054.021-.107.035-.158l.292-1.092a.433.433 0 0 0-.159-.49C3.876 13.243 3 11.775 3 10.145c0-2.989 2.907-5.412 6.493-5.412zm7.865 7.323a.721.721 0 1 1 0 1.443.721.721 0 0 1 0-1.443zM7.328 7.548a.866.866 0 1 0 0 1.732.866.866 0 0 0 0-1.732zm4.33 0a.866.866 0 1 0 0 1.731.866.866 0 0 0 0-1.73z' mask='url(%230f20791c-6774-4e52-920f-6b6d8404b4dc-c)'/%3E  %3C/g%3E%3C/svg%3E");
+}
+
+.web_qrcode_app_wrp {
+  font-size: 22px;
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 500;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  letter-spacing: 1px;
+}

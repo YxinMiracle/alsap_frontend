@@ -26,6 +26,7 @@ import {
   Typography,
 } from 'antd';
 import React, { useRef, useState } from 'react';
+import PageFloatButton from "@/components/FloatButtonComponent";
 
 /**
  * STIX实体信息管理界面
@@ -267,7 +268,7 @@ const CtiItemInformationPage: React.FC = () => {
               setUpdateModalVisible(false);
             }}
           />
-          <FloatButton.BackTop />
+          <PageFloatButton />
         </PageContainer>
       </Col>
     </Row>

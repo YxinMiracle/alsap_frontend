@@ -39,6 +39,7 @@ const CtiDetailKnowledgePage: React.FC<Props> = (props: Props) => {
     setLoading(false);
   };
 
+
   useEffect(() => {
     initData();
   }, []);

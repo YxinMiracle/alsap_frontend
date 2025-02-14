@@ -5,6 +5,7 @@ import '@umijs/max';
 import { Button, Card, Col, FloatButton, Input, Row } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import {BACKEND_HOST_LOCAL, BACKEND_HOST_PROD} from "@/constants";
+import PageFloatButton from "@/components/FloatButtonComponent";
 
 const { TextArea } = Input;
 
@@ -132,7 +133,7 @@ const LlmChat: React.FC = () => {
               </div>
             </div>
           </Col>
-          <FloatButton.BackTop />
+          <PageFloatButton />
         </Row>
       </div>
     </>

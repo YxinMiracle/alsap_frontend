@@ -1,0 +1,138 @@
+.search-root .search-left {
+  position: relative;
+}
+
+.search-root .search-right .relative-cti {
+  position: sticky;
+  top: 56px;
+}
+
+.search-root .tabs-content {
+  position: absolute;
+  width: 85%;
+}
+
+.search-root .search-header {
+  padding-bottom: 32px;
+  box-shadow: 0 0;
+  position: sticky;
+  top: 56px;
+  z-index: 999;
+}
+
+.search-root .information-card {
+  position: sticky;
+  top: 56px;
+}
+
+.search-root .from-card-gradient-from {
+  --tw-gradient-from: #c0e3ff;
+  --tw-gradient-to: #fff;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(192, 227, 255, 0));
+}
+
+.to-white {
+  --tw-gradient-to: #fff;
+}
+
+.bg-gradient-to-b {
+  background-image: linear-gradient(180deg, var(--tw-gradient-stops));
+}
+
+.rounded-lg {
+  border-radius: .5rem;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.left-0 {
+  left: 0;
+}
+
+.top-0 {
+  top: 0;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+.z-10 {
+  z-index: 10;
+}
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.search-root :where(.css-dev-only-do-not-override-no4izc).ant-card {
+  border-radius: 8px 0 8px 8px;
+}
+
+.search-root a {
+  color: #345879;
+  text-decoration: none;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+  -webkit-transition: color .3s;
+  transition: color .3s;
+}
+
+.search-root .margin-top-16 {
+  margin-top: 16px;
+}
+
+.search-root .red-text {
+  color: red;
+  font-size: 18px;
+}
+
+.search-root .p-2 {
+  padding: 0.5rem;
+}
+
+.search-root .cursor-pointer {
+   cursor: pointer;
+ }
+
+.search-root .hover-gray:hover{
+  background-color: rgba(225, 225, 225, 0.5);
+}
+
+.search-root .text-ellipsis {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.search-root .text-ellipsis-two-line {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.search-root .text-ellipsis-three-line {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.search-root .text-xs {
+  font-size: .75rem;
+  line-height: 1rem;
+}
+
+.information-card {
+
+}

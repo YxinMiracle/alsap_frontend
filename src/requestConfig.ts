@@ -37,18 +37,6 @@ const hne = (e: number): string => {
   return [...Array(e)].map(() => lF[dne(0, 61)]).join('');
 };
 
-const pne = (e: Record<string, any> | string): string => {
-  let t: string = '';
-  if (typeof e === 'object') {
-    t = Object.keys(e)
-      .map((n) => `${n}=${e[n]}`)
-      .sort()
-      .join('&');
-  } else if (typeof e === 'string') {
-    t = e.split('&').sort().join('&');
-  }
-  return t;
-};
 
 // 使用 CryptoJS 计算 SHA-256
 const uK = (input: string): string => {
@@ -160,6 +148,10 @@ export const requestConfig: RequestConfig = {
         // 跳转至登录页
         window.location.href = `/user/login?redirect=${encodeURIComponent(window.location.href)}`;
         throw new Error('请先登录');
+      }
+
+      if (code === 50003) {
+        window.location.href = `/Pressure`;
       }
 
       if (code !== 0) {

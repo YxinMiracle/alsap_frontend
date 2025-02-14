@@ -31,6 +31,8 @@ import {
 import Search from 'antd/es/input/Search';
 import React, { useEffect } from 'react';
 import CountUp from 'react-countup';
+import PageFloatButton from "@/components/FloatButtonComponent";
+import {useNavigate} from "react-router-dom";
 
 const { Title } = Typography;
 
@@ -55,6 +57,7 @@ const Welcome: React.FC = () => {
   const [sdoDataLoading, setSdoDataLoading] = React.useState<boolean>(false);
   const [scoData, setScoData] = React.useState<ScoData>({ scoList: [], scoCount: 0 });
   const [scoDataLoading, setScoDataLoading] = React.useState<boolean>(false);
+  const navigate = useNavigate();
 
   enum TagEnum {
     CTI_SEARCH = '威胁情报',
@@ -80,7 +83,7 @@ const Welcome: React.FC = () => {
         setInputFocus(false);
       }}
       onSearch={(value: string) => {
-        console.log(value);
+        navigate(`/search?s=${value}&page=1`);
       }}
     />
   );
@@ -423,7 +426,7 @@ const Welcome: React.FC = () => {
             </div>
           </div>
         </Col>
-        <FloatButton.BackTop />
+        <PageFloatButton />
       </Row>
     </div>
   );

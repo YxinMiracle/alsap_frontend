@@ -85,6 +85,7 @@ const CtiDetailInformationPage: React.FC<Props> = (props: Props) => {
   useEffect(() => {
     const setContent = () => {
       if (dialogueAnswer.length < answer.length) {
+        //todo 可能有问题
         setDialogueAnswer(dialogueAnswer + answer.charAt(dialogueAnswer.length));
       } else {
         // @ts-ignore

@@ -1,0 +1,44 @@
+.float-container {
+  position: relative;
+
+  .wechat-button {
+
+  }
+
+  .float-miniprogramme{
+    position: absolute;
+    bottom: 40px;
+    right: 50px;
+    display: block;
+    opacity: 0;
+    transform: translateY(-10px) scale(0.8);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 9999;
+  }
+
+  .wechat-button:hover + .float-miniprogramme {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .float-gzh{
+    position: absolute;
+    bottom: -30px;
+    right: 50px;
+    display: block;
+    opacity: 0;
+    transform: translateY(-10px) scale(0.8);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 9999;
+  }
+
+  .gzh-button:hover + .float-gzh {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+}
+
+

@@ -6,6 +6,7 @@ import * as ctiController from './ctiController';
 import * as fileController from './fileController';
 import * as graphController from './graphController';
 import * as homeController from './homeController';
+import * as hotController from './hotController';
 import * as ctiInnerController from './ctiInnerController';
 import * as entityInnerController from './entityInnerController';
 import * as itemInnerController from './itemInnerController';
@@ -25,6 +26,7 @@ export default {
   fileController,
   graphController,
   homeController,
+  hotController,
   ctiInnerController,
   entityInnerController,
   itemInnerController,

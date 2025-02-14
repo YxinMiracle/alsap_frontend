@@ -15,7 +15,6 @@ import {
   Col,
   Divider,
   Drawer,
-  FloatButton,
   message,
   Progress,
   Row,
@@ -26,6 +25,7 @@ import {
 import ReactECharts, { EChartsOption } from 'echarts-for-react';
 import { throttle } from 'lodash';
 import React, { useEffect, useState } from 'react';
+import PageFloatButton from "@/components/FloatButtonComponent";
 
 const { Text, Title } = Typography;
 
@@ -44,7 +44,7 @@ const CtiAnnotationPage: React.FC = () => {
   const { currentUser } = initialState || {};
   const [sysTheme, setSysTheme] = useState<string>();
   const [open, setOpen] = useState(false);
-  const [requestWordLabelListParams, setRequestWordLabelListParams] = useState({
+  const [, setRequestWordLabelListParams] = useState({
     ctiId: id,
     size: 10,
     current: 1,
@@ -110,6 +110,8 @@ const CtiAnnotationPage: React.FC = () => {
     (entries) => {
       if (entries[0].isIntersecting) {
         // 获取模型标注数据
+        // @ts-ignore
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
         getWordLabelData();
       }
     },
@@ -279,7 +281,7 @@ const CtiAnnotationPage: React.FC = () => {
     setCtiChunkList(ctiChunkList);
   };
 
-  const requestData = async (requestWordLabelListParams:any) => {
+  const requestData = async (requestWordLabelListParams: any) => {
     try {
       console.log(requestWordLabelListParams);
       const res = await getPageCtiWordLabelListUsingPost(requestWordLabelListParams);
@@ -411,7 +413,8 @@ const CtiAnnotationPage: React.FC = () => {
                                           : ''
                                       }
                                     >
-                                      {wordLabelResult.labelList![list_index][word_index] === 'O' ? (
+                                      {wordLabelResult.labelList![list_index][word_index] ===
+                                      'O' ? (
                                         <Text>{word}</Text>
                                       ) : (
                                         <Title level={4}>{word}</Title>
@@ -468,7 +471,7 @@ const CtiAnnotationPage: React.FC = () => {
               </div>
             </Col>
           </Row>
-          <FloatButton.BackTop />
+          <PageFloatButton />
         </PageContainer>
       </Col>
     </Row>

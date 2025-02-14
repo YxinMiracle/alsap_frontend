@@ -1,6 +1,9 @@
 import ACCESS_ENUM from '@/constants/access/accessEnum';
 import CreateModal from '@/pages/Cti/CtiShow/components/CreateModal';
-import { deleteCtiByCtiIdUsingPost, getCtiByPageUsingPost } from '@/services/backend/ctiController';
+import {
+  deleteCtiByCtiIdUsingPost,
+  getCtiByPageSentinelUsingPost,
+} from '@/services/backend/ctiController';
 import { useModel } from '@@/exports';
 import { CheckCircleOutlined, CloseCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
@@ -10,6 +13,7 @@ import { history } from '@umijs/max';
 import { Button, Col, FloatButton, message, Row, Space, Tag, Typography } from 'antd';
 import React, {useEffect, useRef, useState} from 'react';
 import {useLocation, useNavigate} from "react-router-dom";
+import PageFloatButton from "@/components/FloatButtonComponent";
 
 /**
  * Cti信息管理页面
@@ -45,7 +49,7 @@ const CtiInformationPage: React.FC = () => {
     const sortOrder = sort?.[sortField] ?? undefined;
 
     // @ts-ignore
-    const res = await getCtiByPageUsingPost({
+    const res = await getCtiByPageSentinelUsingPost({
       pageSize: params.pageSize,
       current: currentPage, // 使用从 URL 中解析的页码
       sortField,
@@ -217,6 +221,7 @@ const CtiInformationPage: React.FC = () => {
       ),
     },
   ];
+
   return (
     <Row>
       <Col xs={24} sm={24} lg={{ span: 20, offset: 2 }}>
@@ -257,7 +262,7 @@ const CtiInformationPage: React.FC = () => {
               setCreateModalVisible(false);
             }}
           />
-          <FloatButton.BackTop />
+          <PageFloatButton />
         </PageContainer>
       </Col>
     </Row>

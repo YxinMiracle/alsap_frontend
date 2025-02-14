@@ -23,6 +23,12 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseListCtiDetailEntityVo_ = {
+    code?: number;
+    data?: CtiDetailEntityVo[];
+    message?: string;
+  };
+
   type BaseResponseListCtiRules_ = {
     code?: number;
     data?: CtiRules[];
@@ -32,6 +38,12 @@ declare namespace API {
   type BaseResponseListGraphVo_ = {
     code?: number;
     data?: GraphVo[];
+    message?: string;
+  };
+
+  type BaseResponseListHotVo_ = {
+    code?: number;
+    data?: HotVo[];
     message?: string;
   };
 
@@ -113,6 +125,12 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseQrCodeVo_ = {
+    code?: number;
+    data?: QrCodeVo;
+    message?: string;
+  };
+
   type BaseResponseString_ = {
     code?: number;
     data?: string;
@@ -165,6 +183,40 @@ declare namespace API {
     id?: number;
   };
 
+  type CtiDetailEntityRequest = {
+    /** 情报id */
+    ctiId?: number;
+    /** 实体的名称 */
+    entityName?: string;
+    /** 实体类型Id */
+    itemId?: number;
+  };
+
+  type CtiDetailEntityVo = {
+    /** 实体的类型的颜色 */
+    backgroundColor?: string;
+    /** entity创建的时间 */
+    createTime?: string;
+    /** 这个实体在多少个情报中出现过（系统中） */
+    ctiCount?: number;
+    /** 实体的id */
+    entityId?: number;
+    /** 实体的名称 */
+    entityName?: string;
+    /** 实体item对应的id */
+    itemId?: number;
+    /** 实体的类型对应的名称 */
+    itemName?: string;
+    /** 实体的枚举type */
+    itemType?: number;
+    /** 实体类型的名称 SCO/SDO */
+    itemTypeContent?: string;
+    /** 实体的类型的字体颜色 */
+    textColor?: string;
+    /** entity更新的时间 */
+    updateTime?: string;
+  };
+
   type CtiDetailQueryRequest = {
     /** cti情报的id */
     id?: number;
@@ -196,6 +248,15 @@ declare namespace API {
     ctiId?: number;
     labelList?: string;
     wordList?: string;
+  };
+
+  type CtiEsQueryRequest = {
+    current?: number;
+    offset?: number;
+    pageSize?: number;
+    searchText?: string;
+    sortField?: string;
+    sortOrder?: string;
   };
 
   type CtiGraphQueryRequest = {
@@ -264,11 +325,16 @@ declare namespace API {
 
   type CtiVo = {
     createTime?: string;
+    ctiCharCount?: number;
     entityNum?: number;
     hasGraph?: number;
+    hasRule?: number;
+    hasTtp?: number;
     id?: number;
+    postUrl?: string;
     scoNum?: number;
     sdoNum?: number;
+    simpleContent?: string;
     title?: string;
     updateTime?: string;
   };
@@ -359,6 +425,12 @@ declare namespace API {
     scoItemHomeVos?: ItemHomeVo[];
     sdoCount?: number;
     sdoItemHomeVos?: ItemHomeVo[];
+  };
+
+  type HotVo = {
+    heat?: number;
+    id?: number;
+    title?: string;
   };
 
   type Item = {
@@ -617,6 +689,13 @@ declare namespace API {
     userId?: number;
   };
 
+  type QrCodeVo = {
+    /** 图片的base64数据 */
+    img?: string;
+    /** 微信二维码的ticket */
+    ticket?: string;
+  };
+
   type RelationAddRequest = {
     ctiId?: number;
     endCtiEntityId?: number;
@@ -706,6 +785,7 @@ declare namespace API {
     createTime?: string;
     id?: number;
     isDelete?: number;
+    mpOpenId?: string;
     updateTime?: string;
     userAccount?: string;
     userAvatar?: string;
@@ -766,5 +846,9 @@ declare namespace API {
     userName?: string;
     userProfile?: string;
     userRole?: string;
+  };
+
+  type UserWxLoginRequest = {
+    ticket?: string;
   };
 }

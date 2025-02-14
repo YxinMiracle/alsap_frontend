@@ -6,7 +6,7 @@ import {
 } from '@/services/backend/ttpController';
 import { DownloadOutlined } from '@ant-design/icons';
 import '@umijs/max';
-import { Button, Card, Empty, message } from 'antd';
+import { Button, Card, Empty } from 'antd';
 // @ts-ignore
 import { saveAs } from 'file-saver';
 import React, { useEffect, useState } from 'react';

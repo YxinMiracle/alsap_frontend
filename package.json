@@ -55,6 +55,8 @@
     "gsap": "^3.12.5",
     "i": "^0.3.7",
     "js-sha1": "^0.7.0",
+    "markdown-to-poster": "^0.0.9",
+    "moment-duration-format": "^2.3.2",
     "numeral": "^2.0.6",
     "omit.js": "^2.0.2",
     "querystring": "^0.2.1",

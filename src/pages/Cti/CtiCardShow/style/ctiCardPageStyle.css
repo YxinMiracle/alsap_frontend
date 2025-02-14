@@ -1,0 +1,25 @@
+.cti-card-show-page .cti-description-parent {
+  height: 180px;
+  overflow-y: auto;
+}
+
+.cti-card-show-page .margin-top-8{
+  margin-top: 8px;
+}
+
+/* 指定容器内的滚动条宽度和轨道颜色 */
+.cti-card-show-page .ant-card-meta-description ::-webkit-scrollbar {
+  width: 5px; /* 细滚动条 */
+  background: #f0f1f5; /* 轨道背景色 */
+}
+
+/* 滚动条滑块颜色和样式 */
+.cti-card-show-page .ant-card-meta-description ::-webkit-scrollbar-thumb {
+  background-color: #ccd1d9; /* 滑块颜色 */
+  border-radius: 10px; /* 滑块圆角 */
+}
+
+/* 可选: 滚动条轨道样式 */
+.cti-card-show-page .ant-card-meta-description ::-webkit-scrollbar-track {
+  background: #e1e4e8; /* 修改轨道颜色 */
+}

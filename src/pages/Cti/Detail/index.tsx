@@ -2,7 +2,6 @@ import CtiContentPage from '@/pages/Cti/Detail/components/Content';
 import CtiDetailDefencePage from '@/pages/Cti/Detail/components/Defense';
 import CtiDetailInformationPage from '@/pages/Cti/Detail/components/Information';
 import CtiDetailKnowledgePage from '@/pages/Cti/Detail/components/knowledge';
-import CtiDetailTtpPage from '@/pages/Cti/Detail/components/ttps';
 import '@/pages/Cti/Detail/style/detailPageStyle.css';
 import { getDetailCtiUsingPost } from '@/services/backend/ctiController';
 import { getTicketUsingGet } from '@/services/backend/wechatController';
@@ -17,11 +16,15 @@ import {
 } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-components';
 import '@umijs/max';
-import { Col, FloatButton, message, Row, Tabs, Tooltip, TooltipProps } from 'antd';
+import { Col, message, Row, Tabs, Tooltip, TooltipProps } from 'antd';
 import sha1 from 'js-sha1';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import wx from 'weixin-js-sdk';
+import PageFloatButton from '@/components/FloatButtonComponent';
+import CtiDetailBehaviorPage from '@/pages/Cti/Detail/components/AttckBehavior';
+import CtiDetailTtpPage from "@/pages/Cti/Detail/components/Ttps";
+import CtiDetailEntityPage from "@/pages/Cti/Detail/components/Entity";
 
 const CtiDetailPage: React.FC = () => {
   const { id } = useParams();
@@ -52,62 +55,63 @@ const CtiDetailPage: React.FC = () => {
     return Math.floor(Date.now() / 1000);
   };
 
-  // const initWxConfig = async () => {
-  //   const res = await getTicketUsingGet();
-  //   if (res.code === 0) {
-  //     const appId = 'wx63aa40f439618ce7';
-  //     const timestamp = getCurrentTimestamp();
-  //     const nonceStr = generateRandomString();
-  //     const encodeUrl = `jsapi_ticket=${res.data}&noncestr=${nonceStr}&timestamp=${timestamp}&url=${window.location.href}`;
-  //     wx.config({
-  //       debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-  //       appId: appId, // 必填，公众号的唯一标识
-  //       timestamp: timestamp, // 必填，生成签名的时间戳
-  //       nonceStr: nonceStr, // 必填，生成签名的随机串
-  //       // @ts-ignore
-  //       signature: sha1(encodeUrl), // 必填，签名
-  //       jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData'], // 必填，需要使用的JS接口列表
-  //     });
-  //
-  //     wx.ready(function () {
-  //       //需在用户可能点击分享按钮前就先调用
-  //       wx.updateAppMessageShareData({
-  //         title: ctiVo.title!, // 分享标题
-  //         desc: '广州大学仇晶团队-威胁情报部门', // 分享描述
-  //         link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-  //         imgUrl:
-  //           'https://storage.googleapis.com/gweb-cloudblog-publish/images/threat-intelligence-default-banner-simplifie.max-700x700.png', // 分享图标
-  //         success: function () {
-  //           console.log('updateAppMessageShareData成功');
-  //           // 设置成功
-  //         },
-  //       });
-  //
-  //       wx.updateTimelineShareData({
-  //         title: ctiVo.title!, // 分享标题
-  //         link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-  //         imgUrl:
-  //           'https://storage.googleapis.com/gweb-cloudblog-publish/images/threat-intelligence-default-banner-simplifie.max-700x700.png', // 分享图标
-  //         success: function () {
-  //           // 设置成功
-  //           console.log('updateTimelineShareData成功');
-  //         },
-  //       });
-  //     });
-  //   } else {
-  //   }
-  // };
-  //
-  // useEffect(() => {
-  //   initWxConfig();
-  //   // const tiket = "kgt8ON7yVITDhtdwci0qedNqtix-F_UlBZHwmhCqeXkY2aFxBHLxOyzWJWJcZAAMtUV3MguCUYy6-pZwSM51aA"
-  //
-  //   // console.log(sha1(s))
-  //   // wx.error(function(res){
-  //   //   // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
-  //   //   console.log(res)
-  //   // })
-  // }, []);
+  const initWxConfig = async (itemData: API.CtiVo) => {
+    const res = await getTicketUsingGet();
+    if (res.code === 0) {
+      const appId = 'wx6d404574418e6a2d';
+      const timestamp = getCurrentTimestamp();
+      const nonceStr = generateRandomString();
+      const encodeUrl = `jsapi_ticket=${res.data}&noncestr=${nonceStr}&timestamp=${timestamp}&url=${window.location.href}`;
+      wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: appId, // 必填，公众号的唯一标识
+        timestamp: timestamp, // 必填，生成签名的时间戳
+        nonceStr: nonceStr, // 必填，生成签名的随机串
+        // @ts-ignore
+        signature: sha1(encodeUrl), // 必填，签名
+        jsApiList: [
+          'updateAppMessageShareData',
+          'updateTimelineShareData',
+          'onMenuShareAppMessage',
+        ], // 必填，需要使用的JS接口列表
+      });
+
+      wx.ready(function () {
+        //需在用户可能点击分享按钮前就先调用
+        wx.updateAppMessageShareData({
+          title: '情报分享:' + itemData.title!, // 分享标题
+          desc: '广州大学仇晶团队-威胁情报部门', // 分享描述
+          link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          imgUrl:
+            'https://storage.googleapis.com/gweb-cloudblog-publish/images/threat-intelligence-default-banner-simplifie.max-700x700.png', // 分享图标
+          success: function () {
+            console.log('updateAppMessageShareData成功');
+            // 设置成功
+          },
+        });
+
+        wx.updateTimelineShareData({
+          title: itemData.title!, // 分享标题
+          link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          imgUrl:
+            'https://storage.googleapis.com/gweb-cloudblog-publish/images/threat-intelligence-default-banner-simplifie.max-700x700.png', // 分享图标
+          success: function () {
+            // 设置成功
+            console.log('updateTimelineShareData成功');
+          },
+        });
+      });
+    } else {
+    }
+  };
+
+  useEffect(() => {
+    // console.log(sha1(s))
+    // wx.error(function(res){
+    //   // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+    //   console.log(res)
+    // })
+  }, []);
 
   /**
    * 初始化界面获取数据
@@ -123,6 +127,8 @@ const CtiDetailPage: React.FC = () => {
       if (res.code === 0) {
         // @ts-ignore
         setCtiVo(res.data);
+        // @ts-ignore
+        initWxConfig(res.data);
       }
     } catch (error: any) {
       // message.error('加载CTI数据失败' + error.message);
@@ -164,14 +170,21 @@ const CtiDetailPage: React.FC = () => {
     {
       key: 'entity',
       label: `实体`,
-      children: `实体 ${id}`,
+      children: <CtiDetailEntityPage id={id} /> ,
       icon: <CodeSandboxOutlined />,
     },
     {
-      key: 'ttps',
+      key: 'Ttps',
       label: `情报技战术`,
       // @ts-ignore
       children: <CtiDetailTtpPage id={id} />,
+      icon: <ZoomInOutlined />,
+    },
+    {
+      key: 'behavior',
+      label: `技攻击行为流程`,
+      // @ts-ignore
+      children: <CtiDetailBehaviorPage id={id} />,
       icon: <ZoomInOutlined />,
     },
     {
@@ -203,7 +216,7 @@ const CtiDetailPage: React.FC = () => {
               <Tabs activeKey={currentTab} onChange={onTabChange} items={tabItemsList} />
             </div>
           </div>
-          <FloatButton.BackTop />
+          <PageFloatButton />
         </PageContainer>
       </Col>
     </Row>

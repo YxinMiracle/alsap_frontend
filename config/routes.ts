@@ -15,11 +15,23 @@
     component: './Home',
   },
   {
+    path: '/search',
+    icon: 'PieChartOutlined',
+    name: '平台信息',
+    component: './Search',
+    hideInMenu: true,
+  },
+  {
     path: '/cti',
     icon: 'crown',
     name: '威胁情报',
     routes: [
       { path: '/cti', redirect: '/cti/show' },
+      {
+        path: '/cti/card/show',
+        component: './Cti/CtiCardShow',
+        name: '威胁情报展示',
+      },
       {
         path: '/cti/show',
         component: './Cti/CtiShow',
@@ -37,13 +49,11 @@
         path: '/cti/show/graph/:id',
         component: './Cti/Graph',
         name: '威胁情报图谱',
-        hideInMenu: true,
       },
       {
         path: '/cti/show/anno/:id',
         component: './Cti/Annotation',
         name: '威胁情报标注',
-        hideInMenu: true,
       },
       {
         path: '/cti/show/detail/:id',
@@ -78,4 +88,5 @@
   },
   { path: '/', redirect: '/welcome' },
   { path: '*', layout: false, component: './404' },
+  { path: '/pressure', layout: false, component: './Pressure' },
 ];

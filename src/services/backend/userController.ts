@@ -164,3 +164,18 @@ export async function updateMyUserUsingPost(
     ...(options || {}),
   });
 }
+
+/** userWeChatLogin POST /api/user/wx/login */
+export async function userWeChatLoginUsingPost(
+  body: API.UserWxLoginRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseLoginUserVO_>('/api/user/wx/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
